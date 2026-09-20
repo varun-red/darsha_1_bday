@@ -123,6 +123,7 @@
     $('#detailsEnd').textContent = fmtEnd(ev);
     $('#rsvpDeadline').textContent = fmtDeadline(ev.rsvp_deadline);
     $('#mapsLink').href = ev.maps_url;
+    $('#heroVenueLink').href = ev.maps_url;
     $('#gcalLink').href = ev.google_calendar_url;
     $('#successGcal').href = ev.google_calendar_url;
     const reg = $('#registryLink');

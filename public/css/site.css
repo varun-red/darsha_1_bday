@@ -330,6 +330,9 @@ strong { color: var(--sage-900); font-weight: 600; }
   margin-bottom: 0.1rem;
 }
 .hero__venue { font-family: var(--font-display); font-size: clamp(1.15rem, 2.2vw, 1.5rem); color: var(--sage-700); letter-spacing: 0.18em; margin-bottom: 1.2rem; }
+.hero__venue a { color: inherit; border-bottom: 1px dotted var(--gold); padding-bottom: 2px; }
+.hero__venue a:hover { color: var(--pink-ink); border-bottom-color: var(--pink); }
+.hero__venue-pin { font-size: 0.8em; }
 .hero__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem; }
 
 .scroll-hint {
@@ -486,6 +489,9 @@ strong { color: var(--sage-900); font-weight: 600; }
 .card h3 { font-size: 1.55rem; font-style: italic; color: var(--pink-ink); margin-bottom: 0.4rem; }
 .card p { margin-bottom: 0.4rem; }
 .card__link { display: inline-block; margin-top: 0.4rem; font-weight: 600; }
+/* the whole Where card is tappable, not just the small link */
+.card--link { cursor: pointer; }
+.card--link .card__link::after { content: ''; position: absolute; inset: 0; }
 
 /* =========================================================
    First-year milestones
