@@ -752,17 +752,19 @@ strong { color: var(--sage-900); font-weight: 600; }
    ========================================================= */
 @media (max-width: 640px) {
   body { font-size: 16px; }
-  .hero { padding-top: 7rem; padding-bottom: 9rem; }
+  .hero { padding-top: 9.5rem; padding-bottom: 8rem; }
   .hero__greeting { font-size: 1.05rem; margin-top: 1.5rem; }
   .hero__layer--near { height: 24%; }
-  .hero__arch { width: 112vw; height: 98%; bottom: 1%; } /* garden.js draws a tall portrait arch on phones */
-  .hero__content { padding: 0 1.4rem; }
-  .hero__name-svg { max-width: 76vw; }
+  /* garden.js draws a tall portrait arch on phones; anchor its crown just below the top bar */
+  .hero__arch { width: 100vw; top: 84px; bottom: auto; height: 140%; }
+  .hero__content { max-width: 66vw; padding: 0; }
+  .hero__name-svg { max-width: 62vw; }
   .hero .eyebrow { font-size: 1.05rem; letter-spacing: 0.04em; }
   .hero__turns { letter-spacing: 0.24em; font-size: 1rem; }
-  .hero__date { letter-spacing: 0.08em; font-size: 0.86rem; }
+  .hero__date { letter-spacing: 0.08em; font-size: 0.86rem; text-wrap: balance; }
+  .hero .eyebrow { text-wrap: balance; }
   .hero__venue { letter-spacing: 0.1em; font-size: 1.05rem; }
-  .hero__one { width: clamp(170px, 46vw, 220px); }
+  .hero__one { width: clamp(150px, 40vw, 190px); }
   .form-grid { grid-template-columns: 1fr; }
   .countdown__grid { gap: 0.5rem; }
   .bloom__label { font-size: 0.5rem; letter-spacing: 0.1em; }

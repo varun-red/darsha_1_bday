@@ -159,10 +159,13 @@
   function buildArch(svg) {
     if (!svg) return;
     const r = rng(43);
-    // On phones the arch becomes a tall portrait frame: same crown, much longer pillars.
-    const cx = 450, cy = 380, R = isSmall ? 400 : 340;
-    const left = cx - R, right = cx + R, base = isSmall ? 1700 : 760;
+    // On phones the arch becomes a tall portrait frame anchored to the top of the hero:
+    // pillars are inset so the whole garland stays inside the viewport, and they run
+    // off the bottom behind the flower bed.
+    const cx = 450, cy = 380, R = isSmall ? 350 : 340;
+    const left = cx - R, right = cx + R, base = isSmall ? 2300 : 760;
     svg.setAttribute('viewBox', `0 0 900 ${base}`);
+    svg.setAttribute('preserveAspectRatio', isSmall ? 'xMidYMin meet' : 'xMidYMax meet');
     let out = `<defs>
       ${FL.defs()}
       <radialGradient id="archPeony" cx="45%" cy="40%" r="65%"><stop offset="0" stop-color="#fde6ec"/><stop offset=".6" stop-color="#f7b7c6"/><stop offset="1" stop-color="#e58fa9"/></radialGradient>
