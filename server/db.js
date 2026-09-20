@@ -30,7 +30,7 @@ export const DEFAULT_SETTINGS = {
     'Your presence is the only present we need. If you would like to bring something, a favourite picture book with a note inside would be treasured forever.',
   registry_url: '',
   hero_photo_url: '',
-  parking_note: 'Free parking is available in the garden lot next to the pavilion.',
+  parking_note: 'Parking is available right at the venue.',
   whatsapp_template:
     "Hi {name}! 🌷🦋 You're invited to {child}'s enchanted garden first birthday on {date}. Step through the garden gate and RSVP here: {link}",
   email_subject_template: "🌸 You're invited to {child}'s Enchanted Garden First Birthday",
@@ -45,7 +45,7 @@ export const DEFAULT_SETTINGS = {
   faq_json: JSON.stringify([
     { q: 'Are kids welcome?', a: 'Absolutely! This is a celebration for little ones. Let us know how many small blossoms are coming so we can prepare crafts and favours.' },
     { q: 'What should we wear?', a: 'Comfortable and whimsical. Think soft pastels, florals, flower crowns or fairy wings. We will have some to borrow too!' },
-    { q: 'Is the venue indoors or outdoors?', a: 'The pavilion is covered with an open lawn beside it, so we party rain or shine.' },
+    { q: 'Is the venue indoors or outdoors?', a: 'Indoors! Flora Events Venue is fully indoors, so we party rain or shine.' },
     { q: 'Do you have dietary options?', a: 'Yes! Tell us about allergies or preferences in your RSVP and we will make sure there is something delicious for everyone.' },
   ]),
   milestones_json: JSON.stringify([
