@@ -92,9 +92,33 @@
     }
   }
 
+  // Fit the hero name's SVG viewBox to the rendered text so any name length works.
+  function fitHeroName() {
+    const svg = $('#heroNameSvg');
+    const text = $('#heroNameText');
+    if (!svg || !text) return;
+    try {
+      const b = text.getBBox();
+      if (!b.width || !b.height) return;
+      const pad = 16;
+      const w = b.width + pad * 2;
+      const h = b.height + pad * 2;
+      svg.setAttribute('viewBox', `${b.x - pad} ${b.y - pad} ${w} ${h}`);
+      svg.style.aspectRatio = `${w} / ${h}`;
+      // Scale the box so the glyphs render at the CSS font size (100 user units = 1 font-size).
+      svg.style.height = `calc(var(--hero-name-size) * ${(h / 100).toFixed(3)})`;
+    } catch {
+      /* not rendered yet */
+    }
+  }
+  fitHeroName();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitHeroName);
+  window.addEventListener('load', fitHeroName);
+
   function renderEvent(ev) {
     document.title = `${ev.child_name} Turns One · An Enchanted Garden Birthday`;
     bind(ev);
+    fitHeroName();
     $('#detailsEnd').textContent = fmtEnd(ev);
     $('#rsvpDeadline').textContent = fmtDeadline(ev.rsvp_deadline);
     $('#mapsLink').href = ev.maps_url;

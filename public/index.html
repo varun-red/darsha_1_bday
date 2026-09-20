@@ -123,7 +123,21 @@
         <p class="hero__greeting" id="greeting" hidden></p>
         <p class="eyebrow reveal">Once upon a time, in an enchanted garden…</p>
         <h1 class="hero__title">
-          <span class="hero__name shimmer" data-bind="child_name">Darsha</span>
+          <span class="hero__name-wrap">
+            <!-- Drawn as SVG text (like the "1") rather than CSS background-clip text,
+                 which Chrome/Safari intermittently blank out while animating. -->
+            <svg class="hero__name-svg" id="heroNameSvg" viewBox="0 0 600 160" aria-hidden="true">
+              <defs>
+                <linearGradient id="nameGrad" x1="0" y1="0" x2="2.5" y2="0.25" spreadMethod="repeat">
+                  <stop offset="0" stop-color="#ffe7b0"/><stop offset=".2" stop-color="#fff8e6"/><stop offset=".4" stop-color="#f0c37a"/>
+                  <stop offset=".6" stop-color="#ffd9c2"/><stop offset=".8" stop-color="#e9a45a"/><stop offset="1" stop-color="#ffe7b0"/>
+                  <animateTransform attributeName="gradientTransform" type="translate" from="0 0" to="-2.5 0" dur="6s" repeatCount="indefinite"/>
+                </linearGradient>
+              </defs>
+              <text class="hero__name" id="heroNameText" x="0" y="0" fill="url(#nameGrad)" data-bind="child_name">Darsha</text>
+            </svg>
+            <span class="sr-only" data-bind="child_name">Darsha</span>
+          </span>
           <span class="hero__turns">is turning</span>
           <span class="hero__one" aria-label="one">
             <svg class="hero__one-svg" viewBox="0 0 120 160" aria-hidden="true">
@@ -131,7 +145,7 @@
                 <linearGradient id="oneGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff6d6"/><stop offset=".5" stop-color="#f3c96e"/><stop offset="1" stop-color="#d49a3a"/></linearGradient>
                 <filter id="oneGlow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
               </defs>
-              <text x="60" y="128" text-anchor="middle" font-family="Cormorant Garamond, serif" font-weight="600" font-size="150" fill="url(#oneGrad)" filter="url(#oneGlow)">1</text>
+              <text x="60" y="128" text-anchor="middle" font-family="Quicksand, 'Segoe UI', system-ui, sans-serif" font-weight="700" font-size="150" fill="url(#oneGrad)" filter="url(#oneGlow)">1</text>
               <g class="hero__one-leaves">
                 <path d="M26 52 q-18 -20 -6 -40 q20 8 6 40z" fill="#7fb58c"/>
                 <path d="M94 42 q20 -18 8 -38 q-22 8 -8 38z" fill="#a7cfae"/>
@@ -141,8 +155,8 @@
             </svg>
           </span>
         </h1>
-        <p class="hero__date reveal" id="heroDate" data-bind="event_date_pretty">Saturday, November 15, 2026 · 4:00 PM</p>
-        <p class="hero__venue reveal" data-bind="venue_name">The Willow Grove Pavilion</p>
+        <p class="hero__date reveal" id="heroDate" data-bind="event_date_pretty">Sunday, November 22, 2026 · 5:00 PM</p>
+        <p class="hero__venue reveal" data-bind="venue_name">Flora Events Venue</p>
         <div class="hero__actions reveal">
           <a class="btn btn--gold" href="#rsvp"><span>RSVP</span><i class="btn__spark" aria-hidden="true"></i></a>
           <a class="btn btn--ghost" href="#details">Discover the day</a>
@@ -180,14 +194,14 @@
           <article class="card reveal">
             <div class="card__icon" aria-hidden="true">🌙</div>
             <h3>When</h3>
-            <p data-bind="event_date_pretty">Saturday, November 15, 2026 · 4:00 PM</p>
+            <p data-bind="event_date_pretty">Sunday, November 22, 2026 · 5:00 PM</p>
             <p class="muted" id="detailsEnd"></p>
           </article>
           <article class="card reveal">
             <div class="card__icon" aria-hidden="true">🌷</div>
             <h3>Where</h3>
-            <p><strong data-bind="venue_name">The Willow Grove Pavilion</strong></p>
-            <p class="muted" data-bind="venue_address">123 Rose Trellis Lane</p>
+            <p><strong data-bind="venue_name">Flora Events Venue</strong></p>
+            <p class="muted" data-bind="venue_address">3333 W Grand Pkwy N, Katy, TX 77449</p>
             <a class="card__link" id="mapsLink" href="#" target="_blank" rel="noopener">Open the map →</a>
           </article>
           <article class="card reveal">

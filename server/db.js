@@ -12,11 +12,11 @@ export const DEFAULT_SETTINGS = {
   event_title: "Darsha's First Birthday",
   tagline: 'Once upon a time, in an enchanted garden, a little blossom turned ONE…',
   // ISO 8601 date-time, local to the venue.
-  event_date: '2026-11-15T16:00:00',
-  event_end: '2026-11-15T19:00:00',
-  timezone: 'America/Los_Angeles',
-  venue_name: 'The Willow Grove Pavilion',
-  venue_address: '123 Rose Trellis Lane, Pasadena, CA 91101',
+  event_date: '2026-11-22T17:00:00',
+  event_end: '2026-11-22T20:00:00',
+  timezone: 'America/Chicago',
+  venue_name: 'Flora Events Venue',
+  venue_address: '3333 W Grand Pkwy N, Katy, TX 77449',
   maps_url: '',
   dress_code: 'Garden whimsy: soft pastels, florals, flower crowns and fairy wings most welcome',
   parents_names: 'Mom & Dad',
@@ -34,10 +34,10 @@ export const DEFAULT_SETTINGS = {
   email_template:
     "Dear {name},\n\nOnce upon a time, in an enchanted garden, a little blossom turned ONE… and we'd love for you to celebrate with us!\n\n📅 {date}\n📍 {venue}\n\nPlease RSVP by {deadline} at your personal invitation link:\n{link}\n\nWith love,\n{parents}",
   schedule_json: JSON.stringify([
-    { time: '4:00 PM', title: 'Through the Garden Gate', detail: 'Arrivals, flower-crown making and welcome lemonade' },
-    { time: '4:30 PM', title: 'Tea Among the Roses', detail: 'A picnic feast of garden treats for little blossoms and grown-ups' },
-    { time: '5:30 PM', title: 'The Cake Smash', detail: 'Our birthday girl meets her very first flower-topped cake' },
-    { time: '6:00 PM', title: 'Butterfly Farewell', detail: 'Bubbles, fairy lights and goodbye hugs' },
+    { time: '5:00 PM', title: 'Through the Garden Gate', detail: 'Arrivals, flower-crown making and welcome lemonade' },
+    { time: '5:30 PM', title: 'Tea Among the Roses', detail: 'A picnic feast of garden treats for little blossoms and grown-ups' },
+    { time: '6:30 PM', title: 'The Cake Smash', detail: 'Our birthday girl meets her very first flower-topped cake' },
+    { time: '7:00 PM', title: 'Butterfly Farewell', detail: 'Bubbles, fairy lights and goodbye hugs' },
   ]),
   faq_json: JSON.stringify([
     { q: 'Are kids welcome?', a: 'Absolutely! This is a celebration for little ones. Let us know how many small blossoms are coming so we can prepare crafts and favours.' },
