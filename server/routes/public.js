@@ -146,9 +146,9 @@ router.post('/api/rsvp', throttle(10, 60_000), async (req, res) => {
     const s = getPublicSettings();
     const link = `${baseUrl(req)}/i/${updated.token}`;
     const text = attending
-      ? `Dear ${updated.name},\n\nHooray! Your RSVP for ${s.child_name}'s Enchanted Forest first birthday is in the fairy post.\n\n📅 ${formatEventDate(s.event_date, s.timezone)}\n📍 ${[s.venue_name, s.venue_address].filter(Boolean).join(', ')}\n👥 ${updated.rsvp.adults} grown-up(s) and ${updated.rsvp.children} little one(s)\n\nNeed to change anything? Use your personal link: ${link}\n\nSee you under the fairy lights,\n${s.parents_names}`
-      : `Dear ${updated.name},\n\nThank you for letting us know you can't make it to ${s.child_name}'s first birthday. You'll be missed among the fireflies!\n\nIf plans change, you can update your RSVP any time: ${link}\n\nWith love,\n${s.parents_names}`;
-    sendMail({ to: updated.email, subject: attending ? `✨ You're on the guest list, ${updated.name.split(' ')[0]}!` : `🌙 Thank you, ${updated.name.split(' ')[0]}`, text, settings: s }).catch((e) =>
+      ? `Dear ${updated.name},\n\nHooray! Your RSVP for ${s.child_name}'s Enchanted Garden first birthday is in the fairy post.\n\n📅 ${formatEventDate(s.event_date, s.timezone)}\n📍 ${[s.venue_name, s.venue_address].filter(Boolean).join(', ')}\n👥 ${updated.rsvp.adults} grown-up(s) and ${updated.rsvp.children} little one(s)\n\nNeed to change anything? Use your personal link: ${link}\n\nSee you under the fairy lights,\n${s.parents_names}`
+      : `Dear ${updated.name},\n\nThank you for letting us know you can't make it to ${s.child_name}'s first birthday. You'll be missed among the roses!\n\nIf plans change, you can update your RSVP any time: ${link}\n\nWith love,\n${s.parents_names}`;
+    sendMail({ to: updated.email, subject: attending ? `🦋 You're on the guest list, ${updated.name}!` : `🌙 Thank you, ${updated.name}`, text, settings: s }).catch((e) =>
       console.error('Confirmation email failed:', e.message)
     );
   }
@@ -172,7 +172,7 @@ router.post('/api/wishes', throttle(10, 60_000), (req, res) => {
 router.get('/calendar.ics', (req, res) => {
   const s = getPublicSettings();
   res.setHeader('Content-Type', 'text/calendar; charset=utf-8');
-  res.setHeader('Content-Disposition', 'attachment; filename="enchanted-forest-birthday.ics"');
+  res.setHeader('Content-Disposition', 'attachment; filename="enchanted-garden-birthday.ics"');
   res.send(buildIcs(s, baseUrl(req)));
 });
 

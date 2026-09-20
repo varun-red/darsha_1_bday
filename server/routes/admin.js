@@ -36,8 +36,8 @@ router.get('/session', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
-  if (loginRateLimited(req.ip)) return res.status(429).json({ error: 'Too many attempts. Rest under a tree for 15 minutes.' });
-  if (!checkPassword(req.body?.password)) return res.status(401).json({ error: 'That is not the secret forest password.' });
+  if (loginRateLimited(req.ip)) return res.status(429).json({ error: 'Too many attempts. Rest on the garden bench for 15 minutes.' });
+  if (!checkPassword(req.body?.password)) return res.status(401).json({ error: 'That is not the secret garden password.' });
   issueSession(res);
   res.json({ ok: true, defaultPassword: isDefaultPassword(), emailConfigured: emailConfigured() });
 });
@@ -108,7 +108,7 @@ router.get('/guests/:id/invite', async (req, res) => {
   if (!guest) return res.status(404).json({ error: 'Guest not found.' });
   const s = getPublicSettings();
   const invite = buildInvite(req, s, guest);
-  const qr = await QRCode.toString(invite.link, { type: 'svg', margin: 1, color: { dark: '#0b1f1a', light: '#f6f0e3' } });
+  const qr = await QRCode.toString(invite.link, { type: 'svg', margin: 1, color: { dark: '#2b1d4a', light: '#fff6ec' } });
   const reminder = reminderMessage(s, guest, invite.link);
   const phoneDigits = guest.phone ? guest.phone.replace(/\D/g, '') : '';
   res.json({
@@ -120,7 +120,7 @@ router.get('/guests/:id/invite', async (req, res) => {
       reminderWhatsappUrl: phoneDigits
         ? `https://wa.me/${phoneDigits}?text=${encodeURIComponent(reminder)}`
         : `https://wa.me/?text=${encodeURIComponent(reminder)}`,
-      reminderMailtoUrl: `mailto:${encodeURIComponent(guest.email || '')}?subject=${encodeURIComponent(`🍄 A little reminder: ${s.child_name}'s first birthday`)}&body=${encodeURIComponent(reminder)}`,
+      reminderMailtoUrl: `mailto:${encodeURIComponent(guest.email || '')}?subject=${encodeURIComponent(`🌸 A little reminder: ${s.child_name}'s first birthday`)}&body=${encodeURIComponent(reminder)}`,
     },
   });
 });
@@ -128,7 +128,7 @@ router.get('/guests/:id/invite', async (req, res) => {
 router.get('/guests/:id/qr.svg', async (req, res) => {
   const guest = getGuestById(Number(req.params.id));
   if (!guest) return res.status(404).send('Not found');
-  const svg = await QRCode.toString(inviteLink(req, guest), { type: 'svg', margin: 1, color: { dark: '#0b1f1a', light: '#f6f0e3' } });
+  const svg = await QRCode.toString(inviteLink(req, guest), { type: 'svg', margin: 1, color: { dark: '#2b1d4a', light: '#fff6ec' } });
   res.setHeader('Content-Type', 'image/svg+xml');
   res.setHeader('Content-Disposition', `inline; filename="invite-${guest.name.replace(/[^a-z0-9]+/gi, '-').toLowerCase()}.svg"`);
   res.send(svg);
@@ -156,7 +156,7 @@ router.post('/guests/:id/send-email', async (req, res) => {
   const kind = req.body?.kind === 'reminder' ? 'reminder' : 'invite';
   try {
     if (kind === 'reminder') {
-      await sendMail({ to: guest.email, subject: `🍄 A little reminder: ${s.child_name}'s first birthday`, text: reminderMessage(s, guest, invite.link), settings: s });
+      await sendMail({ to: guest.email, subject: `🌸 A little reminder: ${s.child_name}'s first birthday`, text: reminderMessage(s, guest, invite.link), settings: s });
       return res.json({ ok: true, guest: updateGuest(guest.id, { reminded_at: new Date().toISOString() }) });
     }
     await sendMail({ to: guest.email, subject: invite.emailSubject, text: invite.emailBody, settings: s });

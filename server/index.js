@@ -44,7 +44,7 @@ export function createApp() {
   app.use((err, req, res, next) => {
     console.error(err);
     if (err.type === 'entity.parse.failed') return res.status(400).json({ error: 'Malformed request body.' });
-    res.status(500).json({ error: 'Something went wrong in the forest. Please try again.' });
+    res.status(500).json({ error: 'Something went wrong in the garden. Please try again.' });
   });
 
   return app;
@@ -53,7 +53,7 @@ export function createApp() {
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
   const app = createApp();
   app.listen(PORT, () => {
-    console.log(`🌲 Enchanted Forest party site running at http://localhost:${PORT}`);
+    console.log(`🌷 Enchanted Garden party site running at http://localhost:${PORT}`);
     console.log(`   Admin dashboard: http://localhost:${PORT}/admin`);
     if (isDefaultPassword()) console.warn('   ⚠ Using default admin password "enchanted". Set ADMIN_PASSWORD before sharing the site.');
     console.log(`   Email sending: ${emailConfigured() ? 'configured (SMTP)' : 'not configured — using mailto links'}`);

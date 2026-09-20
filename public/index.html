@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Darsha Turns One · An Enchanted Forest Birthday</title>
-  <meta name="description" content="Once upon a time, in an enchanted forest, a little sprite turned one. Join us to celebrate Darsha's first birthday." />
-  <meta name="theme-color" content="#0b1f1a" />
-  <meta property="og:title" content="Darsha Turns One · An Enchanted Forest Birthday" />
-  <meta property="og:description" content="Wander into the woods with us to celebrate a very magical first birthday. RSVP inside." />
+  <title>Darsha Turns One · An Enchanted Garden Birthday</title>
+  <meta name="description" content="Once upon a time, in an enchanted garden, a little blossom turned one. Join us to celebrate Darsha's first birthday." />
+  <meta name="theme-color" content="#2b1d4a" />
+  <meta property="og:title" content="Darsha Turns One · An Enchanted Garden Birthday" />
+  <meta property="og:description" content="Step through the garden gate with us to celebrate a very magical first birthday. RSVP inside." />
   <meta property="og:type" content="website" />
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -18,10 +18,10 @@
 <body>
   <a class="skip-link" href="#rsvp">Skip to RSVP</a>
 
-  <!-- Ambient sky: stars, fireflies and floating spores are painted here -->
+  <!-- Ambient sky: stars, fairy dust, butterflies and drifting petals are painted here -->
   <canvas id="sky" aria-hidden="true"></canvas>
 
-  <!-- Curtain of vines revealed on load -->
+  <!-- Garden gate revealed on load -->
   <div class="curtain" id="curtain" aria-hidden="true">
     <div class="curtain__glow"></div>
     <p class="curtain__text">Once upon a time…</p>
@@ -29,15 +29,15 @@
 
   <header class="topbar" id="topbar">
     <a class="topbar__brand" href="#top" aria-label="Back to top">
-      <span class="topbar__spark">✦</span><span data-bind="child_name">Darsha</span><span class="topbar__one">turns one</span>
+      <span class="topbar__spark">❀</span><span data-bind="child_name">Darsha</span><span class="topbar__one">turns one</span>
     </a>
     <nav class="topbar__nav" aria-label="Sections">
       <a href="#details">Details</a>
       <a href="#journey">The Day</a>
-      <a href="#wishes">Wishing Tree</a>
+      <a href="#wishes">Wishing Garden</a>
       <a class="topbar__cta" href="#rsvp">RSVP</a>
     </nav>
-    <button class="topbar__sound" id="soundToggle" type="button" aria-pressed="false" title="Toggle forest sounds">
+    <button class="topbar__sound" id="soundToggle" type="button" aria-pressed="false" title="Toggle garden sounds">
       <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path class="ico-on" d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z" fill="currentColor"/><path class="ico-off" d="M3 9v6h4l5 5V4L7 9H3zm16.5 3 2.3-2.3-1.4-1.4L18 10.6l-2.4-2.3-1.4 1.4L16.6 12l-2.4 2.3 1.4 1.4 2.4-2.3 2.4 2.3 1.4-1.4z" fill="currentColor"/></svg>
       <span class="sr-only">Sound</span>
     </button>
@@ -46,58 +46,97 @@
   <main id="top">
     <!-- ============ HERO ============ -->
     <section class="hero" id="hero">
+      <div class="hero__sky" aria-hidden="true"></div>
       <div class="hero__moon" aria-hidden="true"><span></span></div>
-      <div class="hero__layer hero__layer--far" data-depth="0.08" aria-hidden="true"><svg id="treesFar" preserveAspectRatio="xMidYMax slice"></svg></div>
-      <div class="hero__layer hero__layer--mid" data-depth="0.16" aria-hidden="true"><svg id="treesMid" preserveAspectRatio="xMidYMax slice"></svg></div>
-      <div class="hero__mist" aria-hidden="true"></div>
-      <div class="hero__layer hero__layer--near" data-depth="0.28" aria-hidden="true"><svg id="treesNear" preserveAspectRatio="xMidYMax slice"></svg></div>
+      <div class="hero__lights" aria-hidden="true"><svg id="stringLights" preserveAspectRatio="none"></svg></div>
+      <div class="hero__layer hero__layer--far" data-depth="0.06" aria-hidden="true"><svg id="gardenFar" preserveAspectRatio="xMidYMax slice"></svg></div>
+      <div class="hero__layer hero__layer--mid" data-depth="0.14" aria-hidden="true"><svg id="gardenMid" preserveAspectRatio="xMidYMax slice"></svg></div>
+      <div class="hero__haze" aria-hidden="true"></div>
+      <div class="hero__arch" data-depth="0.05" aria-hidden="true"><svg id="roseArch" viewBox="0 0 900 760" preserveAspectRatio="xMidYMax meet"></svg></div>
+      <div class="hero__layer hero__layer--near" data-depth="0.24" aria-hidden="true"><svg id="gardenNear" preserveAspectRatio="xMidYMax slice"></svg></div>
       <div class="hero__ground" aria-hidden="true">
-        <svg viewBox="0 0 1440 200" preserveAspectRatio="xMidYMax slice">
+        <svg viewBox="0 0 1440 220" preserveAspectRatio="xMidYMax slice">
           <defs>
-            <radialGradient id="capGrad" cx="50%" cy="30%" r="70%"><stop offset="0" stop-color="#ff8a8e"/><stop offset="1" stop-color="#b8343a"/></radialGradient>
-            <linearGradient id="stemGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbf3e2"/><stop offset="1" stop-color="#d8cbb0"/></linearGradient>
-            <symbol id="shroom" viewBox="0 0 100 110">
-              <path d="M38 62 q12 -6 24 0 l-3 40 q-9 6 -18 0z" fill="url(#stemGrad)"/>
-              <ellipse cx="50" cy="52" rx="46" ry="30" fill="url(#capGrad)"/>
-              <path d="M4 56 q46 -14 92 0 q-46 10 -92 0z" fill="#8f2a2f" opacity=".5"/>
-              <circle cx="32" cy="42" r="6" fill="#fff5e6" opacity=".9"/><circle cx="60" cy="34" r="8" fill="#fff5e6" opacity=".9"/><circle cx="76" cy="52" r="4.5" fill="#fff5e6" opacity=".9"/><circle cx="46" cy="60" r="3.5" fill="#fff5e6" opacity=".8"/>
+            <radialGradient id="roseGrad" cx="45%" cy="40%" r="65%"><stop offset="0" stop-color="#ffd3dc"/><stop offset=".6" stop-color="#f08aa6"/><stop offset="1" stop-color="#c9527a"/></radialGradient>
+            <radialGradient id="tulipGrad" cx="50%" cy="30%" r="70%"><stop offset="0" stop-color="#ffe6a8"/><stop offset="1" stop-color="#f0a860"/></radialGradient>
+            <radialGradient id="daisyCenter" cx="50%" cy="40%" r="60%"><stop offset="0" stop-color="#ffe9a3"/><stop offset="1" stop-color="#e2a83c"/></radialGradient>
+            <linearGradient id="leafGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7fb58c"/><stop offset="1" stop-color="#3f7a55"/></linearGradient>
+            <linearGradient id="stemGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5f9a6d"/><stop offset="1" stop-color="#2f5e42"/></linearGradient>
+
+            <symbol id="rose" viewBox="0 0 100 160">
+              <path d="M50 160 C52 130 50 100 50 70" stroke="url(#stemGrad)" stroke-width="4" fill="none" stroke-linecap="round"/>
+              <path d="M50 110 q-26 -4 -30 -26 q24 2 30 26z" fill="url(#leafGrad)"/>
+              <path d="M50 128 q26 -4 30 -26 q-24 2 -30 26z" fill="url(#leafGrad)"/>
+              <circle cx="50" cy="48" r="34" fill="url(#roseGrad)"/>
+              <path d="M50 22 c18 0 30 14 26 30 c-3 12 -14 18 -26 18 c-12 0 -22 -8 -22 -20 c0 -10 8 -18 18 -18 c8 0 14 6 14 13 c0 6 -5 10 -11 10 c-4 0 -7 -3 -7 -6" stroke="#b74a70" stroke-width="3" fill="none" stroke-linecap="round" opacity=".75"/>
+              <path d="M22 50 c-4 20 8 34 28 34 c22 0 34 -16 30 -36" stroke="#b74a70" stroke-width="3" fill="none" stroke-linecap="round" opacity=".55"/>
             </symbol>
-            <symbol id="fern" viewBox="0 0 100 100">
-              <path d="M50 100 C50 70 50 40 50 10" stroke="#2d6f4c" stroke-width="3" fill="none" stroke-linecap="round"/>
-              <g fill="#2d6f4c"><path d="M50 18 q-16 2 -22 -12 q14 2 22 12z"/><path d="M50 18 q16 2 22 -12 q-14 2 -22 12z"/><path d="M50 34 q-20 2 -28 -14 q18 2 28 14z"/><path d="M50 34 q20 2 28 -14 q-18 2 -28 14z"/><path d="M50 52 q-22 2 -32 -14 q20 2 32 14z"/><path d="M50 52 q22 2 32 -14 q-20 2 -32 14z"/><path d="M50 70 q-20 2 -30 -12 q18 2 30 12z"/><path d="M50 70 q20 2 30 -12 q-18 2 -30 12z"/></g>
+            <symbol id="tulip" viewBox="0 0 100 160">
+              <path d="M50 160 C50 130 50 100 50 62" stroke="url(#stemGrad)" stroke-width="4" fill="none" stroke-linecap="round"/>
+              <path d="M50 150 C30 140 18 110 22 84 C40 96 50 118 50 150z" fill="url(#leafGrad)"/>
+              <path d="M22 60 C22 30 40 14 50 6 C60 14 78 30 78 60 C78 80 64 88 50 86 C36 88 22 80 22 60z" fill="url(#tulipGrad)"/>
+              <path d="M50 6 C46 30 40 50 36 84 M50 6 C54 30 60 50 64 84" stroke="#d9924a" stroke-width="2.5" fill="none" opacity=".55"/>
+            </symbol>
+            <symbol id="daisy" viewBox="0 0 100 160">
+              <path d="M50 160 C50 130 50 100 50 66" stroke="url(#stemGrad)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+              <path d="M50 120 q-22 -2 -26 -20 q20 2 26 20z" fill="url(#leafGrad)"/>
+              <g fill="#fff8f0">
+                <ellipse cx="50" cy="18" rx="9" ry="20"/><ellipse cx="50" cy="78" rx="9" ry="20"/><ellipse cx="20" cy="48" rx="20" ry="9"/><ellipse cx="80" cy="48" rx="20" ry="9"/>
+                <ellipse cx="29" cy="27" rx="9" ry="20" transform="rotate(-45 29 27)"/><ellipse cx="71" cy="27" rx="9" ry="20" transform="rotate(45 71 27)"/><ellipse cx="29" cy="69" rx="9" ry="20" transform="rotate(45 29 69)"/><ellipse cx="71" cy="69" rx="9" ry="20" transform="rotate(-45 71 69)"/>
+              </g>
+              <circle cx="50" cy="48" r="13" fill="url(#daisyCenter)"/>
+            </symbol>
+            <symbol id="lavender" viewBox="0 0 60 160">
+              <path d="M30 160 C30 130 30 100 30 40" stroke="url(#stemGrad)" stroke-width="3" fill="none" stroke-linecap="round"/>
+              <g fill="#b39ae6">
+                <ellipse cx="30" cy="20" rx="7" ry="9"/><ellipse cx="22" cy="34" rx="7" ry="9"/><ellipse cx="38" cy="34" rx="7" ry="9"/><ellipse cx="24" cy="50" rx="7" ry="9"/><ellipse cx="36" cy="50" rx="7" ry="9"/><ellipse cx="22" cy="66" rx="7" ry="9"/><ellipse cx="38" cy="66" rx="7" ry="9"/><ellipse cx="30" cy="80" rx="7" ry="9"/>
+              </g>
+              <g fill="#d6c6f7" opacity=".7"><circle cx="28" cy="18" r="2.5"/><circle cx="36" cy="32" r="2.5"/><circle cx="24" cy="48" r="2.5"/><circle cx="38" cy="64" r="2.5"/></g>
+            </symbol>
+            <symbol id="ladybug" viewBox="0 0 100 80">
+              <ellipse cx="50" cy="44" rx="34" ry="28" fill="#d8434a"/>
+              <path d="M50 16 V72" stroke="#3a1a1a" stroke-width="3"/>
+              <circle cx="50" cy="16" r="12" fill="#2b1b1b"/>
+              <circle cx="36" cy="36" r="5" fill="#2b1b1b"/><circle cx="64" cy="36" r="5" fill="#2b1b1b"/><circle cx="32" cy="54" r="4" fill="#2b1b1b"/><circle cx="68" cy="54" r="4" fill="#2b1b1b"/><circle cx="50" cy="60" r="4" fill="#2b1b1b"/>
+              <circle cx="44" cy="12" r="2.5" fill="#fff"/><circle cx="56" cy="12" r="2.5" fill="#fff"/>
             </symbol>
           </defs>
-          <path d="M0 200 L0 120 Q160 90 320 118 T640 112 T960 124 T1280 108 L1440 118 L1440 200Z" fill="#071a14"/>
-          <path d="M0 200 L0 150 Q200 128 400 150 T800 144 T1200 152 L1440 146 L1440 200Z" fill="#050f0c"/>
-          <use href="#fern" x="40" y="60" width="90" height="90" opacity=".85"/>
-          <use href="#fern" x="1290" y="50" width="110" height="110" opacity=".85"/>
-          <use href="#fern" x="700" y="80" width="70" height="70" opacity=".7"/>
-          <use href="#shroom" class="shroom" x="120" y="88" width="64" height="70"/>
-          <use href="#shroom" class="shroom" x="178" y="108" width="36" height="40"/>
-          <use href="#shroom" class="shroom" x="1180" y="92" width="72" height="80"/>
-          <use href="#shroom" class="shroom" x="1140" y="120" width="30" height="34"/>
-          <use href="#shroom" class="shroom" x="820" y="120" width="40" height="44"/>
+          <path d="M0 220 L0 140 Q180 108 360 136 T720 128 T1080 140 T1440 128 L1440 220Z" fill="#2f6b49"/>
+          <path d="M0 220 L0 172 Q220 150 440 172 T880 166 T1320 176 L1440 170 L1440 220Z" fill="#1f4f36"/>
+          <use href="#lavender" x="30" y="72" width="46" height="120"/>
+          <use href="#lavender" x="70" y="88" width="40" height="104"/>
+          <use href="#rose" x="110" y="66" width="70" height="112"/>
+          <use href="#daisy" x="185" y="92" width="52" height="84"/>
+          <use href="#tulip" x="1240" y="70" width="64" height="104"/>
+          <use href="#rose" x="1300" y="82" width="62" height="98"/>
+          <use href="#lavender" x="1370" y="76" width="44" height="116"/>
+          <use href="#daisy" x="1190" y="104" width="46" height="74"/>
+          <use href="#tulip" x="640" y="118" width="40" height="66"/>
+          <use href="#daisy" x="690" y="128" width="34" height="56"/>
+          <use href="#lavender" x="760" y="120" width="30" height="76"/>
+          <use href="#ladybug" class="ladybug" x="340" y="150" width="34" height="27"/>
+          <use href="#ladybug" class="ladybug" x="1090" y="160" width="26" height="21"/>
         </svg>
       </div>
 
       <div class="hero__content">
         <p class="hero__greeting" id="greeting" hidden></p>
-        <p class="eyebrow reveal">Once upon a time, in an enchanted forest…</p>
+        <p class="eyebrow reveal">Once upon a time, in an enchanted garden…</p>
         <h1 class="hero__title">
           <span class="hero__name shimmer" data-bind="child_name">Darsha</span>
           <span class="hero__turns">is turning</span>
           <span class="hero__one" aria-label="one">
             <svg class="hero__one-svg" viewBox="0 0 120 160" aria-hidden="true">
               <defs>
-                <linearGradient id="oneGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff3c4"/><stop offset=".5" stop-color="#f1c85c"/><stop offset="1" stop-color="#c8951f"/></linearGradient>
+                <linearGradient id="oneGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff6d6"/><stop offset=".5" stop-color="#f3c96e"/><stop offset="1" stop-color="#d49a3a"/></linearGradient>
                 <filter id="oneGlow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
               </defs>
               <text x="60" y="128" text-anchor="middle" font-family="Cormorant Garamond, serif" font-weight="600" font-size="150" fill="url(#oneGrad)" filter="url(#oneGlow)">1</text>
               <g class="hero__one-leaves">
-                <path d="M26 52 q-18 -20 -6 -40 q20 8 6 40z" fill="#5cbf8a"/>
-                <path d="M94 42 q20 -18 8 -38 q-22 8 -8 38z" fill="#79d3a0"/>
-                <path d="M20 120 q-22 -4 -28 -24 q22 -2 28 24z" fill="#4aa676"/>
-                <circle cx="104" cy="110" r="5" fill="#f4b6c2"/><circle cx="14" cy="66" r="4" fill="#f4b6c2"/><circle cx="108" cy="72" r="3" fill="#c9b8ff"/>
+                <path d="M26 52 q-18 -20 -6 -40 q20 8 6 40z" fill="#7fb58c"/>
+                <path d="M94 42 q20 -18 8 -38 q-22 8 -8 38z" fill="#a7cfae"/>
+                <path d="M20 120 q-22 -4 -28 -24 q22 -2 28 24z" fill="#6fa77c"/>
+                <circle cx="104" cy="110" r="6" fill="#f7a8bd"/><circle cx="14" cy="66" r="5" fill="#f7a8bd"/><circle cx="108" cy="72" r="4" fill="#c8b3f5"/><circle cx="8" cy="100" r="3" fill="#ffe1a8"/>
               </g>
             </svg>
           </span>
@@ -115,14 +154,14 @@
     <!-- ============ COUNTDOWN ============ -->
     <section class="countdown section" id="countdown" aria-labelledby="countdownTitle">
       <div class="section__inner">
-        <h2 class="section__title reveal" id="countdownTitle"><span class="deco">✦</span> The magic begins in <span class="deco">✦</span></h2>
+        <h2 class="section__title reveal" id="countdownTitle"><span class="deco">❀</span> The garden blooms in <span class="deco">❀</span></h2>
         <div class="countdown__grid reveal" id="countdownGrid" role="timer" aria-live="off">
-          <div class="cap"><span class="cap__num" data-count="days">--</span><span class="cap__label">days</span></div>
-          <div class="cap"><span class="cap__num" data-count="hours">--</span><span class="cap__label">hours</span></div>
-          <div class="cap"><span class="cap__num" data-count="minutes">--</span><span class="cap__label">minutes</span></div>
-          <div class="cap"><span class="cap__num" data-count="seconds">--</span><span class="cap__label">seconds</span></div>
+          <div class="bloom bloom--rose"><svg class="bloom__petals" viewBox="0 0 100 100" aria-hidden="true"><g><ellipse cx="50" cy="16" rx="16" ry="24"/><ellipse cx="50" cy="84" rx="16" ry="24"/><ellipse cx="16" cy="50" rx="24" ry="16"/><ellipse cx="84" cy="50" rx="24" ry="16"/><ellipse cx="26" cy="26" rx="16" ry="24" transform="rotate(-45 26 26)"/><ellipse cx="74" cy="26" rx="16" ry="24" transform="rotate(45 74 26)"/><ellipse cx="26" cy="74" rx="16" ry="24" transform="rotate(45 26 74)"/><ellipse cx="74" cy="74" rx="16" ry="24" transform="rotate(-45 74 74)"/></g></svg><span class="bloom__num" data-count="days">--</span><span class="bloom__label">days</span></div>
+          <div class="bloom bloom--lilac"><svg class="bloom__petals" viewBox="0 0 100 100" aria-hidden="true"><g><ellipse cx="50" cy="16" rx="16" ry="24"/><ellipse cx="50" cy="84" rx="16" ry="24"/><ellipse cx="16" cy="50" rx="24" ry="16"/><ellipse cx="84" cy="50" rx="24" ry="16"/><ellipse cx="26" cy="26" rx="16" ry="24" transform="rotate(-45 26 26)"/><ellipse cx="74" cy="26" rx="16" ry="24" transform="rotate(45 74 26)"/><ellipse cx="26" cy="74" rx="16" ry="24" transform="rotate(45 26 74)"/><ellipse cx="74" cy="74" rx="16" ry="24" transform="rotate(-45 74 74)"/></g></svg><span class="bloom__num" data-count="hours">--</span><span class="bloom__label">hours</span></div>
+          <div class="bloom bloom--peach"><svg class="bloom__petals" viewBox="0 0 100 100" aria-hidden="true"><g><ellipse cx="50" cy="16" rx="16" ry="24"/><ellipse cx="50" cy="84" rx="16" ry="24"/><ellipse cx="16" cy="50" rx="24" ry="16"/><ellipse cx="84" cy="50" rx="24" ry="16"/><ellipse cx="26" cy="26" rx="16" ry="24" transform="rotate(-45 26 26)"/><ellipse cx="74" cy="26" rx="16" ry="24" transform="rotate(45 74 26)"/><ellipse cx="26" cy="74" rx="16" ry="24" transform="rotate(45 26 74)"/><ellipse cx="74" cy="74" rx="16" ry="24" transform="rotate(-45 74 74)"/></g></svg><span class="bloom__num" data-count="minutes">--</span><span class="bloom__label">minutes</span></div>
+          <div class="bloom bloom--cream"><svg class="bloom__petals" viewBox="0 0 100 100" aria-hidden="true"><g><ellipse cx="50" cy="16" rx="16" ry="24"/><ellipse cx="50" cy="84" rx="16" ry="24"/><ellipse cx="16" cy="50" rx="24" ry="16"/><ellipse cx="84" cy="50" rx="24" ry="16"/><ellipse cx="26" cy="26" rx="16" ry="24" transform="rotate(-45 26 26)"/><ellipse cx="74" cy="26" rx="16" ry="24" transform="rotate(45 74 26)"/><ellipse cx="26" cy="74" rx="16" ry="24" transform="rotate(45 26 74)"/><ellipse cx="74" cy="74" rx="16" ry="24" transform="rotate(-45 74 74)"/></g></svg><span class="bloom__num" data-count="seconds">--</span><span class="bloom__label">seconds</span></div>
         </div>
-        <p class="countdown__done reveal" id="countdownDone" hidden>🎉 The forest is celebrating today!</p>
+        <p class="countdown__done reveal" id="countdownDone" hidden>🎉 The garden is celebrating today!</p>
         <div class="countdown__cal reveal">
           <a class="link-pill" id="gcalLink" href="#" target="_blank" rel="noopener">Add to Google Calendar</a>
           <a class="link-pill" id="icsLink" href="/calendar.ics">Apple / Outlook (.ics)</a>
@@ -134,8 +173,8 @@
     <section class="details section" id="details" aria-labelledby="detailsTitle">
       <div class="section__inner">
         <p class="eyebrow reveal">You are cordially invited</p>
-        <h2 class="section__title reveal" id="detailsTitle">Into the woods we go</h2>
-        <p class="lede reveal" data-bind="tagline">Once upon a time, in an enchanted forest, a little sprite turned ONE…</p>
+        <h2 class="section__title reveal" id="detailsTitle">Through the garden gate</h2>
+        <p class="lede reveal" data-bind="tagline">Once upon a time, in an enchanted garden, a little blossom turned ONE…</p>
 
         <div class="cards">
           <article class="card reveal">
@@ -145,19 +184,19 @@
             <p class="muted" id="detailsEnd"></p>
           </article>
           <article class="card reveal">
-            <div class="card__icon" aria-hidden="true">🌲</div>
+            <div class="card__icon" aria-hidden="true">🌷</div>
             <h3>Where</h3>
             <p><strong data-bind="venue_name">The Willow Grove Pavilion</strong></p>
-            <p class="muted" data-bind="venue_address">123 Fern Hollow Lane</p>
+            <p class="muted" data-bind="venue_address">123 Rose Trellis Lane</p>
             <a class="card__link" id="mapsLink" href="#" target="_blank" rel="noopener">Open the map →</a>
           </article>
           <article class="card reveal">
-            <div class="card__icon" aria-hidden="true">🧚</div>
+            <div class="card__icon" aria-hidden="true">🦋</div>
             <h3>Wear</h3>
-            <p data-bind="dress_code">Woodland whimsy</p>
+            <p data-bind="dress_code">Garden whimsy</p>
           </article>
           <article class="card reveal">
-            <div class="card__icon" aria-hidden="true">🍄</div>
+            <div class="card__icon" aria-hidden="true">🌼</div>
             <h3>Good to know</h3>
             <p data-bind="parking_note">Free parking beside the pavilion.</p>
             <p class="muted">Kindly RSVP by <strong id="rsvpDeadline">Nov 1</strong>.</p>
@@ -169,8 +208,8 @@
     <!-- ============ JOURNEY / SCHEDULE ============ -->
     <section class="journey section" id="journey" aria-labelledby="journeyTitle">
       <div class="section__inner">
-        <p class="eyebrow reveal">Follow the fairy lights</p>
-        <h2 class="section__title reveal" id="journeyTitle">The enchanted journey</h2>
+        <p class="eyebrow reveal">Follow the butterflies</p>
+        <h2 class="section__title reveal" id="journeyTitle">A garden party unfolds</h2>
         <ol class="path" id="schedule"></ol>
       </div>
     </section>
@@ -179,7 +218,7 @@
     <section class="year section" id="year" aria-labelledby="yearTitle">
       <div class="section__inner">
         <p class="eyebrow reveal">A year of growing</p>
-        <h2 class="section__title reveal" id="yearTitle">How our little sprite bloomed</h2>
+        <h2 class="section__title reveal" id="yearTitle">How our little blossom bloomed</h2>
         <div class="year__scroller reveal" id="milestones" tabindex="0" aria-label="Milestones from the first year"></div>
       </div>
     </section>
@@ -187,9 +226,9 @@
     <!-- ============ RSVP ============ -->
     <section class="rsvp section" id="rsvp" aria-labelledby="rsvpTitle">
       <div class="section__inner section__inner--narrow">
-        <p class="eyebrow reveal">Will you wander in?</p>
+        <p class="eyebrow reveal">Will you join us among the roses?</p>
         <h2 class="section__title reveal" id="rsvpTitle">RSVP</h2>
-        <p class="lede reveal" id="rsvpLede">Let us know if you can join us so we can save you a seat by the fireflies.</p>
+        <p class="lede reveal" id="rsvpLede">Let us know if you can join us so we can save you a seat under the fairy lights.</p>
 
         <div class="rsvp__card reveal" id="rsvpCard">
           <div class="rsvp__existing" id="rsvpExisting" hidden>
@@ -203,7 +242,7 @@
               <legend class="sr-only">Are you attending?</legend>
               <label class="choice__opt choice__opt--yes">
                 <input type="radio" name="attending" value="yes" required />
-                <span class="choice__face"><span class="choice__emoji">✨</span><span class="choice__label">Yes, we'll be there!</span><span class="choice__sub">Save us a mushroom seat</span></span>
+                <span class="choice__face"><span class="choice__emoji">🦋</span><span class="choice__label">Yes, we'll be there!</span><span class="choice__sub">Save us a spot on the picnic blanket</span></span>
               </label>
               <label class="choice__opt choice__opt--no">
                 <input type="radio" name="attending" value="no" />
@@ -238,7 +277,7 @@
                   </div>
                 </div>
                 <div class="field">
-                  <span>Little sprites (kids)</span>
+                  <span>Little blossoms (kids)</span>
                   <div class="stepper" data-stepper>
                     <button type="button" class="stepper__btn" data-step="-1" aria-label="Fewer kids">−</button>
                     <input type="number" name="children" id="rsvpChildren" value="0" min="0" max="20" inputmode="numeric" />
@@ -258,7 +297,7 @@
                   <span>We'll need a high chair</span>
                 </label>
                 <label class="field field--full">
-                  <span>A song for the woodland playlist</span>
+                  <span>A song for the garden playlist</span>
                   <input type="text" name="song_request" id="rsvpSong" placeholder="Something to dance to under the fairy lights" maxlength="200" />
                 </label>
               </div>
@@ -270,7 +309,7 @@
             </label>
             <label class="check">
               <input type="checkbox" id="rsvpShareWish" checked />
-              <span>Hang my note on the Wishing Tree for other guests to see</span>
+              <span>Plant my note in the Wishing Garden for other guests to see</span>
             </label>
 
             <p class="form-error" id="rsvpError" role="alert" hidden></p>
@@ -279,8 +318,8 @@
           </form>
 
           <div class="rsvp__success" id="rsvpSuccess" hidden>
-            <div class="rsvp__success-art" aria-hidden="true">🍄✨</div>
-            <h3 id="successTitle">Your RSVP has flown to the forest!</h3>
+            <div class="rsvp__success-art" aria-hidden="true">🌷🦋</div>
+            <h3 id="successTitle">Your RSVP has fluttered into the garden!</h3>
             <p id="successText"></p>
             <div class="hero__actions">
               <a class="btn btn--ghost btn--sm" id="successGcal" href="#" target="_blank" rel="noopener">Add to Google Calendar</a>
@@ -293,71 +332,45 @@
       </div>
     </section>
 
-    <!-- ============ WISHING TREE ============ -->
+    <!-- ============ WISHING GARDEN ============ -->
     <section class="wishes section" id="wishes" aria-labelledby="wishesTitle">
       <div class="section__inner">
-        <p class="eyebrow reveal">Leave a little magic</p>
-        <h2 class="section__title reveal" id="wishesTitle">The Wishing Tree</h2>
-        <p class="lede reveal">Every wish becomes a lantern on the tree. Hover or tap a light to read it.</p>
+        <p class="eyebrow reveal">Plant a little magic</p>
+        <h2 class="section__title reveal" id="wishesTitle">The Wishing Garden</h2>
+        <p class="lede reveal">Every wish blooms into a flower in the bed below. Hover or tap a bloom to read it.</p>
 
-        <div class="tree reveal" id="tree">
-          <svg class="tree__svg" viewBox="0 0 800 640" aria-hidden="true">
+        <div class="garden reveal" id="garden">
+          <svg class="garden__svg" viewBox="0 0 800 420" aria-hidden="true">
             <defs>
-              <radialGradient id="canopyA" cx="50%" cy="45%" r="60%"><stop offset="0" stop-color="#3c8a63"/><stop offset="1" stop-color="#14402d"/></radialGradient>
-              <radialGradient id="canopyB" cx="40%" cy="40%" r="60%"><stop offset="0" stop-color="#4c9c72"/><stop offset="1" stop-color="#1b4d36"/></radialGradient>
-              <linearGradient id="trunkGrad" x1="0" x2="1"><stop offset="0" stop-color="#3b2418"/><stop offset=".5" stop-color="#5a3a27"/><stop offset="1" stop-color="#2d1a10"/></linearGradient>
+              <linearGradient id="soilGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5a3b2e"/><stop offset="1" stop-color="#3a2419"/></linearGradient>
+              <linearGradient id="grassGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6fae7f"/><stop offset="1" stop-color="#3b7a52"/></linearGradient>
+              <linearGradient id="grassDark" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4d8f62"/><stop offset="1" stop-color="#2e6343"/></linearGradient>
+              <pattern id="lattice" width="48" height="48" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                <path d="M0 0 H48 M0 24 H48" stroke="#f6dfd0" stroke-width="3" opacity=".22"/>
+                <path d="M0 0 V48 M24 0 V48" stroke="#f6dfd0" stroke-width="3" opacity=".22"/>
+              </pattern>
             </defs>
-            <radialGradient id="canopyDark" cx="50%" cy="60%" r="60%"><stop offset="0" stop-color="#1b4d36"/><stop offset="1" stop-color="#0d2e20"/></radialGradient>
-            <radialGradient id="canopyLight" cx="40%" cy="35%" r="60%"><stop offset="0" stop-color="#6fae8a"/><stop offset="1" stop-color="#2e6b4f"/></radialGradient>
-            <ellipse cx="400" cy="610" rx="300" ry="26" fill="#071a14"/>
-            <!-- trunk & roots -->
-            <path d="M356 612 C340 612 330 606 322 598 C350 596 366 590 372 560 C374 500 362 450 378 392 L422 392 C438 450 426 500 428 560 C434 590 450 596 478 598 C470 606 460 612 444 612 Z" fill="url(#trunkGrad)"/>
-            <path d="M380 410 C340 392 300 366 262 322 L282 314 C312 350 348 376 386 392 Z" fill="url(#trunkGrad)"/>
-            <path d="M420 410 C460 392 500 366 538 322 L518 314 C488 350 452 376 414 392 Z" fill="url(#trunkGrad)"/>
-            <path d="M396 400 C392 350 386 310 372 270 L388 266 C400 306 404 350 406 400 Z" fill="url(#trunkGrad)"/>
-            <!-- canopy: dark undersides -->
-            <circle cx="290" cy="360" r="105" fill="url(#canopyDark)"/>
-            <circle cx="510" cy="360" r="110" fill="url(#canopyDark)"/>
-            <circle cx="400" cy="385" r="120" fill="url(#canopyDark)"/>
-            <circle cx="200" cy="300" r="80" fill="url(#canopyDark)"/>
-            <circle cx="605" cy="290" r="85" fill="url(#canopyDark)"/>
-            <!-- canopy: body -->
-            <circle cx="400" cy="230" r="180" fill="url(#canopyA)"/>
-            <circle cx="255" cy="290" r="120" fill="url(#canopyB)"/>
-            <circle cx="550" cy="280" r="130" fill="url(#canopyB)"/>
-            <circle cx="320" cy="160" r="105" fill="url(#canopyB)"/>
-            <circle cx="490" cy="145" r="110" fill="url(#canopyA)"/>
-            <circle cx="400" cy="320" r="115" fill="url(#canopyA)"/>
-            <circle cx="170" cy="250" r="70" fill="url(#canopyB)"/>
-            <circle cx="640" cy="240" r="75" fill="url(#canopyB)"/>
-            <circle cx="400" cy="95" r="80" fill="url(#canopyB)"/>
-            <!-- canopy: moonlit highlights -->
-            <circle cx="340" cy="120" r="55" fill="url(#canopyLight)" opacity=".55"/>
-            <circle cx="455" cy="105" r="48" fill="url(#canopyLight)" opacity=".5"/>
-            <circle cx="240" cy="230" r="42" fill="url(#canopyLight)" opacity=".4"/>
-            <circle cx="575" cy="215" r="46" fill="url(#canopyLight)" opacity=".4"/>
-            <circle cx="400" cy="230" r="60" fill="url(#canopyLight)" opacity=".3"/>
-            <!-- leaf texture -->
-            <g fill="#8fd1ad" opacity=".28">
-              <circle cx="300" cy="200" r="6"/><circle cx="360" cy="90" r="5"/><circle cx="440" cy="70" r="6"/><circle cx="520" cy="130" r="5"/><circle cx="590" cy="190" r="6"/><circle cx="620" cy="270" r="5"/><circle cx="200" cy="280" r="5"/><circle cx="260" cy="150" r="5"/><circle cx="470" cy="200" r="6"/><circle cx="380" cy="260" r="5"/><circle cx="540" cy="320" r="5"/><circle cx="330" cy="330" r="5"/>
-            </g>
-            <g fill="#0b2a1e" opacity=".35">
-              <circle cx="280" cy="400" r="7"/><circle cx="420" cy="440" r="6"/><circle cx="520" cy="420" r="7"/><circle cx="360" cy="430" r="5"/><circle cx="600" cy="360" r="6"/><circle cx="210" cy="360" r="6"/>
-            </g>
-            <g class="tree__blossoms" fill="#f4b6c2" opacity=".85">
-              <circle cx="300" cy="180" r="4"/><circle cx="470" cy="90" r="3.5"/><circle cx="560" cy="230" r="4"/><circle cx="220" cy="300" r="3"/><circle cx="410" cy="60" r="3.5"/><circle cx="360" cy="340" r="3"/><circle cx="520" cy="360" r="3.5"/>
+            <rect x="60" y="0" width="680" height="250" rx="30" fill="url(#lattice)"/>
+            <rect x="60" y="0" width="680" height="250" rx="30" fill="none" stroke="#f6dfd0" stroke-width="6" opacity=".28"/>
+            <g id="trellisVines"></g>
+            <ellipse cx="400" cy="400" rx="420" ry="60" fill="#25563a"/>
+            <path d="M0 330 Q200 290 400 320 T800 310 L800 420 L0 420 Z" fill="url(#grassDark)"/>
+            <path d="M40 350 Q400 300 760 350 L760 385 Q400 405 40 385 Z" fill="url(#soilGrad)"/>
+            <path d="M0 372 Q200 350 400 372 T800 366 L800 420 L0 420 Z" fill="url(#grassGrad)"/>
+            <g class="garden__blades" stroke="#8ccf9c" stroke-width="3" stroke-linecap="round" fill="none" opacity=".8">
+              <path d="M60 372 q4 -14 10 -22"/><path d="M120 378 q-3 -14 -8 -20"/><path d="M300 368 q4 -16 12 -24"/><path d="M520 366 q-4 -16 -10 -24"/><path d="M700 372 q3 -14 9 -22"/><path d="M760 380 q-4 -12 -8 -18"/>
             </g>
           </svg>
-          <div class="tree__lanterns" id="lanterns"></div>
+          <div class="garden__blooms" id="blooms"></div>
         </div>
 
         <form class="wish-form reveal" id="wishForm">
           <div class="form-grid">
             <label class="field"><span>Your name</span><input type="text" name="author" id="wishAuthor" maxlength="80" placeholder="Grandma Lata" /></label>
-            <label class="field field--full"><span>Your wish for <span data-bind="child_name">Darsha</span></span><textarea name="text" id="wishText" rows="2" maxlength="400" required placeholder="May your path always be lit by fireflies…"></textarea></label>
+            <label class="field field--full"><span>Your wish for <span data-bind="child_name">Darsha</span></span><textarea name="text" id="wishText" rows="2" maxlength="400" required placeholder="May your days be full of sunshine and butterflies…"></textarea></label>
           </div>
           <p class="form-error" id="wishError" role="alert" hidden></p>
-          <button class="btn btn--gold" type="submit"><span>Hang my wish</span><i class="btn__spark" aria-hidden="true"></i></button>
+          <button class="btn btn--gold" type="submit"><span>Plant my wish</span><i class="btn__spark" aria-hidden="true"></i></button>
         </form>
 
         <ul class="wish-list reveal" id="wishList" aria-label="All wishes"></ul>
@@ -379,7 +392,7 @@
     <!-- ============ FAQ ============ -->
     <section class="faq section" id="faq" aria-labelledby="faqTitle">
       <div class="section__inner section__inner--narrow">
-        <p class="eyebrow reveal">Whispers from the woods</p>
+        <p class="eyebrow reveal">Whispers among the petals</p>
         <h2 class="section__title reveal" id="faqTitle">Questions &amp; answers</h2>
         <div class="faq__list reveal" id="faqList"></div>
       </div>
@@ -387,11 +400,11 @@
   </main>
 
   <footer class="footer">
-    <svg class="footer__grass" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true"><path d="M0 80 L0 40 Q120 10 240 40 T480 36 T720 44 T960 34 T1200 42 T1440 36 L1440 80Z" fill="#050f0c"/></svg>
+    <svg class="footer__grass" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true"><path d="M0 80 L0 40 Q120 10 240 40 T480 36 T720 44 T960 34 T1200 42 T1440 36 L1440 80Z" fill="#1c1236"/></svg>
     <div class="footer__inner">
       <p class="footer__love">Made with love by <span data-bind="parents_names">Mom &amp; Dad</span> for <span data-bind="child_name">Darsha</span></p>
       <p class="footer__contact" id="footerContact"></p>
-      <p class="footer__tiny">Fireflies, moonlight &amp; a little bit of code. <a href="/admin">Hosts</a></p>
+      <p class="footer__tiny">Petals, fairy lights &amp; a little bit of code. <a href="/admin">Hosts</a></p>
     </div>
   </footer>
 
@@ -413,7 +426,7 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="/js/forest.js" defer></script>
+  <script src="/js/garden.js" defer></script>
   <script src="/js/main.js" defer></script>
 </body>
 </html>

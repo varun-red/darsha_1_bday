@@ -23,7 +23,7 @@ function getTransport() {
 }
 
 export function fromAddress(settings) {
-  return process.env.SMTP_FROM || `"${settings?.parents_names || 'The Enchanted Forest'}" <${process.env.SMTP_USER}>`;
+  return process.env.SMTP_FROM || `"${settings?.parents_names || 'The Enchanted Garden'}" <${process.env.SMTP_USER}>`;
 }
 
 export async function sendMail({ to, subject, text, html, settings }) {
@@ -35,13 +35,13 @@ export async function sendMail({ to, subject, text, html, settings }) {
 export function textToHtml(text) {
   const esc = (s) =>
     String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
-  const linked = esc(text).replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" style="color:#c9a227">$1</a>');
-  return `<!doctype html><html><body style="margin:0;padding:0;background:#0b1f1a;font-family:Georgia,serif;color:#f3ead7">
+  const linked = esc(text).replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" style="color:#ffe1a8">$1</a>');
+  return `<!doctype html><html><body style="margin:0;padding:0;background:#2b1d4a;font-family:Georgia,serif;color:#fff6ec">
   <div style="max-width:560px;margin:0 auto;padding:32px 24px">
-    <div style="background:linear-gradient(180deg,#123527,#0b1f1a);border:1px solid #2e6b4f;border-radius:20px;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,.4)">
-      <div style="text-align:center;font-size:40px;line-height:1">🌲🍄✨</div>
+    <div style="background:linear-gradient(180deg,#5a4586,#2b1d4a);border:1px solid #c8b3f5;border-radius:20px;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,.4)">
+      <div style="text-align:center;font-size:40px;line-height:1">🌷🦋✨</div>
       <div style="white-space:pre-wrap;font-size:17px;line-height:1.6;margin-top:16px">${linked}</div>
     </div>
-    <p style="text-align:center;color:#8fae9b;font-size:12px;margin-top:20px">Sent with love from the Enchanted Forest</p>
+    <p style="text-align:center;color:#c6b7dc;font-size:12px;margin-top:20px">Sent with love from the Enchanted Garden</p>
   </div></body></html>`;
 }

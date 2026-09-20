@@ -101,13 +101,13 @@
       ['Invited', s.invited],
       ['Invites sent', s.invites_sent],
       ['High chairs', s.highchairs],
-      ['Wishes on the tree', s.wishes],
+      ['Wishes in the garden', s.wishes],
     ];
     $('#tiles').innerHTML = tiles.map(([l, n, k]) => `<div class="tile ${k ? `tile--${k}` : ''}"><div class="tile__num">${n ?? 0}</div><div class="tile__label">${l}</div></div>`).join('');
     const total = Math.max(1, s.invited);
     const pct = (n) => `${((n / total) * 100).toFixed(1)}%`;
     $('#responseBar').innerHTML = `<span class="b-att" style="width:${pct(s.attending_households)}"></span><span class="b-dec" style="width:${pct(s.declined)}"></span><span class="b-pen" style="width:${pct(s.pending)}"></span>`;
-    $('#responseLegend').innerHTML = `<span><i style="background:var(--gold)"></i>${s.attending_households} attending</span><span><i style="background:var(--lavender)"></i>${s.declined} declined</span><span><i style="background:rgba(255,255,255,.2)"></i>${s.pending} awaiting</span>`;
+    $('#responseLegend').innerHTML = `<span><i style="background:var(--blush)"></i>${s.attending_households} attending</span><span><i style="background:var(--lavender)"></i>${s.declined} declined</span><span><i style="background:rgba(255,255,255,.2)"></i>${s.pending} awaiting</span>`;
     $('#dietaryList').innerHTML = s.dietary.length
       ? state.guests.filter((g) => g.rsvp?.attending && g.rsvp.dietary).map((g) => `<li class="dietary-item"><b>${esc(g.name)}</b> — ${esc(g.rsvp.dietary)}</li>`).join('')
       : '<li class="muted">No dietary notes yet.</li>';
@@ -119,7 +119,7 @@
   }
 
   function statusChip(g) {
-    const map = { attending: ['✨', 'Attending'], declined: ['🌙', 'Declined'], pending: ['…', 'Awaiting'] };
+    const map = { attending: ['🦋', 'Attending'], declined: ['🌙', 'Declined'], pending: ['…', 'Awaiting'] };
     const [i, l] = map[g.status];
     return `<span class="status status--${g.status}">${i} ${l}</span>`;
   }
@@ -271,7 +271,7 @@
         b.disabled = true;
         try {
           await api(`/guests/${guest.id}/send-email`, { method: 'POST', body: { kind: b.dataset.sendEmail } });
-          toast(`Email sent to ${guest.email} ✨`);
+          toast(`Email sent to ${guest.email} 🦋`);
           loadOverview();
         } catch (ex) {
           toast(ex.message);
@@ -481,7 +481,7 @@
     for (const [jsonKey, cfg] of Object.entries(LIST_FIELDS)) body[jsonKey] = JSON.stringify(fromLines(fd.get(cfg.lines), cfg.keys));
     try {
       await api('/settings', { method: 'PUT', body });
-      toast('Settings saved — the party site is updated ✨');
+      toast('Settings saved — the party site is updated 🌸');
       await loadSettings();
     } catch (ex) {
       err.textContent = ex.message;

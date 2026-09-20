@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Hosts · Enchanted Forest Party</title>
+  <title>Hosts · Enchanted Garden Party</title>
   <meta name="robots" content="noindex" />
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -15,12 +15,12 @@
   <!-- ===== Login ===== -->
   <section class="login" id="loginView" hidden>
     <form class="login__card" id="loginForm">
-      <div class="login__art">🌲🍄</div>
-      <h1>The hosts' glade</h1>
-      <p class="muted">Enter the secret forest password to manage the guest list.</p>
+      <div class="login__art">🌷🦋</div>
+      <h1>The hosts' greenhouse</h1>
+      <p class="muted">Enter the secret garden password to manage the guest list.</p>
       <label class="field"><span>Password</span><input type="password" name="password" autocomplete="current-password" required autofocus /></label>
       <p class="form-error" id="loginError" hidden></p>
-      <button class="btn btn--gold" type="submit">Enter the glade</button>
+      <button class="btn btn--gold" type="submit">Open the garden gate</button>
       <a class="muted small" href="/">← Back to the party site</a>
     </form>
   </section>
@@ -28,12 +28,12 @@
   <!-- ===== App ===== -->
   <div class="app" id="appView" hidden>
     <aside class="side">
-      <a class="side__brand" href="/" target="_blank" rel="noopener"><span>✦</span> <b id="brandName">Darsha</b> <i>turns one</i></a>
+      <a class="side__brand" href="/" target="_blank" rel="noopener"><span>❀</span> <b id="brandName">Darsha</b> <i>turns one</i></a>
       <nav class="side__nav" aria-label="Admin sections">
         <button class="side__link is-active" data-tab="overview">🌙 Overview</button>
-        <button class="side__link" data-tab="guests">🧚 Guests &amp; RSVPs</button>
-        <button class="side__link" data-tab="wishes">✨ Wishing Tree</button>
-        <button class="side__link" data-tab="settings">🍄 Event settings</button>
+        <button class="side__link" data-tab="guests">🦋 Guests &amp; RSVPs</button>
+        <button class="side__link" data-tab="wishes">🌸 Wishing Garden</button>
+        <button class="side__link" data-tab="settings">🌷 Event settings</button>
       </nav>
       <div class="side__foot">
         <a class="side__mini" href="/api/admin/export.csv">⬇ Export CSV</a>
@@ -98,7 +98,7 @@
 
       <!-- Wishes -->
       <section class="tab" id="tab-wishes" hidden>
-        <header class="page-head"><h1>Wishing Tree</h1><p class="muted">Hide anything you'd rather not show on the tree.</p></header>
+        <header class="page-head"><h1>Wishing Garden</h1><p class="muted">Hide anything you'd rather not show in the garden.</p></header>
         <ul class="plain wishes" id="wishRows"></ul>
       </section>
 

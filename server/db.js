@@ -8,17 +8,17 @@ const DB_PATH = process.env.DB_PATH || './data/party.sqlite';
 
 export const DEFAULT_SETTINGS = {
   child_name: 'Darsha',
-  child_nickname: 'our little woodland sprite',
+  child_nickname: 'our little blossom',
   event_title: "Darsha's First Birthday",
-  tagline: 'Once upon a time, in an enchanted forest, a little sprite turned ONE…',
+  tagline: 'Once upon a time, in an enchanted garden, a little blossom turned ONE…',
   // ISO 8601 date-time, local to the venue.
   event_date: '2026-11-15T16:00:00',
   event_end: '2026-11-15T19:00:00',
   timezone: 'America/Los_Angeles',
   venue_name: 'The Willow Grove Pavilion',
-  venue_address: '123 Fern Hollow Lane, Woodland Hills, CA 91364',
+  venue_address: '123 Rose Trellis Lane, Pasadena, CA 91101',
   maps_url: '',
-  dress_code: 'Woodland whimsy: earthy greens, soft florals, fairy wings and antlers most welcome',
+  dress_code: 'Garden whimsy: soft pastels, florals, flower crowns and fairy wings most welcome',
   parents_names: 'Mom & Dad',
   host_phone: '',
   host_email: '',
@@ -27,30 +27,30 @@ export const DEFAULT_SETTINGS = {
     'Your presence is the only present we need. If you would like to bring something, a favourite picture book with a note inside would be treasured forever.',
   registry_url: '',
   hero_photo_url: '',
-  parking_note: 'Free parking is available in the grove lot next to the pavilion.',
+  parking_note: 'Free parking is available in the garden lot next to the pavilion.',
   whatsapp_template:
-    "Hi {name}! 🌿✨ You're invited to {child}'s enchanted first birthday on {date}. Wander into the forest and RSVP here: {link}",
-  email_subject_template: "🌲 You're invited to {child}'s Enchanted Forest First Birthday",
+    "Hi {name}! 🌷🦋 You're invited to {child}'s enchanted garden first birthday on {date}. Step through the garden gate and RSVP here: {link}",
+  email_subject_template: "🌸 You're invited to {child}'s Enchanted Garden First Birthday",
   email_template:
-    "Dear {name},\n\nOnce upon a time, in an enchanted forest, a little sprite turned ONE… and we'd love for you to celebrate with us!\n\n📅 {date}\n📍 {venue}\n\nPlease RSVP by {deadline} at your personal invitation link:\n{link}\n\nWith love,\n{parents}",
+    "Dear {name},\n\nOnce upon a time, in an enchanted garden, a little blossom turned ONE… and we'd love for you to celebrate with us!\n\n📅 {date}\n📍 {venue}\n\nPlease RSVP by {deadline} at your personal invitation link:\n{link}\n\nWith love,\n{parents}",
   schedule_json: JSON.stringify([
-    { time: '4:00 PM', title: 'Wander into the Woods', detail: 'Arrivals, fairy-wing fitting and woodland welcome drinks' },
-    { time: '4:30 PM', title: 'Mushroom Picnic', detail: 'A feast of forest treats for little sprites and grown-ups' },
-    { time: '5:30 PM', title: 'The Cake Smash', detail: 'Our birthday girl meets her very first toadstool cake' },
-    { time: '6:00 PM', title: 'Firefly Farewell', detail: 'Bubbles, lanterns and goodbye hugs' },
+    { time: '4:00 PM', title: 'Through the Garden Gate', detail: 'Arrivals, flower-crown making and welcome lemonade' },
+    { time: '4:30 PM', title: 'Tea Among the Roses', detail: 'A picnic feast of garden treats for little blossoms and grown-ups' },
+    { time: '5:30 PM', title: 'The Cake Smash', detail: 'Our birthday girl meets her very first flower-topped cake' },
+    { time: '6:00 PM', title: 'Butterfly Farewell', detail: 'Bubbles, fairy lights and goodbye hugs' },
   ]),
   faq_json: JSON.stringify([
-    { q: 'Are kids welcome?', a: 'Absolutely! This is a celebration for little ones. Let us know how many small sprites are coming so we can prepare crafts and favours.' },
-    { q: 'What should we wear?', a: 'Comfortable and whimsical. Think forest greens, soft florals, flower crowns, fairy wings or antlers. We will have some to borrow too!' },
+    { q: 'Are kids welcome?', a: 'Absolutely! This is a celebration for little ones. Let us know how many small blossoms are coming so we can prepare crafts and favours.' },
+    { q: 'What should we wear?', a: 'Comfortable and whimsical. Think soft pastels, florals, flower crowns or fairy wings. We will have some to borrow too!' },
     { q: 'Is the venue indoors or outdoors?', a: 'The pavilion is covered with an open lawn beside it, so we party rain or shine.' },
     { q: 'Do you have dietary options?', a: 'Yes! Tell us about allergies or preferences in your RSVP and we will make sure there is something delicious for everyone.' },
   ]),
   milestones_json: JSON.stringify([
     { month: 'Month 1', title: 'A tiny seed arrives', detail: 'Eyes barely open, already stealing hearts.' },
-    { month: 'Month 3', title: 'First giggles', detail: 'The forest heard a new song.' },
-    { month: 'Month 6', title: 'Sitting up tall', detail: 'Like a little mushroom on the moss.' },
+    { month: 'Month 3', title: 'First giggles', detail: 'The garden heard a new song.' },
+    { month: 'Month 6', title: 'Sitting up tall', detail: 'Like a little tulip in the sun.' },
     { month: 'Month 9', title: 'Crawling adventures', detail: 'No corner of the house is safe.' },
-    { month: 'Month 12', title: 'Turning ONE', detail: 'And so the enchanted party begins…' },
+    { month: 'Month 12', title: 'Turning ONE', detail: 'And so the enchanted garden party begins…' },
   ]),
 };
 
@@ -360,7 +360,7 @@ export function addWish({ guest_id, author, text }) {
   const db = getDb();
   const info = db
     .prepare('INSERT INTO wishes (guest_id, author, text) VALUES (?, ?, ?)')
-    .run(guest_id ?? null, clean(author, 80) || 'A forest friend', clean(text, 400));
+    .run(guest_id ?? null, clean(author, 80) || 'A garden friend', clean(text, 400));
   return db.prepare('SELECT * FROM wishes WHERE id = ?').get(Number(info.lastInsertRowid));
 }
 

@@ -1,7 +1,7 @@
 {
   "name": "darsha-first-birthday",
   "version": "1.0.0",
-  "description": "Enchanted Forest first birthday party website with RSVP, guest list and invitations",
+  "description": "Enchanted Garden first birthday party website with RSVP, guest list and invitations",
   "main": "server/index.js",
   "type": "module",
   "private": true,

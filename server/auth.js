@@ -2,7 +2,7 @@
 import { createHmac, timingSafeEqual } from 'node:crypto';
 import { getSettings } from './db.js';
 
-const COOKIE = 'forest_admin';
+const COOKIE = 'garden_admin';
 const SESSION_HOURS = 24 * 7;
 
 export function adminPassword() {

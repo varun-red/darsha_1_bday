@@ -51,7 +51,7 @@ export function buildInvite(req, settings, guest) {
 export function reminderMessage(settings, guest, link) {
   const vars = templateVars(settings, guest, link);
   return fillTemplate(
-    `Hi {name}! 🍄 A gentle reminder from the enchanted forest: we'd love to know if you can join {child}'s first birthday on {date}. RSVP here: {link}`,
+    `Hi {name}! 🌸 A gentle reminder from the enchanted garden: we'd love to know if you can join {child}'s first birthday on {date}. RSVP here: {link}`,
     vars
   );
 }

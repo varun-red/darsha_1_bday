@@ -199,5 +199,5 @@ test('unknown API routes 404 as JSON and pages 404 as HTML', async () => {
   assert.equal((await api.json()).error, 'Not found');
   const page = await fetch(`${base}/somewhere/lost`);
   assert.equal(page.status, 404);
-  assert.match(await page.text(), /Lost in the woods/);
+  assert.match(await page.text(), /Lost in the garden/);
 });

@@ -1,6 +1,6 @@
 /* =========================================================
    main.js — page behaviour: content binding, countdown,
-   RSVP flow, wishing tree, FAQ, modal & scroll effects
+   RSVP flow, wishing garden, FAQ, modal & scroll effects
    ========================================================= */
 (() => {
   'use strict';
@@ -29,9 +29,9 @@
   // ---------- sound ----------
   const soundBtn = $('#soundToggle');
   soundBtn?.addEventListener('click', () => {
-    const on = window.Forest?.toggleAudio();
+    const on = window.Garden?.toggleAudio();
     soundBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
-    toast(on ? '🎶 Forest sounds on' : 'Forest sounds off');
+    toast(on ? '🎶 Garden sounds on' : 'Garden sounds off');
   });
 
   // ---------- reveal on scroll ----------
@@ -93,7 +93,7 @@
   }
 
   function renderEvent(ev) {
-    document.title = `${ev.child_name} Turns One · An Enchanted Forest Birthday`;
+    document.title = `${ev.child_name} Turns One · An Enchanted Garden Birthday`;
     bind(ev);
     $('#detailsEnd').textContent = fmtEnd(ev);
     $('#rsvpDeadline').textContent = fmtDeadline(ev.rsvp_deadline);
@@ -121,7 +121,7 @@
       .join('');
 
     // milestones
-    const icons = ['🌱', '🌿', '🍄', '🦋', '🌸', '✨', '🌙', '🐇'];
+    const icons = ['🌱', '🌿', '🌷', '🦋', '🌸', '✨', '🐞', '🌼'];
     $('#milestones').innerHTML = (ev.milestones || [])
       .map(
         (m, i) => `<article class="mile" style="--tilt:${(i % 2 ? 1 : -1) * (1 + (i % 3) * 0.6)}deg">
@@ -157,7 +157,7 @@
       if (now >= start && now <= end) {
         grid.hidden = true;
         done.hidden = false;
-        done.textContent = '🎉 The forest is celebrating right now!';
+        done.textContent = '🎉 The garden is celebrating right now!';
         return;
       }
       if (now > end) {
@@ -199,7 +199,7 @@
       b.addEventListener('click', () => {
         const v = (parseInt(input.value, 10) || 0) + parseInt(b.dataset.step, 10);
         input.value = Math.min(Number(input.max), Math.max(Number(input.min), v));
-        window.Forest?.addSpark?.(b.getBoundingClientRect().left + 22, b.getBoundingClientRect().top + 22, { spread: 2, lift: 1 });
+        window.Garden?.addSpark?.(b.getBoundingClientRect().left + 22, b.getBoundingClientRect().top + 22, { spread: 2, lift: 1 });
       })
     );
   });
@@ -250,7 +250,7 @@
     e.preventDefault();
     errorEl.hidden = true;
     const attending = form.attending.value;
-    if (!attending) return showError('Please tell us whether you can come 🌿');
+    if (!attending) return showError('Please tell us whether you can come 🌷');
     if (!form.name.value.trim()) return showError('Please tell us your name.');
     if (!form.email.value.trim() && !form.phone.value.trim()) return showError('Share an email or phone so we can reach you.');
 
@@ -299,11 +299,11 @@
     success.hidden = false;
     const first = g.household || g.name;
     const att = g.rsvp?.attending;
-    $('#successTitle').textContent = att ? `See you in the forest, ${first}!` : `Thank you, ${first}`;
+    $('#successTitle').textContent = att ? `See you in the garden, ${first}!` : `Thank you, ${first}`;
     $('#successText').textContent = att
-      ? `We've saved ${g.rsvp.adults} grown-up seat${g.rsvp.adults === 1 ? '' : 's'}${g.rsvp.children ? ` and ${g.rsvp.children} tiny toadstool${g.rsvp.children === 1 ? '' : 's'}` : ''} for you. Keep an eye on your ${g.email ? 'inbox' : 'phone'} for updates.`
-      : "We're sad you can't make it, but so grateful you let us know. Sending fireflies your way.";
-    $('#rsvpSuccess .rsvp__success-art').textContent = att ? '🍄✨' : '🌙💛';
+      ? `We've saved ${g.rsvp.adults} grown-up seat${g.rsvp.adults === 1 ? '' : 's'}${g.rsvp.children ? ` and ${g.rsvp.children} little blossom${g.rsvp.children === 1 ? '' : 's'}` : ''} for you. Keep an eye on your ${g.email ? 'inbox' : 'phone'} for updates.`
+      : "We're sad you can't make it, but so grateful you let us know. Sending butterflies your way.";
+    $('#rsvpSuccess .rsvp__success-art').textContent = att ? '🌷🦋' : '🌙💛';
     const link = `${location.origin}/i/${g.token}`;
     const a = $('#successLink');
     a.href = link;
@@ -311,9 +311,9 @@
     success.scrollIntoView({ behavior: 'smooth', block: 'center' });
     const r = success.getBoundingClientRect();
     setTimeout(() => {
-      window.Forest?.burst(r.left + r.width / 2, Math.max(120, r.top + 60), 60);
-      if (att) leafShower();
-      window.Forest?.celebrate?.();
+      window.Garden?.burst(r.left + r.width / 2, Math.max(120, r.top + 60), 60);
+      if (att) petalShower();
+      window.Garden?.celebrate?.();
     }, 350);
   }
 
@@ -332,12 +332,12 @@
     }
   });
 
-  function leafShower() {
+  function petalShower() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const colors = ['#e8c46a', '#f4b6c2', '#6fae8a', '#c9b8ff', '#ffe29a'];
-    for (let i = 0; i < 40; i++) {
+    const colors = ['#f7a8bd', '#ffd3dc', '#cdb8f6', '#ffe1a8', '#fff8f0', '#f8c1a4'];
+    for (let i = 0; i < 46; i++) {
       const el = document.createElement('i');
-      el.className = 'burst' + (i % 3 === 0 ? ' leaf' : '');
+      el.className = 'burst' + (i % 3 === 0 ? '' : ' petal');
       const x = Math.random() * window.innerWidth;
       el.style.left = `${x}px`;
       el.style.top = `-20px`;
@@ -376,51 +376,67 @@
     }
   });
 
-  // ---------- wishing tree ----------
-  const CANOPY = [
-    { cx: 400, cy: 230, r: 175 }, { cx: 260, cy: 290, r: 115 }, { cx: 545, cy: 280, r: 125 },
-    { cx: 330, cy: 150, r: 95 }, { cx: 480, cy: 140, r: 100 }, { cx: 400, cy: 330, r: 105 },
-  ];
-  function lanternPos(id) {
-    let s = (id * 2654435761) >>> 0;
-    const rnd = () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; };
-    const c = CANOPY[Math.floor(rnd() * CANOPY.length)];
-    const ang = rnd() * Math.PI * 2;
-    const rad = Math.sqrt(rnd()) * c.r * 0.88;
-    return { x: ((c.cx + Math.cos(ang) * rad) / 800) * 100, y: ((c.cy + Math.sin(ang) * rad) / 640) * 100 };
+  // ---------- wishing garden ----------
+  const FLOWER_COLORS = ['c-rose', 'c-lilac', 'c-peach', 'c-white', 'c-gold', 'c-blue'];
+  // Deterministic spot in the flower bed for a given wish id, so blooms stay put between visits.
+  function bloomPos(id) {
+    // mulberry32: consecutive ids scatter well, unlike a plain LCG
+    let t = (id * 0x9e3779b1) >>> 0;
+    const rnd = () => {
+      t = (t + 0x6d2b79f5) >>> 0;
+      let r = Math.imul(t ^ (t >>> 15), t | 1);
+      r ^= r + Math.imul(r ^ (r >>> 7), r | 61);
+      return ((r ^ (r >>> 14)) >>> 0) / 4294967296;
+    };
+    const x = 6 + rnd() * 88;
+    const y = 71 + rnd() * 19; // the soil bed sits roughly between 71% and 90% of the scene height
+    return { x, y, scale: 0.75 + ((y - 71) / 19) * 0.55 };
   }
+  const FLOWER_SVG = `<svg viewBox="0 0 34 60" aria-hidden="true">
+      <path d="M17 60 C17 48 16 38 17 26" stroke="#3f7a55" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <path d="M17 46 q-10 -1 -12 -10 q9 1 12 10z" fill="#4d8f62"/><path d="M17 40 q10 -1 12 -10 q-9 1 -12 10z" fill="#6fae7f"/>
+      <g class="f-petals">
+        <ellipse class="f-petal" cx="17" cy="8" rx="5.5" ry="8"/>
+        <ellipse class="f-petal" cx="25.6" cy="14.3" rx="5.5" ry="8" transform="rotate(72 25.6 14.3)"/>
+        <ellipse class="f-petal" cx="22.3" cy="24.4" rx="5.5" ry="8" transform="rotate(144 22.3 24.4)"/>
+        <ellipse class="f-petal" cx="11.7" cy="24.4" rx="5.5" ry="8" transform="rotate(216 11.7 24.4)"/>
+        <ellipse class="f-petal" cx="8.4" cy="14.3" rx="5.5" ry="8" transform="rotate(288 8.4 14.3)"/>
+      </g>
+      <circle class="f-heart" cx="17" cy="17" r="4.5"/>
+    </svg>`;
 
   function renderWishes(wishes) {
-    const lanterns = $('#lanterns');
+    const bed = $('#blooms');
     const list = $('#wishList');
     if (!wishes.length) {
-      lanterns.innerHTML = `<p class="tree__empty">The tree is waiting for its very first wish…</p>`;
+      bed.innerHTML = `<p class="garden__empty">The garden is waiting for its very first wish…</p>`;
       list.innerHTML = '';
       return;
     }
-    lanterns.innerHTML = wishes
-      .slice(0, 80)
-      .map((w, i) => {
-        const p = lanternPos(w.id);
+    const placed = wishes.slice(0, 80).map((w) => ({ w, p: bloomPos(w.id) })).sort((a, b) => a.p.y - b.p.y);
+    bed.innerHTML = placed
+      .map(({ w, p }, i) => {
         const side = p.x < 22 ? 'tip-left' : p.x > 78 ? 'tip-right' : '';
-        return `<button type="button" class="lantern ${side}" style="left:${p.x.toFixed(1)}%;top:${p.y.toFixed(1)}%;--dur:${(3 + (w.id % 5) * 0.5).toFixed(1)}s;--delay:-${(w.id % 7)}s;--pop:${Math.min(i, 20) * 0.05}s" aria-label="Wish from ${esc(w.author)}">
-          <span class="lantern__tip"><strong>${esc(w.author)}</strong>${esc(w.text)}</span>
+        const color = FLOWER_COLORS[w.id % FLOWER_COLORS.length];
+        return `<button type="button" class="flower ${color} ${side}" style="left:${p.x.toFixed(1)}%;top:${p.y.toFixed(1)}%;--scale:${p.scale.toFixed(2)};--dur:${(3 + (w.id % 5) * 0.5).toFixed(1)}s;--delay:-${(w.id % 7)}s;--pop:${Math.min(i, 20) * 0.05}s" aria-label="Wish from ${esc(w.author)}">
+          ${FLOWER_SVG}
+          <span class="flower__tip"><strong>${esc(w.author)}</strong>${esc(w.text)}</span>
         </button>`;
       })
       .join('');
     list.innerHTML = wishes
       .map((w) => `<li class="wish"><p class="wish__text">“${esc(w.text)}”</p><p class="wish__author">— ${esc(w.author)}</p></li>`)
       .join('');
-    $$('.lantern', lanterns).forEach((l) =>
+    $$('.flower', bed).forEach((l) =>
       l.addEventListener('click', (e) => {
         e.stopPropagation();
         const open = l.classList.contains('is-open');
-        $$('.lantern.is-open', lanterns).forEach((o) => o.classList.remove('is-open'));
+        $$('.flower.is-open', bed).forEach((o) => o.classList.remove('is-open'));
         if (!open) l.classList.add('is-open');
       })
     );
   }
-  document.addEventListener('click', () => $$('.lantern.is-open').forEach((o) => o.classList.remove('is-open')));
+  document.addEventListener('click', () => $$('.flower.is-open').forEach((o) => o.classList.remove('is-open')));
 
   async function loadWishes() {
     try {
@@ -428,7 +444,7 @@
       const data = await res.json();
       renderWishes(data.wishes || []);
     } catch {
-      /* the tree simply stays quiet */
+      /* the garden simply stays quiet */
     }
   }
 
@@ -438,20 +454,20 @@
     err.hidden = true;
     const text = $('#wishText').value.trim();
     if (!text) { err.textContent = 'Whisper a wish first!'; err.hidden = false; return; }
-    const author = $('#wishAuthor').value.trim() || guest?.name || $('#rsvpName').value.trim() || 'A forest friend';
+    const author = $('#wishAuthor').value.trim() || guest?.name || $('#rsvpName').value.trim() || 'A garden friend';
     try {
       const res = await fetch('/api/wishes', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ author, text, token }) });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       $('#wishText').value = '';
       await loadWishes();
-      const tree = $('#tree').getBoundingClientRect();
-      window.Forest?.burst(tree.left + tree.width / 2, Math.max(100, tree.top + tree.height * 0.35), 50);
-      window.Forest?.celebrate?.();
-      toast('Your wish is glowing on the tree ✨');
-      $('#tree').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const bed = $('#garden').getBoundingClientRect();
+      window.Garden?.burst(bed.left + bed.width / 2, Math.max(100, bed.top + bed.height * 0.7), 50);
+      window.Garden?.celebrate?.();
+      toast('Your wish has bloomed in the garden 🌸');
+      $('#garden').scrollIntoView({ behavior: 'smooth', block: 'center' });
     } catch (ex) {
-      err.textContent = ex.message || 'The wind carried your wish away — try again.';
+      err.textContent = ex.message || 'The breeze carried your wish away — try again.';
       err.hidden = false;
     }
   });
@@ -473,7 +489,7 @@
       }
     } catch (err) {
       console.error(err);
-      toast('The forest is a little foggy — some details could not load.');
+      toast('The garden is a little misty — some details could not load.');
     }
     loadWishes();
   }
