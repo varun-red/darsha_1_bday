@@ -132,19 +132,6 @@
     if (ev.host_email) contact.push(`<a href="mailto:${esc(ev.host_email)}">${esc(ev.host_email)}</a>`);
     $('#footerContact').innerHTML = contact.length ? `Questions? Reach us at ${contact.join(' · ')}` : '';
 
-    // schedule
-    $('#schedule').innerHTML = (ev.schedule || [])
-      .map(
-        (s, i) => `<li class="stop reveal">
-          <div class="stop__dot" aria-hidden="true">${i + 1}</div>
-          <div class="stop__body">
-            <div class="stop__time">${esc(s.time)}</div>
-            <h3 class="stop__title">${esc(s.title)}</h3>
-            <p class="stop__detail">${esc(s.detail)}</p>
-          </div></li>`
-      )
-      .join('');
-
     // milestones
     const icons = ['🌱', '🌿', '🌷', '🦋', '🌸', '✨', '🐞', '🌼'];
     $('#milestones').innerHTML = (ev.milestones || [])

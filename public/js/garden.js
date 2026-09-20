@@ -26,6 +26,7 @@
   const PASTELS = ['#f9c5d1', '#d9cdef', '#fff6d8', '#c9dff0', '#fffdf7', '#fbd3c2'];
   const PASTEL_DEEP = ['#e9a0b5', '#b9a6dc', '#ead7a8', '#a5c4e2', '#e6d2c8', '#efa98f'];
   const LEAF = ['#a6c59a', '#7fa57c', '#c2d9b5'];
+  const FL = window.Flowers;
 
   // ---------- far layer: hazy hills and distant trees ----------
   function buildFar(svg) {
@@ -108,6 +109,7 @@
     svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
     const r = rng(31);
     let out = `<defs>
+      ${FL.defs()}
       <linearGradient id="stalkGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#93b787"/><stop offset="1" stop-color="#63895f"/></linearGradient>
       <linearGradient id="soilNear" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b3cfa6"/><stop offset="1" stop-color="#8fb383"/></linearGradient>
     </defs>`;
@@ -136,25 +138,15 @@
       const lx = x + lean * 0.3;
       stalks += `M${f1(lx)},${f1(ly)}q-22,-6 -30,-26q20,4 30,26z M${f1(lx)},${f1(ly + 24)}q22,-6 30,-26q-20,4 -30,26z`;
       const kind = r();
-      const c = Math.floor(r() * PASTELS.length);
-      if (kind < 0.4) {
-        // daisy-like: 6 petals + heart
-        const pr = 6 + r() * 5;
-        let petals = '';
-        for (let k = 0; k < 6; k++) {
-          const a = (k / 6) * Math.PI * 2;
-          petals += `<ellipse cx="${f1(topX + Math.cos(a) * pr)}" cy="${f1(topY + Math.sin(a) * pr)}" rx="${f1(pr * 0.55)}" ry="${f1(pr * 0.9)}" transform="rotate(${f1((a * 180) / Math.PI + 90)} ${f1(topX + Math.cos(a) * pr)} ${f1(topY + Math.sin(a) * pr)})"/>`;
-        }
-        blooms += `<g fill="${PASTELS[c]}">${petals}</g><circle cx="${f1(topX)}" cy="${f1(topY)}" r="${f1(pr * 0.5)}" fill="#f5cf6a"/>`;
-      } else if (kind < 0.7) {
-        // lavender spike
-        let spike = '';
-        for (let k = 0; k < 6; k++) spike += `<ellipse cx="${f1(topX + (k % 2 ? 5 : -5))}" cy="${f1(topY + k * 9)}" rx="5" ry="6.5"/>`;
-        blooms += `<g fill="${k2(c)}">${spike}</g>`;
+      const rot = (r() - 0.5) * 40;
+      if (kind < 0.38) {
+        blooms += FL.daisy(topX, topY, 9 + r() * 8, rot);
+      } else if (kind < 0.62) {
+        blooms += FL.lavender(topX, topY - 8, 34 + r() * 26, (r() - 0.5) * 16);
+      } else if (kind < 0.8) {
+        blooms += FL.peony(topX, topY, 10 + r() * 9, pick(r, ['pink', 'blush', 'lilac']), rot);
       } else {
-        // round bloom (rose/peony)
-        const br = 8 + r() * 8;
-        blooms += `<circle cx="${f1(topX)}" cy="${f1(topY)}" r="${f1(br)}" fill="${PASTELS[c]}"/><circle cx="${f1(topX - br * 0.15)}" cy="${f1(topY - br * 0.15)}" r="${f1(br * 0.5)}" fill="${PASTEL_DEEP[c]}" opacity=".5"/>`;
+        blooms += FL.hydrangea(topX, topY, 10 + r() * 7, rot);
       }
     }
     out += `<path d="${stalks}" stroke="url(#stalkGrad)" stroke-width="3.5" fill="#a6c59a" stroke-linecap="round"/>`;
@@ -167,9 +159,12 @@
   function buildArch(svg) {
     if (!svg) return;
     const r = rng(43);
-    const cx = 450, cy = 380, R = 340;
-    const left = cx - R, right = cx + R, base = 760;
+    // On phones the arch becomes a tall portrait frame: same crown, much longer pillars.
+    const cx = 450, cy = 380, R = isSmall ? 400 : 340;
+    const left = cx - R, right = cx + R, base = isSmall ? 1700 : 760;
+    svg.setAttribute('viewBox', `0 0 900 ${base}`);
     let out = `<defs>
+      ${FL.defs()}
       <radialGradient id="archPeony" cx="45%" cy="40%" r="65%"><stop offset="0" stop-color="#fde6ec"/><stop offset=".6" stop-color="#f7b7c6"/><stop offset="1" stop-color="#e58fa9"/></radialGradient>
       <radialGradient id="archBlush" cx="45%" cy="40%" r="65%"><stop offset="0" stop-color="#fff8f8"/><stop offset=".7" stop-color="#fbd9e1"/><stop offset="1" stop-color="#f0b3c3"/></radialGradient>
       <radialGradient id="archHydra" cx="45%" cy="40%" r="65%"><stop offset="0" stop-color="#e8f1fa"/><stop offset="1" stop-color="#a9c9e6"/></radialGradient>
@@ -182,52 +177,32 @@
     out += `<path d="${archPath}" stroke="#c2d9b5" stroke-width="3" fill="none" stroke-dasharray="10 16" opacity=".8"/>`;
     // sample points along the arch for foliage & blooms
     const pts = [];
-    for (let y = base - 30; y > cy; y -= 34) { pts.push({ x: left, y, t: 0 }); pts.push({ x: right, y, t: 0 }); }
+    for (let y = base - 30; y > cy; y -= isSmall ? 44 : 34) { pts.push({ x: left, y, t: 0 }); pts.push({ x: right, y, t: 0 }); }
     for (let a = Math.PI; a >= 0; a -= Math.PI / 26) pts.push({ x: cx + Math.cos(a) * R, y: cy - Math.sin(a) * R, t: 1, a });
     let leaves = '';
     let blooms = '';
     let wisteria = '';
     let vines = '';
-    const daisy = (x, y, pr) => {
-      let petals = '';
-      for (let k = 0; k < 8; k++) {
-        const ang = (k / 8) * Math.PI * 2;
-        const px = x + Math.cos(ang) * pr * 0.75;
-        const py = y + Math.sin(ang) * pr * 0.75;
-        petals += `<ellipse cx="${f1(px)}" cy="${f1(py)}" rx="${f1(pr * 0.3)}" ry="${f1(pr * 0.55)}" transform="rotate(${f1((ang * 180) / Math.PI + 90)} ${f1(px)} ${f1(py)})"/>`;
-      }
-      return `<g fill="#fffdf7" stroke="#ead7a8" stroke-width=".6">${petals}</g><circle cx="${f1(x)}" cy="${f1(y)}" r="${f1(pr * 0.33)}" fill="url(#archYolk)"/>`;
-    };
-    const hydrangea = (x, y, rr) => {
-      let c = '';
-      for (let k = 0; k < 7; k++) {
-        const ang = (k / 7) * Math.PI * 2;
-        const d = k === 0 ? 0 : rr * 0.55;
-        c += `<circle cx="${f1(x + Math.cos(ang) * d)}" cy="${f1(y + Math.sin(ang) * d)}" r="${f1(rr * 0.42)}" fill="url(#archHydra)" stroke="#8fb6d9" stroke-width=".6"/>`;
-      }
-      return c;
-    };
     for (const p of pts) {
       const n = 2 + Math.floor(r() * 3);
       for (let k = 0; k < n; k++) {
         const ang = r() * 360;
         const lx = p.x + (r() - 0.5) * 40;
         const ly = p.y + (r() - 0.5) * 34;
-        leaves += `<ellipse cx="${f1(lx)}" cy="${f1(ly)}" rx="7" ry="15" transform="rotate(${f1(ang)} ${f1(lx)} ${f1(ly)})" fill="${pick(r, LEAF)}"/>`;
+        leaves += FL.leaf(lx, ly, 18 + r() * 14, ang, pick(r, LEAF));
       }
       const kind = r();
       const bx = p.x + (r() - 0.5) * 30;
       const by = p.y + (r() - 0.5) * 30;
+      const rot = (r() - 0.5) * 60;
       if (kind < 0.36) {
-        const rr = 14 + r() * 14;
-        blooms += `<circle cx="${f1(bx)}" cy="${f1(by)}" r="${f1(rr)}" fill="${r() < 0.6 ? 'url(#archPeony)' : 'url(#archBlush)'}"/><circle cx="${f1(bx - rr * 0.15)}" cy="${f1(by - rr * 0.1)}" r="${f1(rr * 0.45)}" fill="rgba(229,143,169,.28)"/>`;
+        blooms += FL.peony(bx, by, 16 + r() * 14, r() < 0.65 ? 'pink' : 'blush', rot);
       } else if (kind < 0.58) {
-        blooms += hydrangea(bx, by, 20 + r() * 10);
+        blooms += FL.hydrangea(bx, by, 18 + r() * 9, rot);
       } else if (kind < 0.82) {
-        blooms += daisy(bx, by, 14 + r() * 8);
+        blooms += FL.daisy(bx, by, 13 + r() * 8, rot);
       } else if (kind < 0.92) {
-        const rr = 8 + r() * 6;
-        blooms += `<circle cx="${f1(bx)}" cy="${f1(by)}" r="${f1(rr)}" fill="url(#archLilac)"/>`;
+        blooms += FL.peony(bx, by, 9 + r() * 6, 'lilac', rot);
       }
       // hanging wisteria and trailing vines from the upper arch
       if (p.t === 1 && p.y < cy - 40 && r() < 0.45) {
@@ -248,7 +223,7 @@
           const vx = p.x + sway * t * (1 - t) * 2 * 0.5 + sway * 0.4 * t * t;
           const vy = p.y + len * t;
           const side = k % 2 ? 1 : -1;
-          vines += `<ellipse cx="${f1(vx + side * 6)}" cy="${f1(vy)}" rx="4.5" ry="9" transform="rotate(${side * 55} ${f1(vx + side * 6)} ${f1(vy)})" fill="${pick(r, LEAF)}"/>`;
+          vines += FL.leaf(vx, vy, 12 + r() * 6, side * 50 + 20, pick(r, LEAF));
         }
       }
     }
@@ -277,7 +252,6 @@
     for (let x = 80; x <= 720; x += 40) { pts.push({ x, y: 4 + (r() - 0.5) * 10 }); if (r() < 0.6) pts.push({ x: x + 20, y: 250 + (r() - 0.5) * 10 }); }
     for (let y = 20; y <= 240; y += 34) { pts.push({ x: 62 + (r() - 0.5) * 10, y }); pts.push({ x: 738 + (r() - 0.5) * 10, y }); }
     let leaves = '', roses = '';
-    const fills = ['#f9c5d1', '#fde3e9', '#d9cdef', '#fff6d8', '#c9dff0'];
     for (const p of pts) {
       const n = 1 + Math.floor(r() * 3);
       for (let k = 0; k < n; k++) {
@@ -287,13 +261,14 @@
         leaves += `<ellipse cx="${f1(lx)}" cy="${f1(ly)}" rx="6" ry="12" transform="rotate(${f1(ang)} ${f1(lx)} ${f1(ly)})" fill="${pick(r, LEAF)}"/>`;
       }
       if (r() < 0.55) {
-        const rr = 6 + r() * 7;
+        const rr = 7 + r() * 6;
         const rx = p.x + (r() - 0.5) * 22;
         const ry = p.y + (r() - 0.5) * 22;
-        roses += `<circle cx="${f1(rx)}" cy="${f1(ry)}" r="${f1(rr)}" fill="${pick(r, fills)}"/><circle cx="${f1(rx - rr * 0.15)}" cy="${f1(ry - rr * 0.1)}" r="${f1(rr * 0.4)}" fill="rgba(233,160,181,.35)"/>`;
+        const k = r();
+        roses += k < 0.45 ? FL.peony(rx, ry, rr, pick(r, ['pink', 'blush', 'lilac']), r() * 60) : k < 0.75 ? FL.daisy(rx, ry, rr * 0.9, r() * 60) : FL.hydrangea(rx, ry, rr * 0.9, r() * 60);
       }
     }
-    group.innerHTML = leaves + roses;
+    group.innerHTML = `<defs>${FL.defs()}</defs>` + leaves + roses;
   }
   buildTrellisVines(document.getElementById('trellisVines'));
 

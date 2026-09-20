@@ -35,7 +35,7 @@ test('public event payload includes computed fields', async () => {
   const { event, guest } = await res.json();
   assert.equal(guest, null);
   assert.equal(event.child_name, 'Darsha');
-  assert.ok(Array.isArray(event.schedule) && event.schedule.length > 0);
+  assert.ok(Array.isArray(event.faq) && event.faq.length > 0);
   assert.ok(event.event_start_utc);
   assert.match(event.google_calendar_url, /^https:\/\/calendar\.google\.com/);
   assert.equal(event.session_secret, undefined);
@@ -170,13 +170,13 @@ test('marking invited and CSV export work', async () => {
 });
 
 test('settings can be updated and validated', async () => {
-  const bad = await json('PUT', '/api/admin/settings', { schedule_json: '{not json' });
+  const bad = await json('PUT', '/api/admin/settings', { faq_json: '{not json' });
   assert.equal(bad.status, 400);
-  const good = await json('PUT', '/api/admin/settings', { child_name: 'Darsha ✨', venue_name: 'Fern Hollow', schedule_json: JSON.stringify([{ time: '1 PM', title: 'Hello', detail: 'World' }]) });
+  const good = await json('PUT', '/api/admin/settings', { child_name: 'Darsha ✨', venue_name: 'Fern Hollow', faq_json: JSON.stringify([{ q: 'Hello?', a: 'World' }]) });
   assert.equal(good.status, 200);
   const ev = await (await fetch(`${base}/api/event`)).json();
   assert.equal(ev.event.child_name, 'Darsha ✨');
-  assert.equal(ev.event.schedule.length, 1);
+  assert.equal(ev.event.faq.length, 1);
 });
 
 test('wishes can be hidden by the host', async () => {

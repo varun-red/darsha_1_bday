@@ -488,46 +488,6 @@ strong { color: var(--sage-900); font-weight: 600; }
 .card__link { display: inline-block; margin-top: 0.4rem; font-weight: 600; }
 
 /* =========================================================
-   Journey path · a vine of blossoms
-   ========================================================= */
-.path {
-  list-style: none;
-  margin: 2.5rem auto 0;
-  padding: 0;
-  position: relative;
-  max-width: 720px;
-}
-.path::before {
-  content: '';
-  position: absolute; left: 27px; top: 10px; bottom: 10px; width: 2px;
-  background: repeating-linear-gradient(180deg, var(--sage-300) 0 6px, transparent 6px 14px);
-  opacity: 0.9;
-}
-.stop {
-  position: relative;
-  display: grid;
-  grid-template-columns: 56px 1fr;
-  gap: 1.2rem;
-  padding: 0.4rem 0 1.8rem;
-}
-.stop__dot {
-  position: relative;
-  width: 56px; height: 56px;
-  display: grid; place-items: center;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #fff, var(--blush-200) 55%, var(--pink));
-  color: var(--sage-900);
-  font-family: var(--font-display); font-weight: 700; font-size: 1.3rem;
-  box-shadow: 0 0 0 6px rgba(242, 165, 186, 0.18), 0 10px 24px rgba(242, 165, 186, 0.3);
-}
-.stop:nth-child(2n) .stop__dot { background: radial-gradient(circle at 35% 35%, #fff, var(--sage-200) 55%, var(--sage-300)); box-shadow: 0 0 0 6px rgba(185, 207, 174, 0.22), 0 10px 24px rgba(185, 207, 174, 0.35); }
-.stop:nth-child(3n) .stop__dot { background: radial-gradient(circle at 35% 35%, #fff, #dbe9f5 55%, var(--blue)); box-shadow: 0 0 0 6px rgba(188, 214, 236, 0.22), 0 10px 24px rgba(188, 214, 236, 0.4); }
-.stop__body { padding-top: 0.35rem; }
-.stop__time { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--pink-ink); font-weight: 700; }
-.stop__title { font-family: var(--font-display); font-style: italic; font-size: 1.6rem; color: var(--sage-900); margin: 0.1rem 0 0.2rem; }
-.stop__detail { color: var(--muted); margin: 0; }
-
-/* =========================================================
    First-year milestones
    ========================================================= */
 .year__scroller {
@@ -795,7 +755,9 @@ strong { color: var(--sage-900); font-weight: 600; }
   .hero { padding-top: 7rem; padding-bottom: 9rem; }
   .hero__greeting { font-size: 1.05rem; margin-top: 1.5rem; }
   .hero__layer--near { height: 24%; }
-  .hero__arch { width: 225vw; height: 104%; bottom: 4%; } /* crown sits above the eyebrow; pillars fall outside the viewport */
+  .hero__arch { width: 112vw; height: 98%; bottom: 1%; } /* garden.js draws a tall portrait arch on phones */
+  .hero__content { padding: 0 1.4rem; }
+  .hero__name-svg { max-width: 76vw; }
   .hero .eyebrow { font-size: 1.05rem; letter-spacing: 0.04em; }
   .hero__turns { letter-spacing: 0.24em; font-size: 1rem; }
   .hero__date { letter-spacing: 0.08em; font-size: 0.86rem; }
@@ -804,9 +766,6 @@ strong { color: var(--sage-900); font-weight: 600; }
   .form-grid { grid-template-columns: 1fr; }
   .countdown__grid { gap: 0.5rem; }
   .bloom__label { font-size: 0.5rem; letter-spacing: 0.1em; }
-  .stop { grid-template-columns: 44px 1fr; gap: 0.9rem; }
-  .stop__dot { width: 44px; height: 44px; font-size: 1.1rem; }
-  .path::before { left: 21px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

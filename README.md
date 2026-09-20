@@ -6,8 +6,7 @@ A single-page, interactive party website with a full RSVP system and a private h
 
 - **A garden at magic hour** — a plum-to-peach dusk sky with string lights, a rose-and-wisteria arch framing the title, hazy distant trees, hedges and topiary, and flower beds in the foreground, all generated procedurally with mouse and scroll parallax. Butterflies flutter across the page and gather around the cursor, petals drift down, fairy dust glows, and clicking anywhere releases a sparkle burst.
 - **Countdown** in blooming flowers, plus one-tap "Add to Google Calendar" and `.ics` download.
-- **Details cards** — when, where (with map link), dress code and good-to-know notes.
-- **A garden party unfolds** — the day's schedule laid out along a fairy-light vine.
+- **Details cards** — when, where (with map link) and good-to-know notes.
 - **First-year milestones** — a swipeable strip of polaroid-style cards (add photo URLs in settings).
 - **RSVP** — yes/no choice, grown-ups and kids steppers, names & ages, dietary needs, high chair, song request, a note for the birthday girl, and "find & edit my RSVP" by email/phone. Success triggers a sparkle burst, a petal shower and a chime.
 - **The Wishing Garden** — every wish blooms as a flower in the bed; hover or tap a bloom to read it.
@@ -20,7 +19,7 @@ A single-page, interactive party website with a full RSVP system and a private h
 - **Guest list** — add guests one at a time or paste a list from a spreadsheet; search and filter by status; edit, delete, or record an RSVP on someone's behalf.
 - **Invite** drawer per guest — personal link, **WhatsApp** deep link with a pre-filled message, **email** (sent from the site when SMTP is configured, otherwise opens your mail app pre-filled), copy message, **printable QR code**, and a gentle **reminder** flow. Invitations are marked sent automatically.
 - **Wishing Garden moderation** — hide or delete wishes.
-- **Event settings** — every word on the site (names, dates, venue, dress code, schedule, milestones, FAQ, message templates) is editable live.
+- **Event settings** — every word on the site (names, dates, venue, milestones, FAQ, message templates) is editable live.
 - **CSV export** of the full guest list.
 
 ## Run it locally

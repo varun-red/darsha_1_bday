@@ -49,7 +49,6 @@ async function eventPayload(req) {
   const site = baseUrl(req);
   return {
     ...s,
-    schedule: safeJson(s.schedule_json, []),
     faq: safeJson(s.faq_json, []),
     milestones: safeJson(s.milestones_json, []),
     event_date_pretty: formatEventDate(s.event_date, s.timezone),

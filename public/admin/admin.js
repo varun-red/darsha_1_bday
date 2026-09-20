@@ -434,7 +434,6 @@
 
   // ---------- settings ----------
   const LIST_FIELDS = {
-    schedule_json: { lines: 'schedule_lines', keys: ['time', 'title', 'detail'] },
     milestones_json: { lines: 'milestones_lines', keys: ['month', 'title', 'detail', 'photo_url'] },
     faq_json: { lines: 'faq_lines', keys: ['q', 'a'] },
   };

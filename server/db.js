@@ -21,7 +21,6 @@ export const DEFAULT_SETTINGS = {
   venue_name: 'Flora Events Venue',
   venue_address: '3333 W Grand Pkwy N, Katy, TX 77449',
   maps_url: '',
-  dress_code: 'Garden whimsy: soft pastels, florals, flower crowns and fairy wings most welcome',
   parents_names: 'Mom & Dad',
   host_phone: '',
   host_email: '',
@@ -36,15 +35,8 @@ export const DEFAULT_SETTINGS = {
   email_subject_template: "🌸 You're invited to {child}'s Enchanted Garden First Birthday",
   email_template:
     "Dear {name},\n\nOnce upon a time, in an enchanted garden, a little blossom turned ONE… and we'd love for you to celebrate with us!\n\n📅 {date}\n📍 {venue}\n\nPlease RSVP by {deadline} at your personal invitation link:\n{link}\n\nWith love,\n{parents}",
-  schedule_json: JSON.stringify([
-    { time: '5:00 PM', title: 'Through the Garden Gate', detail: 'Arrivals, flower-crown making and welcome lemonade' },
-    { time: '5:30 PM', title: 'Tea Among the Roses', detail: 'A picnic feast of garden treats for little blossoms and grown-ups' },
-    { time: '6:30 PM', title: 'The Cake Smash', detail: 'Our birthday girl meets her very first flower-topped cake' },
-    { time: '7:00 PM', title: 'Butterfly Farewell', detail: 'Bubbles, fairy lights and goodbye hugs' },
-  ]),
   faq_json: JSON.stringify([
     { q: 'Are kids welcome?', a: 'Absolutely! This is a celebration for little ones. Let us know how many small blossoms are coming so we can prepare crafts and favours.' },
-    { q: 'What should we wear?', a: 'Comfortable and whimsical. Think soft pastels, florals, flower crowns or fairy wings. We will have some to borrow too!' },
     { q: 'Is the venue indoors or outdoors?', a: 'Indoors! Flora Events Venue is fully indoors, so we party rain or shine.' },
     { q: 'Do you have dietary options?', a: 'Yes! Tell us about allergies or preferences in your RSVP and we will make sure there is something delicious for everyone.' },
   ]),
