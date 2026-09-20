@@ -1,0 +1,21 @@
+{
+  "name": "darsha-first-birthday",
+  "version": "1.0.0",
+  "description": "Enchanted Forest first birthday party website with RSVP, guest list and invitations",
+  "main": "server/index.js",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "node --no-warnings=ExperimentalWarning server/index.js",
+    "dev": "node --no-warnings=ExperimentalWarning --watch server/index.js",
+    "test": "node --no-warnings=ExperimentalWarning --test \"test/**/*.test.js\""
+  },
+  "engines": {
+    "node": ">=22.13"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "nodemailer": "^10.0.10",
+    "qrcode": "^1.5.4"
+  }
+}

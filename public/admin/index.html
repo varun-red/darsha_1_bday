@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hosts · Enchanted Forest Party</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/admin/admin.css" />
+</head>
+<body>
+  <!-- ===== Login ===== -->
+  <section class="login" id="loginView" hidden>
+    <form class="login__card" id="loginForm">
+      <div class="login__art">🌲🍄</div>
+      <h1>The hosts' glade</h1>
+      <p class="muted">Enter the secret forest password to manage the guest list.</p>
+      <label class="field"><span>Password</span><input type="password" name="password" autocomplete="current-password" required autofocus /></label>
+      <p class="form-error" id="loginError" hidden></p>
+      <button class="btn btn--gold" type="submit">Enter the glade</button>
+      <a class="muted small" href="/">← Back to the party site</a>
+    </form>
+  </section>
+
+  <!-- ===== App ===== -->
+  <div class="app" id="appView" hidden>
+    <aside class="side">
+      <a class="side__brand" href="/" target="_blank" rel="noopener"><span>✦</span> <b id="brandName">Darsha</b> <i>turns one</i></a>
+      <nav class="side__nav" aria-label="Admin sections">
+        <button class="side__link is-active" data-tab="overview">🌙 Overview</button>
+        <button class="side__link" data-tab="guests">🧚 Guests &amp; RSVPs</button>
+        <button class="side__link" data-tab="wishes">✨ Wishing Tree</button>
+        <button class="side__link" data-tab="settings">🍄 Event settings</button>
+      </nav>
+      <div class="side__foot">
+        <a class="side__mini" href="/api/admin/export.csv">⬇ Export CSV</a>
+        <a class="side__mini" href="/" target="_blank" rel="noopener">↗ Open site</a>
+        <button class="side__mini" id="logoutBtn">Log out</button>
+      </div>
+    </aside>
+
+    <main class="content">
+      <div class="banner" id="passwordBanner" hidden>⚠ You are using the default admin password <code>enchanted</code>. Set <code>ADMIN_PASSWORD</code> on the server before sharing the site.</div>
+      <div class="banner banner--info" id="emailBanner" hidden>✉ Email sending is not configured, so "Email" opens your own mail app with the invitation pre-filled. Set <code>SMTP_*</code> variables to send directly from the site.</div>
+
+      <!-- Overview -->
+      <section class="tab" id="tab-overview">
+        <header class="page-head"><h1>Overview</h1><p class="muted" id="overviewDate"></p></header>
+        <div class="tiles" id="tiles"></div>
+        <div class="two-col">
+          <div class="panel">
+            <h2>Responses</h2>
+            <div class="bar" id="responseBar"></div>
+            <div class="legend" id="responseLegend"></div>
+          </div>
+          <div class="panel">
+            <h2>Dietary notes</h2>
+            <ul class="plain" id="dietaryList"></ul>
+          </div>
+        </div>
+        <div class="panel">
+          <h2>Latest replies</h2>
+          <ul class="plain" id="recentList"></ul>
+        </div>
+      </section>
+
+      <!-- Guests -->
+      <section class="tab" id="tab-guests" hidden>
+        <header class="page-head">
+          <h1>Guests &amp; RSVPs</h1>
+          <div class="actions">
+            <button class="btn btn--ghost" id="importBtn">Import list</button>
+            <button class="btn btn--ghost" id="copyPendingBtn" title="Copy every pending guest's personal link">Copy pending links</button>
+            <button class="btn btn--gold" id="addGuestBtn">+ Add guest</button>
+          </div>
+        </header>
+        <div class="toolbar">
+          <input class="search" type="search" id="guestSearch" placeholder="Search by name, phone, email, household…" />
+          <div class="chips" id="statusChips">
+            <button class="chip is-active" data-filter="all">All</button>
+            <button class="chip" data-filter="attending">Attending</button>
+            <button class="chip" data-filter="declined">Declined</button>
+            <button class="chip" data-filter="pending">Awaiting reply</button>
+            <button class="chip" data-filter="uninvited">Not yet invited</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="table" id="guestTable">
+            <thead><tr><th>Guest</th><th>Contact</th><th>Status</th><th>Party</th><th>Invitation</th><th></th></tr></thead>
+            <tbody id="guestRows"></tbody>
+          </table>
+          <p class="empty" id="guestEmpty" hidden>No guests match. Add your first guest with the button above.</p>
+        </div>
+      </section>
+
+      <!-- Wishes -->
+      <section class="tab" id="tab-wishes" hidden>
+        <header class="page-head"><h1>Wishing Tree</h1><p class="muted">Hide anything you'd rather not show on the tree.</p></header>
+        <ul class="plain wishes" id="wishRows"></ul>
+      </section>
+
+      <!-- Settings -->
+      <section class="tab" id="tab-settings" hidden>
+        <header class="page-head"><h1>Event settings</h1><p class="muted">Everything here updates the party site instantly.</p></header>
+        <form id="settingsForm" class="settings">
+          <div class="panel">
+            <h2>The birthday girl</h2>
+            <div class="grid2">
+              <label class="field"><span>Child's name</span><input name="child_name" /></label>
+              <label class="field"><span>Nickname</span><input name="child_nickname" /></label>
+              <label class="field"><span>Event title</span><input name="event_title" /></label>
+              <label class="field"><span>Hosts (parents' names)</span><input name="parents_names" /></label>
+              <label class="field field--full"><span>Tagline</span><input name="tagline" /></label>
+              <label class="field"><span>Host phone (shown in footer)</span><input name="host_phone" /></label>
+              <label class="field"><span>Host email (shown in footer)</span><input name="host_email" /></label>
+            </div>
+          </div>
+          <div class="panel">
+            <h2>When &amp; where</h2>
+            <div class="grid2">
+              <label class="field"><span>Starts (local time)</span><input name="event_date" type="datetime-local" /></label>
+              <label class="field"><span>Ends (local time)</span><input name="event_end" type="datetime-local" /></label>
+              <label class="field"><span>Timezone (IANA)</span><input name="timezone" placeholder="America/Los_Angeles" /></label>
+              <label class="field"><span>RSVP deadline</span><input name="rsvp_deadline" type="date" /></label>
+              <label class="field"><span>Venue name</span><input name="venue_name" /></label>
+              <label class="field"><span>Venue address</span><input name="venue_address" /></label>
+              <label class="field field--full"><span>Custom map link (optional — otherwise Google Maps search is used)</span><input name="maps_url" type="url" /></label>
+              <label class="field field--full"><span>Dress code</span><input name="dress_code" /></label>
+              <label class="field field--full"><span>Parking / good to know</span><input name="parking_note" /></label>
+              <label class="field field--full"><span>Gift note</span><textarea name="gift_note" rows="3"></textarea></label>
+              <label class="field field--full"><span>Registry / wish list link (optional)</span><input name="registry_url" type="url" /></label>
+            </div>
+          </div>
+          <div class="panel">
+            <h2>Invitation messages</h2>
+            <p class="muted small">Placeholders: <code>{name}</code> <code>{child}</code> <code>{date}</code> <code>{venue}</code> <code>{deadline}</code> <code>{link}</code> <code>{parents}</code></p>
+            <label class="field"><span>WhatsApp message</span><textarea name="whatsapp_template" rows="3"></textarea></label>
+            <label class="field"><span>Email subject</span><input name="email_subject_template" /></label>
+            <label class="field"><span>Email body</span><textarea name="email_template" rows="8"></textarea></label>
+          </div>
+          <div class="panel">
+            <h2>Schedule</h2>
+            <p class="muted small">One stop per line: <code>time | title | detail</code></p>
+            <label class="field"><textarea name="schedule_lines" rows="6" spellcheck="false"></textarea></label>
+          </div>
+          <div class="panel">
+            <h2>First-year milestones</h2>
+            <p class="muted small">One per line: <code>month | title | detail | photo URL (optional)</code></p>
+            <label class="field"><textarea name="milestones_lines" rows="6" spellcheck="false"></textarea></label>
+          </div>
+          <div class="panel">
+            <h2>Questions &amp; answers</h2>
+            <p class="muted small">One per line: <code>question | answer</code></p>
+            <label class="field"><textarea name="faq_lines" rows="6" spellcheck="false"></textarea></label>
+          </div>
+          <div class="save-bar">
+            <p class="form-error" id="settingsError" hidden></p>
+            <button class="btn btn--gold" type="submit">Save settings</button>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <!-- Drawer -->
+  <div class="drawer" id="drawer" hidden>
+    <div class="drawer__backdrop" data-close></div>
+    <aside class="drawer__panel" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
+      <header class="drawer__head"><h2 id="drawerTitle"></h2><button class="icon-btn" data-close aria-label="Close">×</button></header>
+      <div class="drawer__body" id="drawerBody"></div>
+    </aside>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="/admin/admin.js" defer></script>
+</body>
+</html>
