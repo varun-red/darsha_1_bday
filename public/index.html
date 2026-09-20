@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Darsha Turns One · An Enchanted Garden Birthday</title>
   <meta name="description" content="Once upon a time, in an enchanted garden, a little blossom turned one. Join us to celebrate Darsha's first birthday." />
-  <meta name="theme-color" content="#2b1d4a" />
+  <meta name="theme-color" content="#fdf7f2" />
   <meta property="og:title" content="Darsha Turns One · An Enchanted Garden Birthday" />
   <meta property="og:description" content="Step through the garden gate with us to celebrate a very magical first birthday. RSVP inside." />
   <meta property="og:type" content="website" />
@@ -47,8 +47,6 @@
     <!-- ============ HERO ============ -->
     <section class="hero" id="hero">
       <div class="hero__sky" aria-hidden="true"></div>
-      <div class="hero__moon" aria-hidden="true"><span></span></div>
-      <div class="hero__lights" aria-hidden="true"><svg id="stringLights" preserveAspectRatio="none"></svg></div>
       <div class="hero__layer hero__layer--far" data-depth="0.06" aria-hidden="true"><svg id="gardenFar" preserveAspectRatio="xMidYMax slice"></svg></div>
       <div class="hero__layer hero__layer--mid" data-depth="0.14" aria-hidden="true"><svg id="gardenMid" preserveAspectRatio="xMidYMax slice"></svg></div>
       <div class="hero__haze" aria-hidden="true"></div>
@@ -57,30 +55,35 @@
       <div class="hero__ground" aria-hidden="true">
         <svg viewBox="0 0 1440 220" preserveAspectRatio="xMidYMax slice">
           <defs>
-            <radialGradient id="roseGrad" cx="45%" cy="40%" r="65%"><stop offset="0" stop-color="#ffd3dc"/><stop offset=".6" stop-color="#f08aa6"/><stop offset="1" stop-color="#c9527a"/></radialGradient>
-            <radialGradient id="tulipGrad" cx="50%" cy="30%" r="70%"><stop offset="0" stop-color="#ffe6a8"/><stop offset="1" stop-color="#f0a860"/></radialGradient>
-            <radialGradient id="daisyCenter" cx="50%" cy="40%" r="60%"><stop offset="0" stop-color="#ffe9a3"/><stop offset="1" stop-color="#e2a83c"/></radialGradient>
-            <linearGradient id="leafGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7fb58c"/><stop offset="1" stop-color="#3f7a55"/></linearGradient>
-            <linearGradient id="stemGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5f9a6d"/><stop offset="1" stop-color="#2f5e42"/></linearGradient>
+            <radialGradient id="roseGrad" cx="45%" cy="40%" r="65%"><stop offset="0" stop-color="#fde6ec"/><stop offset=".6" stop-color="#f7b7c6"/><stop offset="1" stop-color="#e58fa9"/></radialGradient>
+            <radialGradient id="hydraGrad" cx="45%" cy="40%" r="65%"><stop offset="0" stop-color="#e4eff9"/><stop offset="1" stop-color="#a9c9e6"/></radialGradient>
+            <radialGradient id="daisyCenter" cx="50%" cy="40%" r="60%"><stop offset="0" stop-color="#fbe28f"/><stop offset="1" stop-color="#e9b93f"/></radialGradient>
+            <linearGradient id="leafGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b3cfa6"/><stop offset="1" stop-color="#739c76"/></linearGradient>
+            <linearGradient id="stemGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#93b787"/><stop offset="1" stop-color="#63895f"/></linearGradient>
+            <linearGradient id="woodGrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e2c59f"/><stop offset=".5" stop-color="#d1ad80"/><stop offset="1" stop-color="#bf9769"/></linearGradient>
 
             <symbol id="rose" viewBox="0 0 100 160">
               <path d="M50 160 C52 130 50 100 50 70" stroke="url(#stemGrad)" stroke-width="4" fill="none" stroke-linecap="round"/>
               <path d="M50 110 q-26 -4 -30 -26 q24 2 30 26z" fill="url(#leafGrad)"/>
               <path d="M50 128 q26 -4 30 -26 q-24 2 -30 26z" fill="url(#leafGrad)"/>
               <circle cx="50" cy="48" r="34" fill="url(#roseGrad)"/>
-              <path d="M50 22 c18 0 30 14 26 30 c-3 12 -14 18 -26 18 c-12 0 -22 -8 -22 -20 c0 -10 8 -18 18 -18 c8 0 14 6 14 13 c0 6 -5 10 -11 10 c-4 0 -7 -3 -7 -6" stroke="#b74a70" stroke-width="3" fill="none" stroke-linecap="round" opacity=".75"/>
-              <path d="M22 50 c-4 20 8 34 28 34 c22 0 34 -16 30 -36" stroke="#b74a70" stroke-width="3" fill="none" stroke-linecap="round" opacity=".55"/>
+              <path d="M50 22 c18 0 30 14 26 30 c-3 12 -14 18 -26 18 c-12 0 -22 -8 -22 -20 c0 -10 8 -18 18 -18 c8 0 14 6 14 13 c0 6 -5 10 -11 10 c-4 0 -7 -3 -7 -6" stroke="#e08ea8" stroke-width="3" fill="none" stroke-linecap="round" opacity=".7"/>
+              <path d="M22 50 c-4 20 8 34 28 34 c22 0 34 -16 30 -36" stroke="#e08ea8" stroke-width="3" fill="none" stroke-linecap="round" opacity=".5"/>
             </symbol>
-            <symbol id="tulip" viewBox="0 0 100 160">
-              <path d="M50 160 C50 130 50 100 50 62" stroke="url(#stemGrad)" stroke-width="4" fill="none" stroke-linecap="round"/>
-              <path d="M50 150 C30 140 18 110 22 84 C40 96 50 118 50 150z" fill="url(#leafGrad)"/>
-              <path d="M22 60 C22 30 40 14 50 6 C60 14 78 30 78 60 C78 80 64 88 50 86 C36 88 22 80 22 60z" fill="url(#tulipGrad)"/>
-              <path d="M50 6 C46 30 40 50 36 84 M50 6 C54 30 60 50 64 84" stroke="#d9924a" stroke-width="2.5" fill="none" opacity=".55"/>
+            <symbol id="hydrangea" viewBox="0 0 100 160">
+              <path d="M50 160 C50 130 50 100 50 70" stroke="url(#stemGrad)" stroke-width="4" fill="none" stroke-linecap="round"/>
+              <path d="M50 118 q-26 -4 -30 -26 q24 2 30 26z" fill="url(#leafGrad)"/>
+              <path d="M50 132 q26 -4 30 -26 q-24 2 -30 26z" fill="url(#leafGrad)"/>
+              <g fill="url(#hydraGrad)" stroke="#8fb6d9" stroke-width=".8">
+                <circle cx="50" cy="26" r="11"/><circle cx="30" cy="36" r="11"/><circle cx="70" cy="36" r="11"/><circle cx="22" cy="56" r="11"/><circle cx="78" cy="56" r="11"/>
+                <circle cx="40" cy="50" r="11"/><circle cx="60" cy="50" r="11"/><circle cx="32" cy="72" r="11"/><circle cx="68" cy="72" r="11"/><circle cx="50" cy="68" r="11"/>
+              </g>
+              <g fill="#fff" opacity=".8"><circle cx="50" cy="26" r="2.5"/><circle cx="30" cy="36" r="2.5"/><circle cx="70" cy="36" r="2.5"/><circle cx="40" cy="50" r="2.5"/><circle cx="60" cy="50" r="2.5"/><circle cx="32" cy="72" r="2.5"/><circle cx="68" cy="72" r="2.5"/><circle cx="50" cy="68" r="2.5"/></g>
             </symbol>
             <symbol id="daisy" viewBox="0 0 100 160">
               <path d="M50 160 C50 130 50 100 50 66" stroke="url(#stemGrad)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
               <path d="M50 120 q-22 -2 -26 -20 q20 2 26 20z" fill="url(#leafGrad)"/>
-              <g fill="#fff8f0">
+              <g fill="#fffdf7" stroke="#ead7a8" stroke-width=".8">
                 <ellipse cx="50" cy="18" rx="9" ry="20"/><ellipse cx="50" cy="78" rx="9" ry="20"/><ellipse cx="20" cy="48" rx="20" ry="9"/><ellipse cx="80" cy="48" rx="20" ry="9"/>
                 <ellipse cx="29" cy="27" rx="9" ry="20" transform="rotate(-45 29 27)"/><ellipse cx="71" cy="27" rx="9" ry="20" transform="rotate(45 71 27)"/><ellipse cx="29" cy="69" rx="9" ry="20" transform="rotate(45 29 69)"/><ellipse cx="71" cy="69" rx="9" ry="20" transform="rotate(-45 71 69)"/>
               </g>
@@ -88,40 +91,65 @@
             </symbol>
             <symbol id="lavender" viewBox="0 0 60 160">
               <path d="M30 160 C30 130 30 100 30 40" stroke="url(#stemGrad)" stroke-width="3" fill="none" stroke-linecap="round"/>
-              <g fill="#b39ae6">
+              <g fill="#c3aee6">
                 <ellipse cx="30" cy="20" rx="7" ry="9"/><ellipse cx="22" cy="34" rx="7" ry="9"/><ellipse cx="38" cy="34" rx="7" ry="9"/><ellipse cx="24" cy="50" rx="7" ry="9"/><ellipse cx="36" cy="50" rx="7" ry="9"/><ellipse cx="22" cy="66" rx="7" ry="9"/><ellipse cx="38" cy="66" rx="7" ry="9"/><ellipse cx="30" cy="80" rx="7" ry="9"/>
               </g>
-              <g fill="#d6c6f7" opacity=".7"><circle cx="28" cy="18" r="2.5"/><circle cx="36" cy="32" r="2.5"/><circle cx="24" cy="48" r="2.5"/><circle cx="38" cy="64" r="2.5"/></g>
+              <g fill="#e6dcf6" opacity=".8"><circle cx="28" cy="18" r="2.5"/><circle cx="36" cy="32" r="2.5"/><circle cx="24" cy="48" r="2.5"/><circle cx="38" cy="64" r="2.5"/></g>
+            </symbol>
+            <symbol id="fence" viewBox="0 0 320 120">
+              <g fill="#fffaf3" stroke="#e6d4b8" stroke-width="2" stroke-linejoin="round">
+                <path d="M14 120 V34 L26 18 L38 34 V120z"/><path d="M62 120 V28 L74 12 L86 28 V120z"/><path d="M110 120 V34 L122 18 L134 34 V120z"/><path d="M158 120 V28 L170 12 L182 28 V120z"/><path d="M206 120 V34 L218 18 L230 34 V120z"/><path d="M254 120 V28 L266 12 L278 28 V120z"/><path d="M302 120 V34 L314 18 L326 34 V120z"/>
+                <rect x="0" y="48" width="330" height="12" rx="3"/><rect x="0" y="86" width="330" height="12" rx="3"/>
+              </g>
+            </symbol>
+            <symbol id="sign" viewBox="0 0 140 220">
+              <rect x="64" y="70" width="12" height="150" rx="3" fill="url(#woodGrad)" stroke="#b08a5e" stroke-width="1.5"/>
+              <g fill="url(#woodGrad)" stroke="#b08a5e" stroke-width="1.5">
+                <rect x="18" y="20" width="104" height="30" rx="5" transform="rotate(-3 70 35)"/>
+                <rect x="20" y="56" width="100" height="30" rx="5" transform="rotate(2 70 71)"/>
+                <rect x="18" y="92" width="104" height="30" rx="5" transform="rotate(-2 70 107)"/>
+                <rect x="22" y="128" width="96" height="30" rx="5" transform="rotate(2 70 143)"/>
+              </g>
+              <g font-family="Quicksand, 'Segoe UI', system-ui, sans-serif" font-weight="700" font-size="17" fill="#5b4632" text-anchor="middle" letter-spacing="1.5">
+                <text x="70" y="41" transform="rotate(-3 70 35)">SMALL</text>
+                <text x="70" y="77" transform="rotate(2 70 71)">GIRL</text>
+                <text x="70" y="113" transform="rotate(-2 70 107)">BIG</text>
+                <text x="70" y="149" transform="rotate(2 70 143)">MAGIC</text>
+              </g>
+              <text x="70" y="180" text-anchor="middle" font-size="16" fill="#e58fa9">♥</text>
             </symbol>
             <symbol id="ladybug" viewBox="0 0 100 80">
-              <ellipse cx="50" cy="44" rx="34" ry="28" fill="#d8434a"/>
+              <ellipse cx="50" cy="44" rx="34" ry="28" fill="#e05a62"/>
               <path d="M50 16 V72" stroke="#3a1a1a" stroke-width="3"/>
               <circle cx="50" cy="16" r="12" fill="#2b1b1b"/>
               <circle cx="36" cy="36" r="5" fill="#2b1b1b"/><circle cx="64" cy="36" r="5" fill="#2b1b1b"/><circle cx="32" cy="54" r="4" fill="#2b1b1b"/><circle cx="68" cy="54" r="4" fill="#2b1b1b"/><circle cx="50" cy="60" r="4" fill="#2b1b1b"/>
               <circle cx="44" cy="12" r="2.5" fill="#fff"/><circle cx="56" cy="12" r="2.5" fill="#fff"/>
             </symbol>
           </defs>
-          <path d="M0 220 L0 140 Q180 108 360 136 T720 128 T1080 140 T1440 128 L1440 220Z" fill="#2f6b49"/>
-          <path d="M0 220 L0 172 Q220 150 440 172 T880 166 T1320 176 L1440 170 L1440 220Z" fill="#1f4f36"/>
-          <use href="#lavender" x="30" y="72" width="46" height="120"/>
-          <use href="#lavender" x="70" y="88" width="40" height="104"/>
-          <use href="#rose" x="110" y="66" width="70" height="112"/>
-          <use href="#daisy" x="185" y="92" width="52" height="84"/>
-          <use href="#tulip" x="1240" y="70" width="64" height="104"/>
-          <use href="#rose" x="1300" y="82" width="62" height="98"/>
+          <path d="M0 220 L0 140 Q180 108 360 136 T720 128 T1080 140 T1440 128 L1440 220Z" fill="#bdd5ae"/>
+          <path d="M0 220 L0 172 Q220 150 440 172 T880 166 T1320 176 L1440 170 L1440 220Z" fill="#a3c496"/>
+          <use href="#fence" x="1130" y="60" width="330" height="124"/>
+          <use href="#sign" x="150" y="-70" width="112" height="204"/>
+          <use href="#lavender" x="130" y="72" width="46" height="120"/>
+          <use href="#hydrangea" x="160" y="66" width="76" height="120"/>
+          <use href="#rose" x="215" y="80" width="70" height="112"/>
+          <use href="#daisy" x="275" y="92" width="52" height="84"/>
+          <use href="#rose" x="1230" y="76" width="72" height="116"/>
+          <use href="#hydrangea" x="1300" y="90" width="66" height="104"/>
           <use href="#lavender" x="1370" y="76" width="44" height="116"/>
-          <use href="#daisy" x="1190" y="104" width="46" height="74"/>
-          <use href="#tulip" x="640" y="118" width="40" height="66"/>
-          <use href="#daisy" x="690" y="128" width="34" height="56"/>
+          <use href="#daisy" x="1190" y="110" width="46" height="74"/>
+          <use href="#daisy" x="640" y="118" width="40" height="66"/>
+          <use href="#rose" x="690" y="124" width="40" height="64"/>
           <use href="#lavender" x="760" y="120" width="30" height="76"/>
-          <use href="#ladybug" class="ladybug" x="340" y="150" width="34" height="27"/>
+          <use href="#ladybug" class="ladybug" x="360" y="150" width="34" height="27"/>
           <use href="#ladybug" class="ladybug" x="1090" y="160" width="26" height="21"/>
         </svg>
       </div>
 
       <div class="hero__content">
         <p class="hero__greeting" id="greeting" hidden></p>
-        <p class="eyebrow reveal">Once upon a time, in an enchanted garden…</p>
+        <p class="eyebrow reveal">Once upon a time in an enchanted garden…</p>
+        <div class="divider reveal" aria-hidden="true">♥</div>
         <h1 class="hero__title">
           <span class="hero__name-wrap">
             <!-- Drawn as SVG text (like the "1") rather than CSS background-clip text,
@@ -129,8 +157,8 @@
             <svg class="hero__name-svg" id="heroNameSvg" viewBox="0 0 600 160" aria-hidden="true">
               <defs>
                 <linearGradient id="nameGrad" x1="0" y1="0" x2="2.5" y2="0.25" spreadMethod="repeat">
-                  <stop offset="0" stop-color="#ffe7b0"/><stop offset=".2" stop-color="#fff8e6"/><stop offset=".4" stop-color="#f0c37a"/>
-                  <stop offset=".6" stop-color="#ffd9c2"/><stop offset=".8" stop-color="#e9a45a"/><stop offset="1" stop-color="#ffe7b0"/>
+                  <stop offset="0" stop-color="#f4a9bd"/><stop offset=".2" stop-color="#f9c3d1"/><stop offset=".4" stop-color="#ee98b0"/>
+                  <stop offset=".6" stop-color="#f6b5c6"/><stop offset=".8" stop-color="#e88ea8"/><stop offset="1" stop-color="#f4a9bd"/>
                   <animateTransform attributeName="gradientTransform" type="translate" from="0 0" to="-2.5 0" dur="6s" repeatCount="indefinite"/>
                 </linearGradient>
               </defs>
@@ -140,22 +168,52 @@
           </span>
           <span class="hero__turns">is turning</span>
           <span class="hero__one" aria-label="one">
-            <svg class="hero__one-svg" viewBox="0 0 120 160" aria-hidden="true">
+            <svg class="hero__one-svg" viewBox="0 0 180 200" aria-hidden="true">
               <defs>
-                <linearGradient id="oneGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff6d6"/><stop offset=".5" stop-color="#f3c96e"/><stop offset="1" stop-color="#d49a3a"/></linearGradient>
-                <filter id="oneGlow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                <linearGradient id="oneGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fce9ee"/><stop offset=".55" stop-color="#f7c9d5"/><stop offset="1" stop-color="#efafc1"/></linearGradient>
+                <filter id="oneShadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#d88aa2" flood-opacity=".3"/></filter>
+                <radialGradient id="yolkGrad" cx="45%" cy="40%" r="60%"><stop offset="0" stop-color="#fbe28f"/><stop offset="1" stop-color="#e9b93f"/></radialGradient>
+                <symbol id="oneDaisy" viewBox="0 0 40 40">
+                  <g fill="#fffdf7" stroke="#ead7a8" stroke-width=".6">
+                    <ellipse cx="20" cy="7" rx="4" ry="8"/><ellipse cx="20" cy="33" rx="4" ry="8"/><ellipse cx="7" cy="20" rx="8" ry="4"/><ellipse cx="33" cy="20" rx="8" ry="4"/>
+                    <ellipse cx="11" cy="11" rx="4" ry="8" transform="rotate(-45 11 11)"/><ellipse cx="29" cy="11" rx="4" ry="8" transform="rotate(45 29 11)"/><ellipse cx="11" cy="29" rx="4" ry="8" transform="rotate(45 11 29)"/><ellipse cx="29" cy="29" rx="4" ry="8" transform="rotate(-45 29 29)"/>
+                  </g>
+                  <circle cx="20" cy="20" r="6" fill="url(#yolkGrad)"/>
+                </symbol>
+                <symbol id="oneCosmos" viewBox="0 0 40 40">
+                  <g fill="#f7b7c6" stroke="#e9a0b5" stroke-width=".6">
+                    <ellipse cx="20" cy="9" rx="5" ry="9"/><ellipse cx="20" cy="31" rx="5" ry="9"/><ellipse cx="10" cy="14" rx="5" ry="9" transform="rotate(-60 10 14)"/><ellipse cx="30" cy="14" rx="5" ry="9" transform="rotate(60 30 14)"/><ellipse cx="10" cy="26" rx="5" ry="9" transform="rotate(60 10 26)"/><ellipse cx="30" cy="26" rx="5" ry="9" transform="rotate(-60 30 26)"/>
+                  </g>
+                  <circle cx="20" cy="20" r="4.5" fill="url(#yolkGrad)"/>
+                </symbol>
+                <symbol id="oneLav" viewBox="0 0 20 50">
+                  <path d="M10 50 V14" stroke="#7fa57c" stroke-width="1.6" stroke-linecap="round"/>
+                  <g fill="#c3aee6"><ellipse cx="10" cy="6" rx="3.5" ry="4.5"/><ellipse cx="6" cy="14" rx="3.5" ry="4.5"/><ellipse cx="14" cy="14" rx="3.5" ry="4.5"/><ellipse cx="7" cy="23" rx="3.5" ry="4.5"/><ellipse cx="13" cy="23" rx="3.5" ry="4.5"/><ellipse cx="10" cy="31" rx="3.5" ry="4.5"/></g>
+                </symbol>
               </defs>
-              <text x="60" y="128" text-anchor="middle" font-family="Quicksand, 'Segoe UI', system-ui, sans-serif" font-weight="700" font-size="150" fill="url(#oneGrad)" filter="url(#oneGlow)">1</text>
+              <text x="90" y="152" text-anchor="middle" font-family="Quicksand, 'Segoe UI', system-ui, sans-serif" font-weight="700" font-size="170" fill="url(#oneGrad)" stroke="#d7b46f" stroke-width="3" paint-order="stroke" filter="url(#oneShadow)">1</text>
               <g class="hero__one-leaves">
-                <path d="M26 52 q-18 -20 -6 -40 q20 8 6 40z" fill="#7fb58c"/>
-                <path d="M94 42 q20 -18 8 -38 q-22 8 -8 38z" fill="#a7cfae"/>
-                <path d="M20 120 q-22 -4 -28 -24 q22 -2 28 24z" fill="#6fa77c"/>
-                <circle cx="104" cy="110" r="6" fill="#f7a8bd"/><circle cx="14" cy="66" r="5" fill="#f7a8bd"/><circle cx="108" cy="72" r="4" fill="#c8b3f5"/><circle cx="8" cy="100" r="3" fill="#ffe1a8"/>
+                <!-- left sprig -->
+                <path d="M62 150 C48 130 40 112 44 92 M62 150 C56 138 46 130 34 128" stroke="#7fa57c" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <path d="M50 118 q-14 -2 -18 -14 q13 1 18 14z M52 104 q12 -6 10 -18 q-11 5 -10 18z M40 128 q-12 4 -18 -4 q10 -6 18 4z" fill="#a6c59a"/>
+                <use href="#oneLav" x="52" y="60" width="18" height="46"/>
+                <use href="#oneCosmos" x="24" y="116" width="30" height="30"/>
+                <use href="#oneDaisy" x="46" y="136" width="30" height="30"/>
+                <use href="#oneDaisy" x="30" y="84" width="22" height="22"/>
+                <!-- right sprig -->
+                <path d="M122 140 C136 120 146 104 146 84 M122 140 C130 130 140 122 152 118" stroke="#7fa57c" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <path d="M136 112 q14 -2 18 -14 q-13 1 -18 14z M134 98 q-12 -6 -10 -18 q11 5 10 18z M146 126 q12 4 18 -4 q-10 -6 -18 4z" fill="#a6c59a"/>
+                <use href="#oneLav" x="118" y="46" width="18" height="46"/>
+                <use href="#oneCosmos" x="138" y="76" width="28" height="28"/>
+                <use href="#oneDaisy" x="118" y="126" width="30" height="30"/>
+                <use href="#oneDaisy" x="150" y="106" width="20" height="20"/>
+                <circle cx="20" cy="150" r="2.5" fill="#f2a5ba"/><circle cx="162" cy="146" r="2.5" fill="#cdbde8"/><circle cx="36" cy="70" r="2" fill="#bcd6ec"/><circle cx="160" cy="64" r="2" fill="#f2a5ba"/>
               </g>
             </svg>
           </span>
         </h1>
         <p class="hero__date reveal" id="heroDate" data-bind="event_date_pretty">Sunday, November 22, 2026 · 5:00 PM</p>
+        <div class="divider reveal" aria-hidden="true">♥</div>
         <p class="hero__venue reveal" data-bind="venue_name">Flora Events Venue</p>
         <div class="hero__actions reveal">
           <a class="btn btn--gold" href="#rsvp"><span>RSVP</span><i class="btn__spark" aria-hidden="true"></i></a>
@@ -168,7 +226,7 @@
     <!-- ============ COUNTDOWN ============ -->
     <section class="countdown section" id="countdown" aria-labelledby="countdownTitle">
       <div class="section__inner">
-        <h2 class="section__title reveal" id="countdownTitle"><span class="deco">❀</span> The garden blooms in <span class="deco">❀</span></h2>
+        <h2 class="section__title reveal" id="countdownTitle"><span class="deco">♥</span> The garden blooms in <span class="deco">♥</span></h2>
         <div class="countdown__grid reveal" id="countdownGrid" role="timer" aria-live="off">
           <div class="bloom bloom--rose"><svg class="bloom__petals" viewBox="0 0 100 100" aria-hidden="true"><g><ellipse cx="50" cy="16" rx="16" ry="24"/><ellipse cx="50" cy="84" rx="16" ry="24"/><ellipse cx="16" cy="50" rx="24" ry="16"/><ellipse cx="84" cy="50" rx="24" ry="16"/><ellipse cx="26" cy="26" rx="16" ry="24" transform="rotate(-45 26 26)"/><ellipse cx="74" cy="26" rx="16" ry="24" transform="rotate(45 74 26)"/><ellipse cx="26" cy="74" rx="16" ry="24" transform="rotate(45 26 74)"/><ellipse cx="74" cy="74" rx="16" ry="24" transform="rotate(-45 74 74)"/></g></svg><span class="bloom__num" data-count="days">--</span><span class="bloom__label">days</span></div>
           <div class="bloom bloom--lilac"><svg class="bloom__petals" viewBox="0 0 100 100" aria-hidden="true"><g><ellipse cx="50" cy="16" rx="16" ry="24"/><ellipse cx="50" cy="84" rx="16" ry="24"/><ellipse cx="16" cy="50" rx="24" ry="16"/><ellipse cx="84" cy="50" rx="24" ry="16"/><ellipse cx="26" cy="26" rx="16" ry="24" transform="rotate(-45 26 26)"/><ellipse cx="74" cy="26" rx="16" ry="24" transform="rotate(45 74 26)"/><ellipse cx="26" cy="74" rx="16" ry="24" transform="rotate(45 26 74)"/><ellipse cx="74" cy="74" rx="16" ry="24" transform="rotate(-45 74 74)"/></g></svg><span class="bloom__num" data-count="hours">--</span><span class="bloom__label">hours</span></div>
@@ -192,7 +250,7 @@
 
         <div class="cards">
           <article class="card reveal">
-            <div class="card__icon" aria-hidden="true">🌙</div>
+            <div class="card__icon" aria-hidden="true">🌸</div>
             <h3>When</h3>
             <p data-bind="event_date_pretty">Sunday, November 22, 2026 · 5:00 PM</p>
             <p class="muted" id="detailsEnd"></p>
@@ -260,7 +318,7 @@
               </label>
               <label class="choice__opt choice__opt--no">
                 <input type="radio" name="attending" value="no" />
-                <span class="choice__face"><span class="choice__emoji">🌙</span><span class="choice__label">Sadly, we can't</span><span class="choice__sub">We'll send our love from afar</span></span>
+                <span class="choice__face"><span class="choice__emoji">🌿</span><span class="choice__label">Sadly, we can't</span><span class="choice__sub">We'll send our love from afar</span></span>
               </label>
             </fieldset>
 
@@ -356,22 +414,22 @@
         <div class="garden reveal" id="garden">
           <svg class="garden__svg" viewBox="0 0 800 420" aria-hidden="true">
             <defs>
-              <linearGradient id="soilGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5a3b2e"/><stop offset="1" stop-color="#3a2419"/></linearGradient>
-              <linearGradient id="grassGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6fae7f"/><stop offset="1" stop-color="#3b7a52"/></linearGradient>
-              <linearGradient id="grassDark" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4d8f62"/><stop offset="1" stop-color="#2e6343"/></linearGradient>
+              <linearGradient id="soilGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d9b89c"/><stop offset="1" stop-color="#bf9a7c"/></linearGradient>
+              <linearGradient id="grassGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c4dbb5"/><stop offset="1" stop-color="#93b88b"/></linearGradient>
+              <linearGradient id="grassDark" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a9c79c"/><stop offset="1" stop-color="#7fa57c"/></linearGradient>
               <pattern id="lattice" width="48" height="48" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-                <path d="M0 0 H48 M0 24 H48" stroke="#f6dfd0" stroke-width="3" opacity=".22"/>
-                <path d="M0 0 V48 M24 0 V48" stroke="#f6dfd0" stroke-width="3" opacity=".22"/>
+                <path d="M0 0 H48 M0 24 H48" stroke="#ead7a8" stroke-width="3" opacity=".55"/>
+                <path d="M0 0 V48 M24 0 V48" stroke="#ead7a8" stroke-width="3" opacity=".55"/>
               </pattern>
             </defs>
             <rect x="60" y="0" width="680" height="250" rx="30" fill="url(#lattice)"/>
-            <rect x="60" y="0" width="680" height="250" rx="30" fill="none" stroke="#f6dfd0" stroke-width="6" opacity=".28"/>
+            <rect x="60" y="0" width="680" height="250" rx="30" fill="none" stroke="#ead7a8" stroke-width="6" opacity=".7"/>
             <g id="trellisVines"></g>
-            <ellipse cx="400" cy="400" rx="420" ry="60" fill="#25563a"/>
+            <ellipse cx="400" cy="400" rx="420" ry="60" fill="#8fb383"/>
             <path d="M0 330 Q200 290 400 320 T800 310 L800 420 L0 420 Z" fill="url(#grassDark)"/>
             <path d="M40 350 Q400 300 760 350 L760 385 Q400 405 40 385 Z" fill="url(#soilGrad)"/>
             <path d="M0 372 Q200 350 400 372 T800 366 L800 420 L0 420 Z" fill="url(#grassGrad)"/>
-            <g class="garden__blades" stroke="#8ccf9c" stroke-width="3" stroke-linecap="round" fill="none" opacity=".8">
+            <g class="garden__blades" stroke="#e3efdc" stroke-width="3" stroke-linecap="round" fill="none" opacity=".8">
               <path d="M60 372 q4 -14 10 -22"/><path d="M120 378 q-3 -14 -8 -20"/><path d="M300 368 q4 -16 12 -24"/><path d="M520 366 q-4 -16 -10 -24"/><path d="M700 372 q3 -14 9 -22"/><path d="M760 380 q-4 -12 -8 -18"/>
             </g>
           </svg>
@@ -414,7 +472,7 @@
   </main>
 
   <footer class="footer">
-    <svg class="footer__grass" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true"><path d="M0 80 L0 40 Q120 10 240 40 T480 36 T720 44 T960 34 T1200 42 T1440 36 L1440 80Z" fill="#1c1236"/></svg>
+    <svg class="footer__grass" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true"><path d="M0 80 L0 40 Q120 10 240 40 T480 36 T720 44 T960 34 T1200 42 T1440 36 L1440 80Z" fill="#e8f0e2"/></svg>
     <div class="footer__inner">
       <p class="footer__love">Made with love by <span data-bind="parents_names">Mom &amp; Dad</span> for <span data-bind="child_name">Darsha</span></p>
       <p class="footer__contact" id="footerContact"></p>

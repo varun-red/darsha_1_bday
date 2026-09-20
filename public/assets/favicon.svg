@@ -1,18 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <defs>
-    <radialGradient id="bg" cx="50%" cy="35%" r="75%"><stop offset="0" stop-color="#5a4586"/><stop offset="1" stop-color="#1c1236"/></radialGradient>
-    <radialGradient id="petal" cx="50%" cy="40%" r="70%"><stop offset="0" stop-color="#ffd3dc"/><stop offset="1" stop-color="#e9819f"/></radialGradient>
+    <radialGradient id="bg" cx="50%" cy="35%" r="75%"><stop offset="0" stop-color="#fffdf9"/><stop offset="1" stop-color="#fbe0e6"/></radialGradient>
+    <radialGradient id="petal" cx="50%" cy="40%" r="70%"><stop offset="0" stop-color="#fde3e9"/><stop offset="1" stop-color="#f2a5ba"/></radialGradient>
+    <radialGradient id="yolk" cx="45%" cy="40%" r="60%"><stop offset="0" stop-color="#fbe28f"/><stop offset="1" stop-color="#e9b93f"/></radialGradient>
   </defs>
-  <rect width="64" height="64" rx="16" fill="url(#bg)"/>
-  <path d="M32 56 C32 48 31 42 32 34" stroke="#6fae7f" stroke-width="3" fill="none" stroke-linecap="round"/>
-  <path d="M32 46 q-9 -1 -11 -9 q8 1 11 9z" fill="#6fae7f"/>
-  <g fill="url(#petal)" stroke="#d9678d" stroke-width="1">
-    <ellipse cx="32" cy="16" rx="6.5" ry="9.5"/>
-    <ellipse cx="42.4" cy="23.5" rx="6.5" ry="9.5" transform="rotate(72 42.4 23.5)"/>
-    <ellipse cx="38.4" cy="35.7" rx="6.5" ry="9.5" transform="rotate(144 38.4 35.7)"/>
-    <ellipse cx="25.6" cy="35.7" rx="6.5" ry="9.5" transform="rotate(216 25.6 35.7)"/>
-    <ellipse cx="21.6" cy="23.5" rx="6.5" ry="9.5" transform="rotate(288 21.6 23.5)"/>
+  <circle cx="32" cy="32" r="31" fill="url(#bg)" stroke="#d7b46f" stroke-width="1.5"/>
+  <g fill="url(#petal)" stroke="#e9a0b5" stroke-width=".8">
+    <ellipse cx="32" cy="16" rx="6" ry="11"/><ellipse cx="32" cy="48" rx="6" ry="11"/><ellipse cx="16" cy="32" rx="11" ry="6"/><ellipse cx="48" cy="32" rx="11" ry="6"/>
+    <ellipse cx="20.7" cy="20.7" rx="6" ry="11" transform="rotate(-45 20.7 20.7)"/><ellipse cx="43.3" cy="20.7" rx="6" ry="11" transform="rotate(45 43.3 20.7)"/>
+    <ellipse cx="20.7" cy="43.3" rx="6" ry="11" transform="rotate(45 20.7 43.3)"/><ellipse cx="43.3" cy="43.3" rx="6" ry="11" transform="rotate(-45 43.3 43.3)"/>
   </g>
-  <circle cx="32" cy="27" r="5.5" fill="#ffe1a8"/>
-  <circle cx="12" cy="12" r="1.6" fill="#ffe1a8"/><circle cx="52" cy="10" r="1.2" fill="#ffd3dc"/><circle cx="52" cy="50" r="1.4" fill="#c8b3f5"/>
+  <circle cx="32" cy="32" r="7" fill="url(#yolk)"/>
 </svg>

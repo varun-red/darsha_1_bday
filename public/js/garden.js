@@ -1,9 +1,9 @@
 /* =========================================================
    garden.js — the living backdrop
-   Procedural hedges, distant trees and flower beds; a rose
-   arch and string lights; a canvas of stars, fairy dust,
-   butterflies and drifting petals; cursor sparkles, parallax
-   and an optional ambient garden soundscape (Web Audio).
+   Procedural hedges, distant trees and flower beds; a floral
+   garland arch; a canvas of pollen, butterflies and drifting
+   petals; cursor sparkles, parallax and an optional ambient
+   garden soundscape (Web Audio). Watercolour daylight palette.
    ========================================================= */
 (() => {
   'use strict';
@@ -23,8 +23,9 @@
   const f1 = (n) => n.toFixed(1);
   const pick = (r, arr) => arr[Math.floor(r() * arr.length)];
 
-  const PASTELS = ['#f7a8bd', '#cdb8f6', '#fff0d2', '#f8c1a4', '#fff8f0', '#b9d8f6'];
-  const PASTEL_DEEP = ['#d9678d', '#9a7fd6', '#e8c07a', '#e4895f', '#e2c9c9', '#7fa9dc'];
+  const PASTELS = ['#f9c5d1', '#d9cdef', '#fff6d8', '#c9dff0', '#fffdf7', '#fbd3c2'];
+  const PASTEL_DEEP = ['#e9a0b5', '#b9a6dc', '#ead7a8', '#a5c4e2', '#e6d2c8', '#efa98f'];
+  const LEAF = ['#a6c59a', '#7fa57c', '#c2d9b5'];
 
   // ---------- far layer: hazy hills and distant trees ----------
   function buildFar(svg) {
@@ -33,9 +34,9 @@
     svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
     const r = rng(7);
     let out = `<defs>
-      <linearGradient id="hillA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9c7ab0"/><stop offset="1" stop-color="#6b4f8a"/></linearGradient>
-      <linearGradient id="hillB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7e5f98"/><stop offset="1" stop-color="#5a4586"/></linearGradient>
-      <linearGradient id="farTree" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7a5c95"/><stop offset="1" stop-color="#4f3a72"/></linearGradient>
+      <linearGradient id="hillA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e6efdd"/><stop offset="1" stop-color="#d3e2c8"/></linearGradient>
+      <linearGradient id="hillB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d6e4cb"/><stop offset="1" stop-color="#c2d6b4"/></linearGradient>
+      <linearGradient id="farTree" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d0e0c3"/><stop offset="1" stop-color="#b3cba6"/></linearGradient>
     </defs>`;
     out += `<path d="M0 ${H} L0 420 Q300 330 600 400 T1200 380 T1800 410 L${W} ${H}Z" fill="url(#hillA)" opacity=".85"/>`;
     // distant round trees along the hill crest
@@ -67,8 +68,8 @@
     svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
     const r = rng(19);
     let out = `<defs>
-      <linearGradient id="hedgeGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4f8f62"/><stop offset="1" stop-color="#2a5a3f"/></linearGradient>
-      <linearGradient id="topiaryGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5c9d6e"/><stop offset="1" stop-color="#2f6344"/></linearGradient>
+      <linearGradient id="hedgeGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bfd6b0"/><stop offset="1" stop-color="#98bb8d"/></linearGradient>
+      <linearGradient id="topiaryGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c6dbb8"/><stop offset="1" stop-color="#8fb383"/></linearGradient>
     </defs>`;
     // hedge: overlapping round blobs along the base
     let d = `M0,${H}L0,${H - 120}`;
@@ -87,7 +88,7 @@
       if (r() < 0.5) {
         const br = 46 + r() * 30;
         const cy = H - 190 - r() * 60;
-        topi += `<path d="M${f1(x - 6)},${f1(H - 100)}L${f1(x - 5)},${f1(cy)}L${f1(x + 5)},${f1(cy)}L${f1(x + 6)},${f1(H - 100)}Z" fill="#2a4a36"/>`;
+        topi += `<path d="M${f1(x - 6)},${f1(H - 100)}L${f1(x - 5)},${f1(cy)}L${f1(x + 5)},${f1(cy)}L${f1(x + 6)},${f1(H - 100)}Z" fill="#a9bf9c"/>`;
         topi += `<circle cx="${f1(x)}" cy="${f1(cy)}" r="${f1(br)}" fill="url(#topiaryGrad)"/>`;
         if (r() < 0.5) topi += `<circle cx="${f1(x)}" cy="${f1(cy - br - 26)}" r="${f1(br * 0.5)}" fill="url(#topiaryGrad)"/>`;
       } else {
@@ -107,8 +108,8 @@
     svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
     const r = rng(31);
     let out = `<defs>
-      <linearGradient id="stalkGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3f7a55"/><stop offset="1" stop-color="#1f4f36"/></linearGradient>
-      <linearGradient id="soilNear" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2f6b49"/><stop offset="1" stop-color="#1c4a33"/></linearGradient>
+      <linearGradient id="stalkGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#93b787"/><stop offset="1" stop-color="#63895f"/></linearGradient>
+      <linearGradient id="soilNear" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b3cfa6"/><stop offset="1" stop-color="#8fb383"/></linearGradient>
     </defs>`;
     out += `<path d="M0 ${H} L0 ${H - 60} Q300 ${H - 100} 600 ${H - 70} T1200 ${H - 80} T1800 ${H - 66} L${W} ${H}Z" fill="url(#soilNear)"/>`;
     // grass blades
@@ -119,7 +120,7 @@
       const lean = (r() - 0.5) * 50;
       grass += `M${f1(x)},${H - 50}Q${f1(x + lean * 0.4)},${f1(H - 50 - h * 0.6)} ${f1(x + lean)},${f1(H - 50 - h)}`;
     }
-    out += `<path d="${grass}" stroke="#1f4f36" stroke-width="3" fill="none" stroke-linecap="round" opacity=".9"/>`;
+    out += `<path d="${grass}" stroke="#86ab7f" stroke-width="3" fill="none" stroke-linecap="round" opacity=".9"/>`;
     // stalks with blooms
     let stalks = '';
     let blooms = '';
@@ -144,7 +145,7 @@
           const a = (k / 6) * Math.PI * 2;
           petals += `<ellipse cx="${f1(topX + Math.cos(a) * pr)}" cy="${f1(topY + Math.sin(a) * pr)}" rx="${f1(pr * 0.55)}" ry="${f1(pr * 0.9)}" transform="rotate(${f1((a * 180) / Math.PI + 90)} ${f1(topX + Math.cos(a) * pr)} ${f1(topY + Math.sin(a) * pr)})"/>`;
         }
-        blooms += `<g fill="${PASTELS[c]}">${petals}</g><circle cx="${f1(topX)}" cy="${f1(topY)}" r="${f1(pr * 0.5)}" fill="#f0c37a"/>`;
+        blooms += `<g fill="${PASTELS[c]}">${petals}</g><circle cx="${f1(topX)}" cy="${f1(topY)}" r="${f1(pr * 0.5)}" fill="#f5cf6a"/>`;
       } else if (kind < 0.7) {
         // lavender spike
         let spike = '';
@@ -156,99 +157,114 @@
         blooms += `<circle cx="${f1(topX)}" cy="${f1(topY)}" r="${f1(br)}" fill="${PASTELS[c]}"/><circle cx="${f1(topX - br * 0.15)}" cy="${f1(topY - br * 0.15)}" r="${f1(br * 0.5)}" fill="${PASTEL_DEEP[c]}" opacity=".5"/>`;
       }
     }
-    out += `<path d="${stalks}" stroke="url(#stalkGrad)" stroke-width="3.5" fill="#2f6b49" stroke-linecap="round"/>`;
+    out += `<path d="${stalks}" stroke="url(#stalkGrad)" stroke-width="3.5" fill="#a6c59a" stroke-linecap="round"/>`;
     out += blooms;
     svg.innerHTML = out;
   }
-  function k2(c) { return c === 1 ? '#b39ae6' : c === 5 ? '#9fc3ea' : '#c8b3f5'; }
+  function k2(c) { return c === 1 ? '#b9a6dc' : c === 3 ? '#a5c4e2' : '#c3aee6'; }
 
-  // ---------- string lights ----------
-  function buildLights(svg) {
-    if (!svg) return;
-    const W = 1000, H = 200;
-    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
-    const r = rng(5);
-    const q = (p0, p1, p2, t) => ({
-      x: (1 - t) * (1 - t) * p0.x + 2 * (1 - t) * t * p1.x + t * t * p2.x,
-      y: (1 - t) * (1 - t) * p0.y + 2 * (1 - t) * t * p1.y + t * t * p2.y,
-    });
-    let out = `<defs><filter id="bulbGlow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="4"/></filter></defs>`;
-    const strands = [
-      { p0: { x: -20, y: 10 }, p1: { x: 420, y: 150 }, p2: { x: 1020, y: 30 }, n: 16 },
-      { p0: { x: -20, y: 40 }, p1: { x: 620, y: 190 }, p2: { x: 1020, y: 70 }, n: 14 },
-    ];
-    for (const s of strands) {
-      out += `<path d="M${s.p0.x} ${s.p0.y} Q${s.p1.x} ${s.p1.y} ${s.p2.x} ${s.p2.y}" stroke="#2a1d45" stroke-width="2" fill="none" opacity=".8"/>`;
-      for (let i = 1; i < s.n; i++) {
-        const t = i / s.n + (r() - 0.5) * 0.01;
-        const p = q(s.p0, s.p1, s.p2, t);
-        const col = pick(r, ['#ffe1a8', '#ffd3dc', '#fff0d2', '#e9dcff']);
-        out += `<line x1="${f1(p.x)}" y1="${f1(p.y)}" x2="${f1(p.x)}" y2="${f1(p.y + 8)}" stroke="#2a1d45" stroke-width="2"/>`;
-        out += `<g class="bulb" style="animation-delay:-${f1(r() * 3.2)}s">
-          <circle cx="${f1(p.x)}" cy="${f1(p.y + 15)}" r="11" fill="${col}" opacity=".45" filter="url(#bulbGlow)"/>
-          <circle cx="${f1(p.x)}" cy="${f1(p.y + 15)}" r="5" fill="${col}"/>
-          <circle cx="${f1(p.x - 1.5)}" cy="${f1(p.y + 13)}" r="1.6" fill="#fff"/>
-        </g>`;
-      }
-    }
-    svg.innerHTML = out;
-  }
-
-  // ---------- rose arch ----------
+  // ---------- floral garland arch ----------
   function buildArch(svg) {
     if (!svg) return;
     const r = rng(43);
     const cx = 450, cy = 380, R = 340;
     const left = cx - R, right = cx + R, base = 760;
     let out = `<defs>
-      <linearGradient id="archWood" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3f6b4f"/><stop offset=".5" stop-color="#5a8c68"/><stop offset="1" stop-color="#2f5e42"/></linearGradient>
-      <radialGradient id="archRose" cx="45%" cy="40%" r="65%"><stop offset="0" stop-color="#ffd9e2"/><stop offset=".65" stop-color="#f2a0b6"/><stop offset="1" stop-color="#d9678d"/></radialGradient>
-      <radialGradient id="archPeony" cx="45%" cy="40%" r="65%"><stop offset="0" stop-color="#fff8f0"/><stop offset=".7" stop-color="#ffd3dc"/><stop offset="1" stop-color="#e9a3b5"/></radialGradient>
-      <radialGradient id="archLilac" cx="45%" cy="40%" r="65%"><stop offset="0" stop-color="#efe6ff"/><stop offset=".7" stop-color="#c8b3f5"/><stop offset="1" stop-color="#9a7fd6"/></radialGradient>
-      <radialGradient id="archGold" cx="45%" cy="40%" r="65%"><stop offset="0" stop-color="#fff6d6"/><stop offset=".7" stop-color="#ffe1a8"/><stop offset="1" stop-color="#e0a94c"/></radialGradient>
+      <radialGradient id="archPeony" cx="45%" cy="40%" r="65%"><stop offset="0" stop-color="#fde6ec"/><stop offset=".6" stop-color="#f7b7c6"/><stop offset="1" stop-color="#e58fa9"/></radialGradient>
+      <radialGradient id="archBlush" cx="45%" cy="40%" r="65%"><stop offset="0" stop-color="#fff8f8"/><stop offset=".7" stop-color="#fbd9e1"/><stop offset="1" stop-color="#f0b3c3"/></radialGradient>
+      <radialGradient id="archHydra" cx="45%" cy="40%" r="65%"><stop offset="0" stop-color="#e8f1fa"/><stop offset="1" stop-color="#a9c9e6"/></radialGradient>
+      <radialGradient id="archLilac" cx="45%" cy="40%" r="65%"><stop offset="0" stop-color="#f3eefb"/><stop offset=".7" stop-color="#d9cdef"/><stop offset="1" stop-color="#b9a6dc"/></radialGradient>
+      <radialGradient id="archYolk" cx="45%" cy="40%" r="60%"><stop offset="0" stop-color="#fbe28f"/><stop offset="1" stop-color="#e9b93f"/></radialGradient>
     </defs>`;
     const archPath = `M${left} ${base} V${cy} A${R} ${R} 0 0 1 ${right} ${cy} V${base}`;
-    out += `<path d="${archPath}" stroke="#22432f" stroke-width="22" fill="none" stroke-linecap="round" opacity=".9"/>`;
-    out += `<path d="${archPath}" stroke="url(#archWood)" stroke-width="14" fill="none" stroke-linecap="round"/>`;
-    out += `<path d="${archPath}" stroke="#a7cfae" stroke-width="3" fill="none" stroke-dasharray="14 18" opacity=".45"/>`;
-    // lattice inside the pillars
-    for (const px of [left, right]) {
-      for (let y = cy + 20; y < base - 30; y += 46) {
-        out += `<path d="M${px - 18} ${y} L${px + 18} ${y + 34} M${px + 18} ${y} L${px - 18} ${y + 34}" stroke="#3f6b4f" stroke-width="4" opacity=".7" stroke-linecap="round"/>`;
-      }
-    }
+    // slim greenery arch
+    out += `<path d="${archPath}" stroke="#8fb383" stroke-width="12" fill="none" stroke-linecap="round" opacity=".9"/>`;
+    out += `<path d="${archPath}" stroke="#c2d9b5" stroke-width="3" fill="none" stroke-dasharray="10 16" opacity=".8"/>`;
     // sample points along the arch for foliage & blooms
     const pts = [];
     for (let y = base - 30; y > cy; y -= 34) { pts.push({ x: left, y, t: 0 }); pts.push({ x: right, y, t: 0 }); }
-    for (let a = Math.PI; a >= 0; a -= Math.PI / 26) pts.push({ x: cx + Math.cos(a) * R, y: cy - Math.sin(a) * R, t: 1 });
-    const fills = ['url(#archRose)', 'url(#archPeony)', 'url(#archLilac)', 'url(#archGold)', 'url(#archRose)'];
+    for (let a = Math.PI; a >= 0; a -= Math.PI / 26) pts.push({ x: cx + Math.cos(a) * R, y: cy - Math.sin(a) * R, t: 1, a });
     let leaves = '';
-    let roses = '';
+    let blooms = '';
     let wisteria = '';
+    let vines = '';
+    const daisy = (x, y, pr) => {
+      let petals = '';
+      for (let k = 0; k < 8; k++) {
+        const ang = (k / 8) * Math.PI * 2;
+        const px = x + Math.cos(ang) * pr * 0.75;
+        const py = y + Math.sin(ang) * pr * 0.75;
+        petals += `<ellipse cx="${f1(px)}" cy="${f1(py)}" rx="${f1(pr * 0.3)}" ry="${f1(pr * 0.55)}" transform="rotate(${f1((ang * 180) / Math.PI + 90)} ${f1(px)} ${f1(py)})"/>`;
+      }
+      return `<g fill="#fffdf7" stroke="#ead7a8" stroke-width=".6">${petals}</g><circle cx="${f1(x)}" cy="${f1(y)}" r="${f1(pr * 0.33)}" fill="url(#archYolk)"/>`;
+    };
+    const hydrangea = (x, y, rr) => {
+      let c = '';
+      for (let k = 0; k < 7; k++) {
+        const ang = (k / 7) * Math.PI * 2;
+        const d = k === 0 ? 0 : rr * 0.55;
+        c += `<circle cx="${f1(x + Math.cos(ang) * d)}" cy="${f1(y + Math.sin(ang) * d)}" r="${f1(rr * 0.42)}" fill="url(#archHydra)" stroke="#8fb6d9" stroke-width=".6"/>`;
+      }
+      return c;
+    };
     for (const p of pts) {
       const n = 2 + Math.floor(r() * 3);
       for (let k = 0; k < n; k++) {
         const ang = r() * 360;
-        const lx = p.x + (r() - 0.5) * 34;
-        const ly = p.y + (r() - 0.5) * 30;
-        leaves += `<ellipse cx="${f1(lx)}" cy="${f1(ly)}" rx="7" ry="14" transform="rotate(${f1(ang)} ${f1(lx)} ${f1(ly)})" fill="${r() < 0.5 ? '#4d8f62' : '#6fae7f'}"/>`;
+        const lx = p.x + (r() - 0.5) * 40;
+        const ly = p.y + (r() - 0.5) * 34;
+        leaves += `<ellipse cx="${f1(lx)}" cy="${f1(ly)}" rx="7" ry="15" transform="rotate(${f1(ang)} ${f1(lx)} ${f1(ly)})" fill="${pick(r, LEAF)}"/>`;
       }
-      if (r() < 0.75) {
-        const rr = 9 + r() * 9;
-        const rx = p.x + (r() - 0.5) * 26;
-        const ry = p.y + (r() - 0.5) * 26;
-        roses += `<circle cx="${f1(rx)}" cy="${f1(ry)}" r="${f1(rr)}" fill="${pick(r, fills)}"/><circle cx="${f1(rx - rr * 0.15)}" cy="${f1(ry - rr * 0.1)}" r="${f1(rr * 0.42)}" fill="rgba(217,103,141,.28)"/>`;
+      const kind = r();
+      const bx = p.x + (r() - 0.5) * 30;
+      const by = p.y + (r() - 0.5) * 30;
+      if (kind < 0.36) {
+        const rr = 14 + r() * 14;
+        blooms += `<circle cx="${f1(bx)}" cy="${f1(by)}" r="${f1(rr)}" fill="${r() < 0.6 ? 'url(#archPeony)' : 'url(#archBlush)'}"/><circle cx="${f1(bx - rr * 0.15)}" cy="${f1(by - rr * 0.1)}" r="${f1(rr * 0.45)}" fill="rgba(229,143,169,.28)"/>`;
+      } else if (kind < 0.58) {
+        blooms += hydrangea(bx, by, 20 + r() * 10);
+      } else if (kind < 0.82) {
+        blooms += daisy(bx, by, 14 + r() * 8);
+      } else if (kind < 0.92) {
+        const rr = 8 + r() * 6;
+        blooms += `<circle cx="${f1(bx)}" cy="${f1(by)}" r="${f1(rr)}" fill="url(#archLilac)"/>`;
       }
-      if (p.t === 1 && r() < 0.35 && p.y < cy - 60) {
-        const n2 = 4 + Math.floor(r() * 5);
+      // hanging wisteria and trailing vines from the upper arch
+      if (p.t === 1 && p.y < cy - 40 && r() < 0.45) {
+        const n2 = 5 + Math.floor(r() * 7);
+        const drift = (r() - 0.5) * 20;
         for (let k = 0; k < n2; k++) {
-          const wx = p.x + (r() - 0.5) * 8 + Math.sin(k) * 3;
-          const wy = p.y + 18 + k * 11;
-          wisteria += `<circle cx="${f1(wx)}" cy="${f1(wy)}" r="${f1(6 - k * 0.4)}" fill="${k % 2 ? '#c8b3f5' : '#b39ae6'}" opacity=".95"/>`;
+          const wx = p.x + drift * (k / n2) + Math.sin(k * 1.3) * 3;
+          const wy = p.y + 20 + k * 12;
+          wisteria += `<circle cx="${f1(wx)}" cy="${f1(wy)}" r="${f1(6.5 - k * 0.4)}" fill="${k % 2 ? '#d9cdef' : '#c3aee6'}" opacity=".95"/>`;
+        }
+      }
+      if (p.t === 1 && p.a > 0.35 && p.a < Math.PI - 0.35 && (p.a < 1.05 || p.a > Math.PI - 1.05) && r() < 0.6) {
+        const len = 90 + r() * 140;
+        const sway = (r() - 0.5) * 60;
+        vines += `<path d="M${f1(p.x)} ${f1(p.y)} q${f1(sway)} ${f1(len * 0.5)} ${f1(sway * 0.4)} ${f1(len)}" stroke="#93b787" stroke-width="2" fill="none" stroke-linecap="round"/>`;
+        for (let k = 1; k < len / 22; k++) {
+          const t = k / (len / 22);
+          const vx = p.x + sway * t * (1 - t) * 2 * 0.5 + sway * 0.4 * t * t;
+          const vy = p.y + len * t;
+          const side = k % 2 ? 1 : -1;
+          vines += `<ellipse cx="${f1(vx + side * 6)}" cy="${f1(vy)}" rx="4.5" ry="9" transform="rotate(${side * 55} ${f1(vx + side * 6)} ${f1(vy)})" fill="${pick(r, LEAF)}"/>`;
         }
       }
     }
-    out += `<g>${leaves}</g><g>${wisteria}</g><g>${roses}</g>`;
+    // pink satin bow on the left shoulder
+    const bx = cx + Math.cos((135 * Math.PI) / 180) * R, by = cy - Math.sin((135 * Math.PI) / 180) * R;
+    // outer group carries the position; the CSS sway animation on .bow would override an inline transform
+    const bow = `<g transform="translate(${f1(bx)} ${f1(by)}) rotate(-20)"><g class="bow">
+      <path d="M-6 6 q-10 40 -22 90 q8 -6 16 0 q4 -46 10 -88z" fill="#fbd9e1" stroke="#e9a0b5" stroke-width="1.2"/>
+      <path d="M6 6 q10 40 24 86 q-8 -6 -16 0 q-4 -46 -12 -84z" fill="#f9c9d5" stroke="#e9a0b5" stroke-width="1.2"/>
+      <ellipse cx="-30" cy="-6" rx="30" ry="17" transform="rotate(-18 -30 -6)" fill="#fbd9e1" stroke="#e9a0b5" stroke-width="1.4"/>
+      <ellipse cx="30" cy="-6" rx="30" ry="17" transform="rotate(18 30 -6)" fill="#f9c9d5" stroke="#e9a0b5" stroke-width="1.4"/>
+      <ellipse cx="-28" cy="-8" rx="14" ry="6" transform="rotate(-18 -28 -8)" fill="#fff" opacity=".45"/>
+      <ellipse cx="28" cy="-8" rx="14" ry="6" transform="rotate(18 28 -8)" fill="#fff" opacity=".45"/>
+      <circle cx="0" cy="0" r="9" fill="#f2a5ba" stroke="#e9a0b5" stroke-width="1.2"/>
+    </g></g>`;
+    out += `<g>${vines}</g><g>${leaves}</g><g>${wisteria}</g><g>${blooms}</g>${bow}`;
     svg.innerHTML = out;
   }
 
@@ -261,20 +277,20 @@
     for (let x = 80; x <= 720; x += 40) { pts.push({ x, y: 4 + (r() - 0.5) * 10 }); if (r() < 0.6) pts.push({ x: x + 20, y: 250 + (r() - 0.5) * 10 }); }
     for (let y = 20; y <= 240; y += 34) { pts.push({ x: 62 + (r() - 0.5) * 10, y }); pts.push({ x: 738 + (r() - 0.5) * 10, y }); }
     let leaves = '', roses = '';
-    const fills = ['#f7a8bd', '#ffd3dc', '#cdb8f6', '#fff0d2'];
+    const fills = ['#f9c5d1', '#fde3e9', '#d9cdef', '#fff6d8', '#c9dff0'];
     for (const p of pts) {
       const n = 1 + Math.floor(r() * 3);
       for (let k = 0; k < n; k++) {
         const ang = r() * 360;
         const lx = p.x + (r() - 0.5) * 30;
         const ly = p.y + (r() - 0.5) * 26;
-        leaves += `<ellipse cx="${f1(lx)}" cy="${f1(ly)}" rx="6" ry="12" transform="rotate(${f1(ang)} ${f1(lx)} ${f1(ly)})" fill="${r() < 0.5 ? '#4d8f62' : '#6fae7f'}"/>`;
+        leaves += `<ellipse cx="${f1(lx)}" cy="${f1(ly)}" rx="6" ry="12" transform="rotate(${f1(ang)} ${f1(lx)} ${f1(ly)})" fill="${pick(r, LEAF)}"/>`;
       }
       if (r() < 0.55) {
         const rr = 6 + r() * 7;
         const rx = p.x + (r() - 0.5) * 22;
         const ry = p.y + (r() - 0.5) * 22;
-        roses += `<circle cx="${f1(rx)}" cy="${f1(ry)}" r="${f1(rr)}" fill="${pick(r, fills)}"/><circle cx="${f1(rx - rr * 0.15)}" cy="${f1(ry - rr * 0.1)}" r="${f1(rr * 0.4)}" fill="rgba(217,103,141,.3)"/>`;
+        roses += `<circle cx="${f1(rx)}" cy="${f1(ry)}" r="${f1(rr)}" fill="${pick(r, fills)}"/><circle cx="${f1(rx - rr * 0.15)}" cy="${f1(ry - rr * 0.1)}" r="${f1(rr * 0.4)}" fill="rgba(233,160,181,.35)"/>`;
       }
     }
     group.innerHTML = leaves + roses;
@@ -284,12 +300,10 @@
   buildFar(document.getElementById('gardenFar'));
   buildMid(document.getElementById('gardenMid'));
   buildNear(document.getElementById('gardenNear'));
-  buildLights(document.getElementById('stringLights'));
   buildArch(document.getElementById('roseArch'));
 
   // ---------- parallax ----------
   const layers = Array.from(document.querySelectorAll('.hero__layer, .hero__arch'));
-  const moon = document.querySelector('.hero__moon');
   const hero = document.getElementById('hero');
   let targetX = 0, targetY = 0, curX = 0, curY = 0, scrollY = 0;
 
@@ -315,7 +329,6 @@
       const base = layer.classList.contains('hero__arch') ? 'translateX(-50%) ' : '';
       layer.style.transform = `${base}translate3d(${tx.toFixed(1)}px, ${ty.toFixed(1)}px, 0)`;
     }
-    if (moon) moon.style.translate = `${(-curX * 14).toFixed(1)}px ${(s * 0.35 - curY * 8).toFixed(1)}px`;
   }
 
   // ---------- canvas ----------
@@ -331,7 +344,7 @@
   let shooting = null;
 
   const BUTTERFLY_COLORS = [
-    ['#f7a8bd', '#d9678d'], ['#cdb8f6', '#9a7fd6'], ['#ffe1a8', '#e0a94c'], ['#b9d8f6', '#7fa9dc'], ['#fff8f0', '#e2c9c9'], ['#f8c1a4', '#e4895f'],
+    ['#f9c5d1', '#e29ab0'], ['#d9cdef', '#b09bd6'], ['#fde7b0', '#dcb45e'], ['#c9dff0', '#93b7da'], ['#fffdf7', '#dcc9a0'], ['#fbd3c2', '#e89a7d'],
   ];
 
   function resize() {
@@ -348,7 +361,7 @@
   function seedStars() {
     stars.length = 0;
     const r = rng(99);
-    const n = Math.floor((W * H) / (isSmall ? 12000 : 8500));
+    const n = 0; // daylight sky — no stars
     for (let i = 0; i < n; i++) {
       stars.push({ x: r() * W, y: r() * H * 0.5, s: 0.4 + r() * 1.3, p: r() * Math.PI * 2, sp: 0.4 + r() * 1.4, tint: r() });
     }
@@ -394,7 +407,7 @@
       rot: Math.random() * Math.PI * 2,
       vr: (Math.random() - 0.5) * 0.04,
       r: 3 + Math.random() * 4,
-      color: c < 0.5 ? '#f7a8bd' : c < 0.75 ? '#ffd3dc' : c < 0.9 ? '#fff8f0' : '#cdb8f6',
+      color: c < 0.5 ? '#f9c5d1' : c < 0.75 ? '#fde3e9' : c < 0.9 ? '#fffdf7' : '#d9cdef',
       a: 0.55 + Math.random() * 0.35,
     };
   }
@@ -417,7 +430,7 @@
     ctx.translate(b.x, b.y + Math.sin(b.bob) * 3);
     ctx.rotate(b.a + Math.PI / 2);
     // shadow glow
-    glow(0, 0, b.size * 2.2, '255,225,200', 0.12);
+    glow(0, 0, b.size * 2.2, '255,235,210', 0.18);
     for (const side of [-1, 1]) {
       ctx.save();
       ctx.scale(side * wingScale, 1);
@@ -446,11 +459,11 @@
       ctx.restore();
     }
     // body
-    ctx.fillStyle = '#3a2545';
+    ctx.fillStyle = '#7a5a4a';
     ctx.beginPath();
     ctx.ellipse(0, 0.1 * b.size, b.size * 0.12, b.size * 0.6, 0, 0, Math.PI * 2);
     ctx.fill();
-    ctx.strokeStyle = '#3a2545';
+    ctx.strokeStyle = '#7a5a4a';
     ctx.lineWidth = 0.8;
     ctx.beginPath();
     ctx.moveTo(0, -b.size * 0.5);
@@ -481,28 +494,6 @@
         ctx.arc(s.x, s.y - scrollY * 0.15, s.s, 0, Math.PI * 2);
         ctx.fill();
         if (s.s > 1.4 && tw > 0.9) glow(s.x, s.y - scrollY * 0.15, s.s * 5, '255,240,220', 0.18 * scrollFade);
-      }
-
-      // shooting star
-      if (!reduceMotion) {
-        if (!shooting && Math.random() < 0.002 && scrollFade > 0.5) {
-          shooting = { x: Math.random() * W * 0.8, y: Math.random() * H * 0.25, vx: 8 + Math.random() * 5, vy: 2.5 + Math.random() * 2, life: 1 };
-        }
-        if (shooting) {
-          shooting.x += shooting.vx * dt;
-          shooting.y += shooting.vy * dt;
-          shooting.life -= 0.02 * dt;
-          const grad = ctx.createLinearGradient(shooting.x, shooting.y, shooting.x - shooting.vx * 10, shooting.y - shooting.vy * 10);
-          grad.addColorStop(0, `rgba(255,246,236,${shooting.life})`);
-          grad.addColorStop(1, 'rgba(255,246,236,0)');
-          ctx.strokeStyle = grad;
-          ctx.lineWidth = 1.6;
-          ctx.beginPath();
-          ctx.moveTo(shooting.x, shooting.y);
-          ctx.lineTo(shooting.x - shooting.vx * 10, shooting.y - shooting.vy * 10);
-          ctx.stroke();
-          if (shooting.life <= 0 || shooting.x > W + 50) shooting = null;
-        }
       }
 
       // petals
@@ -537,8 +528,8 @@
         if (f.y < -20) f.y = H + 20; else if (f.y > H + 20) f.y = -20;
         const pulse = Math.pow((Math.sin(f.p) + 1) / 2, 2);
         const a = 0.15 + pulse * 0.75;
-        glow(f.x, f.y, f.r * 8, '255,225,168', a * 0.5);
-        ctx.fillStyle = `rgba(255,246,236,${a})`;
+        glow(f.x, f.y, f.r * 8, '231,190,110', a * 0.35);
+        ctx.fillStyle = `rgba(245,207,106,${a * 0.9})`;
         ctx.beginPath();
         ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
         ctx.fill();
@@ -586,7 +577,7 @@
         s.vx *= 0.98;
         const a = Math.max(0, s.life);
         glow(s.x, s.y, s.r * 4, s.rgb, a * 0.4);
-        ctx.fillStyle = `rgba(255,250,240,${a})`;
+        ctx.fillStyle = `rgba(${s.rgb},${a})`;
         ctx.beginPath();
         ctx.arc(s.x, s.y, s.r * a, 0, Math.PI * 2);
         ctx.fill();
@@ -606,12 +597,12 @@
       r: opts.r ?? 1 + Math.random() * 1.6,
       life: 1,
       decay: opts.decay ?? 0.03 + Math.random() * 0.03,
-      rgb: opts.rgb ?? (Math.random() < 0.7 ? '255,225,168' : '247,168,189'),
+      rgb: opts.rgb ?? (Math.random() < 0.6 ? '231,190,110' : '242,165,186'),
     });
   }
 
   function burst(x, y, n = 42) {
-    const colors = ['255,225,168', '247,168,189', '205,184,246', '255,248,240', '185,216,246'];
+    const colors = ['231,190,110', '242,165,186', '205,189,232', '255,250,240', '188,214,236'];
     for (let i = 0; i < n; i++) {
       const ang = (i / n) * Math.PI * 2 + Math.random() * 0.4;
       const sp = 1.5 + Math.random() * 3.5;
