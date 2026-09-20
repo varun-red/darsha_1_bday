@@ -11,9 +11,10 @@
     "test": "node --no-warnings=ExperimentalWarning --test \"test/**/*.test.js\""
   },
   "engines": {
-    "node": ">=22.13"
+    "node": "22.x"
   },
   "dependencies": {
+    "@libsql/client": "^0.18.0",
     "express": "^5.2.1",
     "nodemailer": "^10.0.10",
     "qrcode": "^1.5.4"

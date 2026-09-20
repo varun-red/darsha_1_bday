@@ -44,8 +44,8 @@ function publicGuest(g) {
   };
 }
 
-function eventPayload(req) {
-  const s = getPublicSettings();
+async function eventPayload(req) {
+  const s = await getPublicSettings();
   const site = baseUrl(req);
   return {
     ...s,
@@ -71,23 +71,23 @@ function safeJson(str, fallback) {
   }
 }
 
-router.get('/api/event', (req, res) => {
-  const payload = eventPayload(req);
-  const guest = req.query.token ? publicGuest(getGuestByToken(req.query.token)) : null;
+router.get('/api/event', async (req, res) => {
+  const payload = await eventPayload(req);
+  const guest = req.query.token ? publicGuest(await getGuestByToken(req.query.token)) : null;
   res.json({ event: payload, guest });
 });
 
-router.get('/api/invite/:token', (req, res) => {
-  const guest = getGuestByToken(req.params.token);
+router.get('/api/invite/:token', async (req, res) => {
+  const guest = await getGuestByToken(req.params.token);
   if (!guest) return res.status(404).json({ error: 'This invitation could not be found.' });
   res.json({ guest: publicGuest(guest) });
 });
 
 // Look up an existing RSVP by email or phone so guests can edit it.
-router.post('/api/rsvp/lookup', throttle(15, 60_000), (req, res) => {
+router.post('/api/rsvp/lookup', throttle(15, 60_000), async (req, res) => {
   const { email, phone } = req.body || {};
   if (!email && !phone) return res.status(400).json({ error: 'Enter the email or phone you RSVP’d with.' });
-  const guest = findGuestByContact({ email, phone });
+  const guest = await findGuestByContact({ email, phone });
   if (!guest) return res.status(404).json({ error: 'We couldn’t find an RSVP with those details.' });
   res.json({ guest: publicGuest(guest) });
 });
@@ -103,12 +103,12 @@ router.post('/api/rsvp', throttle(10, 60_000), async (req, res) => {
   if (name.length > 120) return res.status(400).json({ error: 'That name is a little long for our guest book.' });
   if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return res.status(400).json({ error: 'That email address looks a bit tangled — please check it.' });
 
-  let guest = b.token ? getGuestByToken(b.token) : null;
-  if (!guest) guest = findGuestByContact({ email, phone });
+  let guest = b.token ? await getGuestByToken(b.token) : null;
+  if (!guest) guest = await findGuestByContact({ email, phone });
   const hasContact = email || phone || guest?.email || guest?.phone;
   if (!hasContact) return res.status(400).json({ error: 'Please share an email or phone number so we can reach you.' });
   if (!guest) {
-    guest = createGuest({ name, email, phone, source: 'self' });
+    guest = await createGuest({ name, email, phone, source: 'self' });
   } else {
     // Keep contact info fresh but never wipe values the host already has.
     const patch = {};
@@ -116,7 +116,7 @@ router.post('/api/rsvp', throttle(10, 60_000), async (req, res) => {
     if (email) patch.email = email;
     if (phone) patch.phone = phone;
     if (guest.source === 'self' && name) patch.name = name;
-    guest = updateGuest(guest.id, patch);
+    guest = await updateGuest(guest.id, patch);
   }
 
   if (attending && guest.max_party) {
@@ -126,7 +126,7 @@ router.post('/api/rsvp', throttle(10, 60_000), async (req, res) => {
     }
   }
 
-  const updated = upsertRsvp(guest.id, {
+  const updated = await upsertRsvp(guest.id, {
     attending,
     adults: b.adults,
     children: b.children,
@@ -138,12 +138,12 @@ router.post('/api/rsvp', throttle(10, 60_000), async (req, res) => {
   });
 
   if (b.wish && String(b.wish).trim()) {
-    addWish({ guest_id: guest.id, author: updated.name, text: b.wish });
+    await addWish({ guest_id: guest.id, author: updated.name, text: b.wish });
   }
 
   // Fire-and-forget confirmation email when SMTP is configured.
   if (emailConfigured() && updated.email) {
-    const s = getPublicSettings();
+    const s = await getPublicSettings();
     const link = `${baseUrl(req)}/i/${updated.token}`;
     const text = attending
       ? `Dear ${updated.name},\n\nHooray! Your RSVP for ${s.child_name}'s Enchanted Garden first birthday is in the fairy post.\n\n📅 ${formatEventDate(s.event_date, s.timezone)}\n📍 ${[s.venue_name, s.venue_address].filter(Boolean).join(', ')}\n👥 ${updated.rsvp.adults} grown-up(s) and ${updated.rsvp.children} little one(s)\n\nNeed to change anything? Use your personal link: ${link}\n\nSee you under the fairy lights,\n${s.parents_names}`
@@ -156,21 +156,21 @@ router.post('/api/rsvp', throttle(10, 60_000), async (req, res) => {
   res.json({ ok: true, guest: publicGuest(updated) });
 });
 
-router.get('/api/wishes', (req, res) => {
-  res.json({ wishes: listWishes({ approvedOnly: true }) });
+router.get('/api/wishes', async (req, res) => {
+  res.json({ wishes: await listWishes({ approvedOnly: true }) });
 });
 
-router.post('/api/wishes', throttle(10, 60_000), (req, res) => {
+router.post('/api/wishes', throttle(10, 60_000), async (req, res) => {
   const { author, text, token } = req.body || {};
   if (!text || !String(text).trim()) return res.status(400).json({ error: 'Whisper a wish first!' });
   if (String(text).length > 400) return res.status(400).json({ error: 'Wishes work best when they are short and sweet (400 characters max).' });
-  const guest = token ? getGuestByToken(token) : null;
-  const wish = addWish({ guest_id: guest?.id, author: author || guest?.name?.split(' ')[0], text });
+  const guest = token ? await getGuestByToken(token) : null;
+  const wish = await addWish({ guest_id: guest?.id, author: author || guest?.name?.split(' ')[0], text });
   res.json({ ok: true, wish: { id: wish.id, author: wish.author, text: wish.text, created_at: wish.created_at } });
 });
 
-router.get('/calendar.ics', (req, res) => {
-  const s = getPublicSettings();
+router.get('/calendar.ics', async (req, res) => {
+  const s = await getPublicSettings();
   res.setHeader('Content-Type', 'text/calendar; charset=utf-8');
   res.setHeader('Content-Disposition', 'attachment; filename="enchanted-garden-birthday.ics"');
   res.send(buildIcs(s, baseUrl(req)));

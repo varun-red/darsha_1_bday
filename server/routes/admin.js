@@ -50,22 +50,22 @@ router.post('/logout', (req, res) => {
 router.use(requireAdmin);
 
 // ---------- dashboard ----------
-router.get('/overview', (req, res) => {
-  res.json({ stats: stats(), guests: listGuests(), emailConfigured: emailConfigured(), publicUrl: inviteLink(req, { token: '' }).replace(/\/i\/$/, '') });
+router.get('/overview', async (req, res) => {
+  res.json({ stats: await stats(), guests: await listGuests(), emailConfigured: emailConfigured(), publicUrl: inviteLink(req, { token: '' }).replace(/\/i\/$/, '') });
 });
 
 // ---------- guests ----------
-router.get('/guests', (req, res) => res.json({ guests: listGuests() }));
+router.get('/guests', async (req, res) => res.json({ guests: await listGuests() }));
 
-router.post('/guests', (req, res) => {
+router.post('/guests', async (req, res) => {
   const { name } = req.body || {};
   if (!name || !String(name).trim()) return res.status(400).json({ error: 'A guest needs a name.' });
-  const guest = createGuest({ ...req.body, source: 'admin' });
-  res.status(201).json({ guest, invite: buildInvite(req, getPublicSettings(), guest) });
+  const guest = await createGuest({ ...req.body, source: 'admin' });
+  res.status(201).json({ guest, invite: buildInvite(req, await getPublicSettings(), guest) });
 });
 
 // Bulk import: one guest per line — "Name, phone, email, household, max party"
-router.post('/guests/import', (req, res) => {
+router.post('/guests/import', async (req, res) => {
   const text = String(req.body?.text || '');
   const lines = text.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
   const created = [];
@@ -82,7 +82,7 @@ router.post('/guests/import', (req, res) => {
       else if (/\d{5,}/.test(v)) phone = v;
     }
     try {
-      created.push(createGuest({ name, phone, email, household, max_party: maxParty, source: 'admin' }));
+      created.push(await createGuest({ name, phone, email, household, max_party: maxParty, source: 'admin' }));
     } catch (e) {
       skipped.push({ line, reason: e.message });
     }
@@ -90,23 +90,23 @@ router.post('/guests/import', (req, res) => {
   res.json({ created, skipped });
 });
 
-router.patch('/guests/:id', (req, res) => {
+router.patch('/guests/:id', async (req, res) => {
   const id = Number(req.params.id);
-  if (!getGuestById(id)) return res.status(404).json({ error: 'Guest not found.' });
-  res.json({ guest: updateGuest(id, req.body || {}) });
+  if (!(await getGuestById(id))) return res.status(404).json({ error: 'Guest not found.' });
+  res.json({ guest: await updateGuest(id, req.body || {}) });
 });
 
-router.delete('/guests/:id', (req, res) => {
-  const ok = deleteGuest(Number(req.params.id));
+router.delete('/guests/:id', async (req, res) => {
+  const ok = await deleteGuest(Number(req.params.id));
   if (!ok) return res.status(404).json({ error: 'Guest not found.' });
   res.json({ ok: true });
 });
 
 // Invitation payload: personal link, WhatsApp deep link, mailto link, QR code
 router.get('/guests/:id/invite', async (req, res) => {
-  const guest = getGuestById(Number(req.params.id));
+  const guest = await getGuestById(Number(req.params.id));
   if (!guest) return res.status(404).json({ error: 'Guest not found.' });
-  const s = getPublicSettings();
+  const s = await getPublicSettings();
   const invite = buildInvite(req, s, guest);
   const qr = await QRCode.toString(invite.link, { type: 'svg', margin: 1, color: { dark: '#2b1d4a', light: '#fff6ec' } });
   const reminder = reminderMessage(s, guest, invite.link);
@@ -126,7 +126,7 @@ router.get('/guests/:id/invite', async (req, res) => {
 });
 
 router.get('/guests/:id/qr.svg', async (req, res) => {
-  const guest = getGuestById(Number(req.params.id));
+  const guest = await getGuestById(Number(req.params.id));
   if (!guest) return res.status(404).send('Not found');
   const svg = await QRCode.toString(inviteLink(req, guest), { type: 'svg', margin: 1, color: { dark: '#2b1d4a', light: '#fff6ec' } });
   res.setHeader('Content-Type', 'image/svg+xml');
@@ -135,54 +135,54 @@ router.get('/guests/:id/qr.svg', async (req, res) => {
 });
 
 // Mark the invitation as sent through a given channel (whatsapp/email/link/qr)
-router.post('/guests/:id/invited', (req, res) => {
+router.post('/guests/:id/invited', async (req, res) => {
   const id = Number(req.params.id);
-  if (!getGuestById(id)) return res.status(404).json({ error: 'Guest not found.' });
+  if (!(await getGuestById(id))) return res.status(404).json({ error: 'Guest not found.' });
   const via = String(req.body?.via || 'link').slice(0, 20);
   const kind = req.body?.kind === 'reminder' ? 'reminder' : 'invite';
   const now = new Date().toISOString();
-  const guest = kind === 'reminder' ? updateGuest(id, { reminded_at: now }) : updateGuest(id, { invited_via: via, invited_at: now });
+  const guest = kind === 'reminder' ? await updateGuest(id, { reminded_at: now }) : await updateGuest(id, { invited_via: via, invited_at: now });
   res.json({ guest });
 });
 
 // Send the invitation or reminder by email through SMTP (when configured)
 router.post('/guests/:id/send-email', async (req, res) => {
-  const guest = getGuestById(Number(req.params.id));
+  const guest = await getGuestById(Number(req.params.id));
   if (!guest) return res.status(404).json({ error: 'Guest not found.' });
   if (!guest.email) return res.status(400).json({ error: `${guest.name} has no email address on file.` });
   if (!emailConfigured()) return res.status(400).json({ error: 'Email sending is not configured on the server. Use the "Open in email app" option instead, or set SMTP_* variables.' });
-  const s = getPublicSettings();
+  const s = await getPublicSettings();
   const invite = buildInvite(req, s, guest);
   const kind = req.body?.kind === 'reminder' ? 'reminder' : 'invite';
   try {
     if (kind === 'reminder') {
       await sendMail({ to: guest.email, subject: `🌸 A little reminder: ${s.child_name}'s first birthday`, text: reminderMessage(s, guest, invite.link), settings: s });
-      return res.json({ ok: true, guest: updateGuest(guest.id, { reminded_at: new Date().toISOString() }) });
+      return res.json({ ok: true, guest: await updateGuest(guest.id, { reminded_at: new Date().toISOString() }) });
     }
     await sendMail({ to: guest.email, subject: invite.emailSubject, text: invite.emailBody, settings: s });
-    res.json({ ok: true, guest: updateGuest(guest.id, { invited_via: 'email', invited_at: new Date().toISOString() }) });
+    res.json({ ok: true, guest: await updateGuest(guest.id, { invited_via: 'email', invited_at: new Date().toISOString() }) });
   } catch (e) {
     res.status(502).json({ error: `Email failed: ${e.message}` });
   }
 });
 
 // Host can record or fix an RSVP on a guest's behalf (e.g. told in person)
-router.put('/guests/:id/rsvp', (req, res) => {
+router.put('/guests/:id/rsvp', async (req, res) => {
   const id = Number(req.params.id);
-  if (!getGuestById(id)) return res.status(404).json({ error: 'Guest not found.' });
+  if (!(await getGuestById(id))) return res.status(404).json({ error: 'Guest not found.' });
   const b = req.body || {};
-  res.json({ guest: upsertRsvp(id, { ...b, attending: b.attending === true || b.attending === 'yes' }) });
+  res.json({ guest: await upsertRsvp(id, { ...b, attending: b.attending === true || b.attending === 'yes' }) });
 });
 
-router.delete('/guests/:id/rsvp', (req, res) => {
+router.delete('/guests/:id/rsvp', async (req, res) => {
   const id = Number(req.params.id);
-  deleteRsvp(id);
-  res.json({ guest: getGuestById(id) });
+  await deleteRsvp(id);
+  res.json({ guest: await getGuestById(id) });
 });
 
 // ---------- export ----------
-router.get('/export.csv', (req, res) => {
-  const guests = listGuests();
+router.get('/export.csv', async (req, res) => {
+  const guests = await listGuests();
   const cols = ['Name', 'Status', 'Adults', 'Children', 'Party names', 'Email', 'Phone', 'Household', 'Dietary', 'High chair', 'Song request', 'Message', 'Invited via', 'Invited at', 'Reminded at', 'RSVP updated', 'Invite link'];
   const esc = (v) => {
     const s = v === null || v === undefined ? '' : String(v);
@@ -214,9 +214,9 @@ router.get('/export.csv', (req, res) => {
 });
 
 // ---------- settings ----------
-router.get('/settings', (req, res) => res.json({ settings: getPublicSettings(), defaults: DEFAULT_SETTINGS }));
+router.get('/settings', async (req, res) => res.json({ settings: await getPublicSettings(), defaults: DEFAULT_SETTINGS }));
 
-router.put('/settings', (req, res) => {
+router.put('/settings', async (req, res) => {
   const patch = req.body || {};
   for (const key of ['schedule_json', 'faq_json', 'milestones_json']) {
     if (key in patch) {
@@ -229,17 +229,17 @@ router.put('/settings', (req, res) => {
       }
     }
   }
-  res.json({ settings: updateSettings(patch) });
+  res.json({ settings: await updateSettings(patch) });
 });
 
 // ---------- wishes ----------
-router.get('/wishes', (req, res) => res.json({ wishes: listWishes({ approvedOnly: false }) }));
-router.patch('/wishes/:id', (req, res) => {
-  setWishApproved(Number(req.params.id), !!req.body?.approved);
+router.get('/wishes', async (req, res) => res.json({ wishes: await listWishes({ approvedOnly: false }) }));
+router.patch('/wishes/:id', async (req, res) => {
+  await setWishApproved(Number(req.params.id), !!req.body?.approved);
   res.json({ ok: true });
 });
-router.delete('/wishes/:id', (req, res) => {
-  deleteWish(Number(req.params.id));
+router.delete('/wishes/:id', async (req, res) => {
+  await deleteWish(Number(req.params.id));
   res.json({ ok: true });
 });
 

@@ -25,7 +25,7 @@ A single-page, interactive party website with a full RSVP system and a private h
 
 ## Run it locally
 
-Requires Node.js 22.13 or newer (uses the built-in SQLite module).
+Requires Node.js 22 or newer. Data is stored in a local SQLite file via libSQL.
 
 ```bash
 npm install
@@ -44,11 +44,18 @@ Copy `.env.example` and set the variables in your shell or hosting dashboard.
 | --- | --- |
 | `ADMIN_PASSWORD` | Dashboard password. Defaults to `enchanted` with a warning — change it before sharing. |
 | `PUBLIC_URL` | Public site URL used in invite links, QR codes and emails. |
-| `DB_PATH` | SQLite file location (default `./data/party.sqlite`). Use a persistent disk in production. |
+| `DB_PATH` | Local SQLite file location (default `./data/party.sqlite`). Used when no Turso URL is set. |
+| `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN` | Hosted [Turso](https://turso.tech) database. Required on serverless hosts such as Vercel, where the filesystem is not persistent. |
 | `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM` | Optional. Enables sending invitations, reminders and RSVP confirmations directly. Gmail works with an App Password. |
 | `PORT` | Port to listen on (default 3000). |
 
 ## Deploy
+
+### Vercel
+
+The project deploys as an Express app with zero config. Because Vercel has no persistent disk, add the **Turso** integration from the Vercel Marketplace (`vercel integration add tursocloud/database`), which sets `TURSO_DATABASE_URL` and `TURSO_AUTH_TOKEN` on the project. Then set `ADMIN_PASSWORD` and `PUBLIC_URL` and run `vercel --prod`. Pushes to `main` deploy automatically once the GitHub repo is connected.
+
+### Docker hosts
 
 The included `Dockerfile` works on Fly.io, Railway, Render and similar. Mount a volume at `/app/data` so RSVPs survive restarts, set `ADMIN_PASSWORD` and `PUBLIC_URL`, and you're done.
 
