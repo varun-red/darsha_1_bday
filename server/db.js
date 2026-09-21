@@ -42,9 +42,9 @@ export const DEFAULT_SETTINGS = {
   ]),
   milestones_json: JSON.stringify([
     { month: 'Month 1', title: 'A tiny seed arrives', detail: 'Eyes barely open, already stealing hearts.', photo_url: '/assets/milestones/month-1.jpg' },
-    { month: 'Month 3', title: 'First giggles', detail: 'The garden heard a new song.' },
-    { month: 'Month 6', title: 'Sitting up tall', detail: 'Like a little tulip in the sun.' },
-    { month: 'Month 9', title: 'Crawling adventures', detail: 'No corner of the house is safe.' },
+    { month: 'Month 3', title: 'First giggles', detail: 'The garden heard a new song.', photo_url: '/assets/milestones/month-3.jpg' },
+    { month: 'Month 6', title: 'Sitting up tall', detail: 'Like a little tulip in the sun.', photo_url: '/assets/milestones/month-6.jpg' },
+    { month: 'Month 9', title: 'Crawling adventures', detail: 'No corner of the house is safe.', photo_url: '/assets/milestones/month-9.jpg' },
     { month: 'Month 12', title: 'Turning ONE', detail: 'And so the enchanted garden party begins…' },
   ]),
 };
