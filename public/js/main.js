@@ -159,7 +159,7 @@
   window.addEventListener('load', fitHeroName);
 
   function renderEvent(ev) {
-    document.title = `${ev.child_name} Turns One · An Enchanted Garden Birthday`;
+    document.title = `${ev.child_name} Turns One`;
     bind(ev);
     fitHeroName();
     $('#detailsEnd').textContent = fmtEnd(ev);
