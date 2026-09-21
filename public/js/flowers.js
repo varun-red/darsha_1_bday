@@ -13,26 +13,26 @@
 
   function defs() {
     return `
-      <radialGradient id="flPinkOuter" cx="50%" cy="65%" r="60%"><stop offset="0" stop-color="#fbcdd8"/><stop offset="1" stop-color="#e58fa9"/></radialGradient>
-      <radialGradient id="flPinkMid" cx="50%" cy="65%" r="60%"><stop offset="0" stop-color="#fde3e9"/><stop offset="1" stop-color="#f2a5ba"/></radialGradient>
-      <radialGradient id="flPinkInner" cx="50%" cy="65%" r="60%"><stop offset="0" stop-color="#fff6f8"/><stop offset="1" stop-color="#f7c3cf"/></radialGradient>
-      <radialGradient id="flBlushOuter" cx="50%" cy="65%" r="60%"><stop offset="0" stop-color="#fbe4ea"/><stop offset="1" stop-color="#efb0c1"/></radialGradient>
-      <radialGradient id="flBlushMid" cx="50%" cy="65%" r="60%"><stop offset="0" stop-color="#fdf1f4"/><stop offset="1" stop-color="#f6c9d4"/></radialGradient>
-      <radialGradient id="flBlushInner" cx="50%" cy="65%" r="60%"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#fbdde5"/></radialGradient>
-      <radialGradient id="flLilacOuter" cx="50%" cy="65%" r="60%"><stop offset="0" stop-color="#e5dcf5"/><stop offset="1" stop-color="#b39fd8"/></radialGradient>
-      <radialGradient id="flLilacMid" cx="50%" cy="65%" r="60%"><stop offset="0" stop-color="#f0ebfa"/><stop offset="1" stop-color="#cdbde8"/></radialGradient>
-      <radialGradient id="flLilacInner" cx="50%" cy="65%" r="60%"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#e2d8f4"/></radialGradient>
-      <radialGradient id="flBlueFloret" cx="50%" cy="45%" r="60%"><stop offset="0" stop-color="#f2f7fc"/><stop offset="1" stop-color="#a9c9e6"/></radialGradient>
-      <radialGradient id="flDaisyPetal" cx="50%" cy="15%" r="90%"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#f0e6cf"/></radialGradient>
-      <radialGradient id="flYolk" cx="42%" cy="38%" r="62%"><stop offset="0" stop-color="#fce68f"/><stop offset="1" stop-color="#dfa832"/></radialGradient>
-      <linearGradient id="flLeaf" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b8d3aa"/><stop offset="1" stop-color="#6f9a72"/></linearGradient>
+      <radialGradient id="flPinkOuter" cx="50%" cy="65%" r="60%"><stop offset="0" stop-color="#fbb4cb"/><stop offset="1" stop-color="#ee6f9d"/></radialGradient>
+      <radialGradient id="flPinkMid" cx="50%" cy="65%" r="60%"><stop offset="0" stop-color="#fdd3e1"/><stop offset="1" stop-color="#f48fb1"/></radialGradient>
+      <radialGradient id="flPinkInner" cx="50%" cy="65%" r="60%"><stop offset="0" stop-color="#fff2f7"/><stop offset="1" stop-color="#f9b4ca"/></radialGradient>
+      <radialGradient id="flBlushOuter" cx="50%" cy="65%" r="60%"><stop offset="0" stop-color="#fbd6e3"/><stop offset="1" stop-color="#f39ab9"/></radialGradient>
+      <radialGradient id="flBlushMid" cx="50%" cy="65%" r="60%"><stop offset="0" stop-color="#fde9f0"/><stop offset="1" stop-color="#f8bfd3"/></radialGradient>
+      <radialGradient id="flBlushInner" cx="50%" cy="65%" r="60%"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#fbd6e3"/></radialGradient>
+      <radialGradient id="flLilacOuter" cx="50%" cy="65%" r="60%"><stop offset="0" stop-color="#ddcdf6"/><stop offset="1" stop-color="#a586e0"/></radialGradient>
+      <radialGradient id="flLilacMid" cx="50%" cy="65%" r="60%"><stop offset="0" stop-color="#ece4fa"/><stop offset="1" stop-color="#cab4f1"/></radialGradient>
+      <radialGradient id="flLilacInner" cx="50%" cy="65%" r="60%"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#ddcdf6"/></radialGradient>
+      <radialGradient id="flBlueFloret" cx="50%" cy="45%" r="60%"><stop offset="0" stop-color="#eef6fe"/><stop offset="1" stop-color="#86bfee"/></radialGradient>
+      <radialGradient id="flDaisyPetal" cx="50%" cy="15%" r="90%"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#f6eccc"/></radialGradient>
+      <radialGradient id="flYolk" cx="42%" cy="38%" r="62%"><stop offset="0" stop-color="#ffe66a"/><stop offset="1" stop-color="#e79c1c"/></radialGradient>
+      <linearGradient id="flLeaf" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b3e09f"/><stop offset="1" stop-color="#5a9f5f"/></linearGradient>
     `;
   }
 
   const KINDS = {
-    pink: ['flPinkOuter', 'flPinkMid', 'flPinkInner', '#e08ea8'],
-    blush: ['flBlushOuter', 'flBlushMid', 'flBlushInner', '#e9a0b5'],
-    lilac: ['flLilacOuter', 'flLilacMid', 'flLilacInner', '#a992cf'],
+    pink: ['flPinkOuter', 'flPinkMid', 'flPinkInner', '#e2578b'],
+    blush: ['flBlushOuter', 'flBlushMid', 'flBlushInner', '#ec80a8'],
+    lilac: ['flLilacOuter', 'flLilacMid', 'flLilacInner', '#9a72dc'],
   };
 
   // Three rings of overlapping petals with a soft highlight — reads as a peony/rose.
@@ -63,7 +63,7 @@
         const a = a0 + k * 90;
         const px = fx + Math.cos(rad(a)) * sz * 0.5;
         const py = fy + Math.sin(rad(a)) * sz * 0.5;
-        s += `<ellipse cx="${f1(px)}" cy="${f1(py)}" rx="${f1(sz * 0.42)}" ry="${f1(sz * 0.58)}" transform="rotate(${f1(a + 90)} ${f1(px)} ${f1(py)})" fill="url(#flBlueFloret)" stroke="#8fb6d9" stroke-width=".45" stroke-opacity=".6"/>`;
+        s += `<ellipse cx="${f1(px)}" cy="${f1(py)}" rx="${f1(sz * 0.42)}" ry="${f1(sz * 0.58)}" transform="rotate(${f1(a + 90)} ${f1(px)} ${f1(py)})" fill="url(#flBlueFloret)" stroke="#5fa4e4" stroke-width=".45" stroke-opacity=".6"/>`;
       }
       s += `<circle cx="${f1(fx)}" cy="${f1(fy)}" r="${f1(sz * 0.16)}" fill="#fff" opacity=".9"/>`;
     };
@@ -86,12 +86,12 @@
       const a = (k / n) * 360;
       const px = Math.cos(rad(a)) * r * 0.52;
       const py = Math.sin(rad(a)) * r * 0.52;
-      s += `<ellipse cx="${f1(px)}" cy="${f1(py)}" rx="${f1(r * 0.17)}" ry="${f1(r * 0.5)}" transform="rotate(${f1(a + 90)} ${f1(px)} ${f1(py)})" fill="url(#flDaisyPetal)" stroke="#e6d9b8" stroke-width=".5" stroke-opacity=".7"/>`;
+      s += `<ellipse cx="${f1(px)}" cy="${f1(py)}" rx="${f1(r * 0.17)}" ry="${f1(r * 0.5)}" transform="rotate(${f1(a + 90)} ${f1(px)} ${f1(py)})" fill="url(#flDaisyPetal)" stroke="#e6d38f" stroke-width=".5" stroke-opacity=".7"/>`;
     }
     s += `<circle r="${f1(r * 0.27)}" fill="url(#flYolk)"/>`;
     for (let k = 0; k < 6; k++) {
       const a = (k / 6) * Math.PI * 2;
-      s += `<circle cx="${f1(Math.cos(a) * r * 0.14)}" cy="${f1(Math.sin(a) * r * 0.14)}" r="${f1(r * 0.04)}" fill="#c9962a" opacity=".55"/>`;
+      s += `<circle cx="${f1(Math.cos(a) * r * 0.14)}" cy="${f1(Math.sin(a) * r * 0.14)}" r="${f1(r * 0.04)}" fill="#c98a12" opacity=".6"/>`;
     }
     return s + '</g>';
   }
@@ -99,14 +99,14 @@
   // A spike of buds hanging from (x, y) downward for length h.
   function lavender(x, y, h, rot = 0) {
     let s = `<g transform="translate(${f1(x)} ${f1(y)}) rotate(${f1(rot)})">`;
-    s += `<path d="M0 0 V${f1(h)}" stroke="#7fa57c" stroke-width="${f1(Math.max(1.2, h * 0.03))}" stroke-linecap="round"/>`;
+    s += `<path d="M0 0 V${f1(h)}" stroke="#5e9f63" stroke-width="${f1(Math.max(1.2, h * 0.03))}" stroke-linecap="round"/>`;
     const n = 9;
     for (let k = 0; k < n; k++) {
       const t = k / (n - 1);
       const by = t * h * 0.8;
       const bx = (k % 2 ? 1 : -1) * h * 0.075 * (1 - t * 0.3);
       const br = h * 0.06 * (1.05 - t * 0.35);
-      s += `<ellipse cx="${f1(bx)}" cy="${f1(by)}" rx="${f1(br * 0.85)}" ry="${f1(br)}" fill="${k % 2 ? '#c3aee6' : '#b39fd8'}"/>`;
+      s += `<ellipse cx="${f1(bx)}" cy="${f1(by)}" rx="${f1(br * 0.85)}" ry="${f1(br)}" fill="${k % 2 ? '#bfa3ee' : '#a586e0'}"/>`;
       s += `<circle cx="${f1(bx - br * 0.25)}" cy="${f1(by - br * 0.3)}" r="${f1(br * 0.3)}" fill="#e6dcf6" opacity=".8"/>`;
     }
     return s + '</g>';
@@ -114,7 +114,7 @@
 
   // A pointed leaf whose base is at (x, y), pointing along `angle`.
   function leaf(x, y, len, angle, fill = 'url(#flLeaf)') {
-    return `<g transform="translate(${f1(x)} ${f1(y)}) rotate(${f1(angle)})"><path d="M0 0 q${f1(len * 0.35)} ${f1(-len * 0.28)} ${f1(len)} 0 q${f1(-len * 0.35)} ${f1(len * 0.28)} ${f1(-len)} 0z" fill="${fill}"/><path d="M${f1(len * 0.1)} 0 H${f1(len * 0.9)}" stroke="#5f8a63" stroke-width=".6" opacity=".5"/></g>`;
+    return `<g transform="translate(${f1(x)} ${f1(y)}) rotate(${f1(angle)})"><path d="M0 0 q${f1(len * 0.35)} ${f1(-len * 0.28)} ${f1(len)} 0 q${f1(-len * 0.35)} ${f1(len * 0.28)} ${f1(-len)} 0z" fill="${fill}"/><path d="M${f1(len * 0.1)} 0 H${f1(len * 0.9)}" stroke="#4b8a51" stroke-width=".6" opacity=".55"/></g>`;
   }
 
   const api = { defs, peony, hydrangea, daisy, lavender, leaf };

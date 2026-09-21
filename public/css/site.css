@@ -5,35 +5,35 @@
    with thin gold hairlines and little pink hearts.
    ========================================================= */
 :root {
-  --paper: #fffdf9;
-  --paper-2: #fdf7f2;
-  --blush-50: #fff5f6;
-  --blush-100: #fde9ee;
-  --blush-200: #fbd9e1;
-  --blush-300: #f7c3cf;
-  --pink: #f2a5ba;
-  --pink-deep: #d88aa2;
-  --pink-ink: #c26d8a;
-  --sage-50: #f4f8f0;
-  --sage-100: #e8f0e2;
-  --sage-200: #d6e4cd;
-  --sage-300: #b9cfae;
-  --sage-500: #85a283;
-  --sage-700: #5f7d62;
-  --sage-900: #41573f;
-  --blue: #bcd6ec;
-  --blue-deep: #8fb6d9;
-  --lilac: #cdbde8;
-  --lilac-deep: #a992cf;
-  --daisy: #fffdf7;
-  --yolk: #f5cf6a;
-  --gold: #d7b46f;
-  --gold-soft: #ead7a8;
-  --gold-deep: #b9944d;
-  --text: #4a5e4c;
-  --muted: #7f9180;
-  --line: rgba(215, 180, 111, 0.55);
-  --line-soft: rgba(242, 165, 186, 0.35);
+  --paper: #fffefb;
+  --paper-2: #fff6f8;
+  --blush-50: #fff3f7;
+  --blush-100: #fde3ec;
+  --blush-200: #fbcddd;
+  --blush-300: #f8b3ca;
+  --pink: #f48fb1;
+  --pink-deep: #e8739c;
+  --pink-ink: #c9557f;
+  --sage-50: #f1f9ee;
+  --sage-100: #e2f3dd;
+  --sage-200: #cbe9c5;
+  --sage-300: #a6d5a2;
+  --sage-500: #72ad7d;
+  --sage-700: #4a8858;
+  --sage-900: #2e5c3b;
+  --blue: #a9d1f3;
+  --blue-deep: #6fb0e8;
+  --lilac: #cab4f1;
+  --lilac-deep: #a486e0;
+  --daisy: #ffffff;
+  --yolk: #ffd54a;
+  --gold: #e3b955;
+  --gold-soft: #f2dc9c;
+  --gold-deep: #c9962e;
+  --text: #3d5b43;
+  --muted: #6b8b71;
+  --line: rgba(227, 185, 85, 0.7);
+  --line-soft: rgba(244, 143, 177, 0.45);
   --shadow: 0 24px 60px rgba(150, 110, 100, 0.14);
   --shadow-sm: 0 10px 30px rgba(150, 110, 100, 0.12);
   --radius: 22px;
@@ -62,9 +62,9 @@ body {
   line-height: 1.6;
   color: var(--text);
   background:
-    radial-gradient(900px 600px at 0% 20%, rgba(247, 195, 207, 0.22), transparent 60%),
-    radial-gradient(800px 600px at 100% 45%, rgba(188, 214, 236, 0.22), transparent 60%),
-    radial-gradient(900px 500px at 50% 100%, rgba(214, 228, 205, 0.4), transparent 60%),
+    radial-gradient(900px 600px at 0% 20%, rgba(250, 175, 205, 0.32), transparent 60%),
+    radial-gradient(800px 600px at 100% 45%, rgba(165, 208, 245, 0.32), transparent 60%),
+    radial-gradient(900px 500px at 50% 100%, rgba(200, 234, 190, 0.5), transparent 60%),
     linear-gradient(180deg, var(--paper) 0%, var(--paper-2) 100%);
   overflow-x: hidden;
 }
@@ -199,24 +199,24 @@ strong { color: var(--sage-900); font-weight: 600; }
   min-height: 100svh;
   display: grid;
   place-items: center;
-  padding: 5.5rem 1rem 7rem;
+  padding: 6.5rem 1rem 7rem;
   overflow: hidden;
   isolation: isolate;
 }
 .hero__sky {
   position: absolute; inset: 0; z-index: 0;
   background:
-    radial-gradient(60vw 40vh at 18% 12%, rgba(247, 195, 207, 0.35), transparent 70%),
-    radial-gradient(50vw 35vh at 85% 18%, rgba(188, 214, 236, 0.35), transparent 70%),
-    radial-gradient(40vw 30vh at 60% 40%, rgba(205, 189, 232, 0.18), transparent 70%),
-    linear-gradient(180deg, #fffdf9 0%, #fff9f4 55%, #f9f3e6 80%, #f3f1de 100%);
+    radial-gradient(60vw 40vh at 18% 12%, rgba(250, 175, 205, 0.5), transparent 70%),
+    radial-gradient(50vw 35vh at 85% 18%, rgba(165, 208, 245, 0.5), transparent 70%),
+    radial-gradient(40vw 30vh at 60% 40%, rgba(202, 180, 241, 0.25), transparent 70%),
+    linear-gradient(180deg, #fffefb 0%, #fff8f5 55%, #fdf3e2 80%, #f6f2d8 100%);
 }
 .hero__sky::after {
   content: '';
   position: absolute; left: 50%; top: 82%;
   width: 140vw; height: 60vh;
   transform: translate(-50%, -50%);
-  background: radial-gradient(ellipse at center, rgba(255, 240, 200, 0.7), rgba(255, 230, 180, 0.25) 35%, transparent 65%);
+  background: radial-gradient(ellipse at center, rgba(255, 236, 160, 0.9), rgba(255, 224, 150, 0.35) 35%, transparent 65%);
   pointer-events: none;
 }
 .hero__layer {
@@ -294,7 +294,7 @@ strong { color: var(--sage-900); font-weight: 600; }
      element as `background-clip: text` makes Chrome/Safari intermittently
      drop the text entirely. */
   display: inline-block;
-  filter: drop-shadow(0 6px 18px rgba(216, 138, 162, 0.28));
+  filter: drop-shadow(0 6px 18px rgba(232, 115, 156, 0.35));
 }
 .hero__name-svg {
   --hero-name-size: clamp(4.2rem, 13vw, 8.5rem);
@@ -319,7 +319,7 @@ strong { color: var(--sage-900); font-weight: 600; }
   margin-top: 0.2rem;
 }
 .hero__one { display: block; width: clamp(160px, 20vw, 215px); margin-top: -0.6rem; animation: floaty 5s ease-in-out infinite; }
-.hero__one-svg { overflow: visible; filter: drop-shadow(0 12px 22px rgba(216, 138, 162, 0.28)); }
+.hero__one-svg { overflow: visible; filter: drop-shadow(0 12px 22px rgba(232, 115, 156, 0.35)); }
 .hero__one-leaves { transform-origin: 90px 110px; animation: sway 6s ease-in-out infinite; }
 .hero__date {
   font-family: var(--font-display);
@@ -367,14 +367,14 @@ strong { color: var(--sage-900); font-weight: 600; }
 .btn:hover { transform: translateY(-2px) scale(1.02); }
 .btn:active { transform: translateY(0) scale(0.99); }
 .btn--gold {
-  background: linear-gradient(180deg, #fde3e9, #f8c9d4);
-  color: var(--pink-ink);
+  background: linear-gradient(180deg, #ffd9e6 0%, #f9a9c5 100%);
+  color: #b8386a;
   border-color: var(--gold);
-  box-shadow: 0 10px 26px rgba(242, 165, 186, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  box-shadow: 0 12px 28px rgba(244, 143, 177, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.9), inset 0 -2px 0 rgba(232, 115, 156, 0.25);
 }
-.btn--gold:hover { box-shadow: 0 16px 36px rgba(242, 165, 186, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.9); color: var(--pink-ink); }
-.btn--ghost { background: linear-gradient(180deg, #e6efdd, #d6e4cd); color: var(--sage-900); border-color: var(--gold-soft); box-shadow: 0 10px 26px rgba(133, 162, 131, 0.2); }
-.btn--ghost:hover { background: linear-gradient(180deg, #edf4e6, #dde9d4); color: var(--sage-900); border-color: var(--gold); }
+.btn--gold:hover { box-shadow: 0 18px 40px rgba(244, 143, 177, 0.55), inset 0 2px 0 rgba(255, 255, 255, 0.95), inset 0 -2px 0 rgba(232, 115, 156, 0.25); color: #b8386a; }
+.btn--ghost { background: linear-gradient(180deg, #e4f5dc 0%, #bfe3b5 100%); color: var(--sage-900); border-color: var(--gold-soft); box-shadow: 0 12px 28px rgba(114, 173, 125, 0.32), inset 0 2px 0 rgba(255, 255, 255, 0.9); }
+.btn--ghost:hover { background: linear-gradient(180deg, #ecf8e6, #c9e9c0); color: var(--sage-900); border-color: var(--gold); }
 .btn--sm { padding: 0.55rem 1.2rem; font-size: 1rem; }
 .btn--lg { padding: 1rem 2.4rem; font-size: 1.25rem; width: 100%; margin-top: 0.5rem; }
 .btn[disabled] { opacity: 0.6; cursor: wait; transform: none; }
@@ -413,8 +413,8 @@ strong { color: var(--sage-900); font-weight: 600; }
 .eyebrow { text-align: center; }
 .lede { text-align: center; color: var(--muted); max-width: 640px; margin: 0 auto 2.5rem; font-size: 1.08rem; }
 /* soft washes to give the page rhythm */
-.details, .wishes { background: linear-gradient(180deg, transparent, rgba(253, 233, 238, 0.55) 20%, rgba(253, 233, 238, 0.55) 80%, transparent); }
-.year, .faq { background: linear-gradient(180deg, transparent, rgba(232, 240, 226, 0.6) 20%, rgba(232, 240, 226, 0.6) 80%, transparent); }
+.details, .wishes { background: linear-gradient(180deg, transparent, rgba(253, 220, 233, 0.6) 20%, rgba(253, 220, 233, 0.6) 80%, transparent); }
+.year, .faq { background: linear-gradient(180deg, transparent, rgba(220, 242, 214, 0.65) 20%, rgba(220, 242, 214, 0.65) 80%, transparent); }
 
 /* =========================================================
    Countdown · blooms
@@ -430,10 +430,10 @@ strong { color: var(--sage-900); font-weight: 600; }
   --petal-deep: var(--pink-deep);
 }
 .bloom:hover { transform: translateY(-6px) rotate(-3deg) scale(1.03); }
-.bloom--rose { --petal: #f9c5d1; --petal-deep: #e9a0b5; }
-.bloom--lilac { --petal: #d9cdef; --petal-deep: #b9a6dc; }
-.bloom--peach { --petal: #c9dff0; --petal-deep: #a5c4e2; }
-.bloom--cream { --petal: #fffaf0; --petal-deep: #ead7a8; }
+.bloom--rose { --petal: #f9a9c5; --petal-deep: #e8739c; }
+.bloom--lilac { --petal: #cfbcf3; --petal-deep: #a486e0; }
+.bloom--peach { --petal: #b4d8f5; --petal-deep: #6fb0e8; }
+.bloom--cream { --petal: #fff4c6; --petal-deep: #e3b955; }
 .bloom__petals {
   position: absolute; inset: 0; width: 100%; height: 100%;
   fill: var(--petal);
@@ -445,7 +445,7 @@ strong { color: var(--sage-900); font-weight: 600; }
   content: '';
   position: absolute; inset: 22%;
   border-radius: 50%;
-  background: radial-gradient(circle at 40% 35%, #fff6d8, var(--yolk) 55%, #e3b54a);
+  background: radial-gradient(circle at 40% 35%, #fff4b8, var(--yolk) 55%, #e6a622);
   box-shadow: inset 0 -6px 12px rgba(0, 0, 0, 0.08), 0 6px 18px rgba(150, 110, 100, 0.18);
 }
 .bloom__num {
@@ -521,7 +521,7 @@ strong { color: var(--sage-900); font-weight: 600; }
   border-radius: 12px;
   background:
     radial-gradient(circle at 30% 30%, rgba(255,255,255,.7), transparent 40%),
-    linear-gradient(160deg, #fbd9e1, #dfe9f5 55%, #e3efdc);
+    linear-gradient(160deg, #fbcddd, #cfe5fa 55%, #d6f0cf);
   display: grid; place-items: center;
   font-size: 2.2rem;
   border: 2px dashed rgba(215, 180, 111, 0.5);
@@ -635,12 +635,12 @@ strong { color: var(--sage-900); font-weight: 600; }
 .flower .f-petal { fill: var(--petal); stroke: var(--petal-deep); stroke-width: 1; }
 .flower .f-heart { fill: var(--heart); }
 .flower:hover, .flower:focus-visible, .flower.is-open { filter: drop-shadow(0 0 14px rgba(242, 165, 186, 0.9)); z-index: 3; }
-.flower.c-rose { --petal: #f9c5d1; --petal-deep: #e9a0b5; --heart: #f5cf6a; }
-.flower.c-lilac { --petal: #d9cdef; --petal-deep: #b9a6dc; --heart: #fff6d8; }
-.flower.c-peach { --petal: #fbd3c2; --petal-deep: #efa98f; --heart: #b9944d; }
-.flower.c-white { --petal: #fffdf7; --petal-deep: #ead7a8; --heart: #f5cf6a; }
-.flower.c-gold { --petal: #fff0c2; --petal-deep: #e6c270; --heart: #b9944d; }
-.flower.c-blue { --petal: #c9dff0; --petal-deep: #a5c4e2; --heart: #f5cf6a; }
+.flower.c-rose { --petal: #f9a9c5; --petal-deep: #e8739c; --heart: #ffd54a; }
+.flower.c-lilac { --petal: #cfbcf3; --petal-deep: #a486e0; --heart: #fff4c6; }
+.flower.c-peach { --petal: #ffc9b0; --petal-deep: #f08a62; --heart: #c9962e; }
+.flower.c-white { --petal: #ffffff; --petal-deep: #e9d79a; --heart: #ffd54a; }
+.flower.c-gold { --petal: #ffe89a; --petal-deep: #e3b955; --heart: #c9962e; }
+.flower.c-blue { --petal: #b4d8f5; --petal-deep: #6fb0e8; --heart: #ffd54a; }
 .flower__tip {
   position: absolute; left: 50%; bottom: calc(100% + 8px);
   width: 230px; max-width: 70vw;

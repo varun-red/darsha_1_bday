@@ -347,7 +347,7 @@
 
   function petalShower() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const colors = ['#f9c5d1', '#fde3e9', '#d9cdef', '#fff6d8', '#fffdf7', '#c9dff0'];
+    const colors = ['#f9a9c5', '#fbcddd', '#cab4f1', '#fff4c6', '#ffffff', '#b4d8f5'];
     for (let i = 0; i < 46; i++) {
       const el = document.createElement('i');
       el.className = 'burst' + (i % 3 === 0 ? '' : ' petal');
@@ -406,8 +406,8 @@
     return { x, y, scale: 0.75 + ((y - 71) / 19) * 0.55 };
   }
   const FLOWER_SVG = `<svg viewBox="0 0 34 60" aria-hidden="true">
-      <path d="M17 60 C17 48 16 38 17 26" stroke="#7fa57c" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-      <path d="M17 46 q-10 -1 -12 -10 q9 1 12 10z" fill="#a6c59a"/><path d="M17 40 q10 -1 12 -10 q-9 1 -12 10z" fill="#c2d9b5"/>
+      <path d="M17 60 C17 48 16 38 17 26" stroke="#5e9f63" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <path d="M17 46 q-10 -1 -12 -10 q9 1 12 10z" fill="#9fd58f"/><path d="M17 40 q10 -1 12 -10 q-9 1 -12 10z" fill="#bfe6b0"/>
       <g class="f-petals">
         <ellipse class="f-petal" cx="17" cy="8" rx="5.5" ry="8"/>
         <ellipse class="f-petal" cx="25.6" cy="14.3" rx="5.5" ry="8" transform="rotate(72 25.6 14.3)"/>

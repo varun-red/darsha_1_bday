@@ -25,7 +25,7 @@
 
   const PASTELS = ['#f9c5d1', '#d9cdef', '#fff6d8', '#c9dff0', '#fffdf7', '#fbd3c2'];
   const PASTEL_DEEP = ['#e9a0b5', '#b9a6dc', '#ead7a8', '#a5c4e2', '#e6d2c8', '#efa98f'];
-  const LEAF = ['#a6c59a', '#7fa57c', '#c2d9b5'];
+  const LEAF = ['#9fd58f', '#66ad69', '#bfe6b0'];
   const FL = window.Flowers;
 
   // ---------- far layer: hazy hills and distant trees ----------
@@ -35,9 +35,9 @@
     svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
     const r = rng(7);
     let out = `<defs>
-      <linearGradient id="hillA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e6efdd"/><stop offset="1" stop-color="#d3e2c8"/></linearGradient>
-      <linearGradient id="hillB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d6e4cb"/><stop offset="1" stop-color="#c2d6b4"/></linearGradient>
-      <linearGradient id="farTree" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d0e0c3"/><stop offset="1" stop-color="#b3cba6"/></linearGradient>
+      <linearGradient id="hillA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e3f5d9"/><stop offset="1" stop-color="#c6e7b8"/></linearGradient>
+      <linearGradient id="hillB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfe9c2"/><stop offset="1" stop-color="#b0d9a2"/></linearGradient>
+      <linearGradient id="farTree" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cbe8bc"/><stop offset="1" stop-color="#a3cf97"/></linearGradient>
     </defs>`;
     out += `<path d="M0 ${H} L0 420 Q300 330 600 400 T1200 380 T1800 410 L${W} ${H}Z" fill="url(#hillA)" opacity=".85"/>`;
     // distant round trees along the hill crest
@@ -69,8 +69,8 @@
     svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
     const r = rng(19);
     let out = `<defs>
-      <linearGradient id="hedgeGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bfd6b0"/><stop offset="1" stop-color="#98bb8d"/></linearGradient>
-      <linearGradient id="topiaryGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c6dbb8"/><stop offset="1" stop-color="#8fb383"/></linearGradient>
+      <linearGradient id="hedgeGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b6e2a5"/><stop offset="1" stop-color="#7fbd77"/></linearGradient>
+      <linearGradient id="topiaryGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c2e7b2"/><stop offset="1" stop-color="#78b872"/></linearGradient>
     </defs>`;
     // hedge: overlapping round blobs along the base
     let d = `M0,${H}L0,${H - 120}`;
@@ -89,7 +89,7 @@
       if (r() < 0.5) {
         const br = 46 + r() * 30;
         const cy = H - 190 - r() * 60;
-        topi += `<path d="M${f1(x - 6)},${f1(H - 100)}L${f1(x - 5)},${f1(cy)}L${f1(x + 5)},${f1(cy)}L${f1(x + 6)},${f1(H - 100)}Z" fill="#a9bf9c"/>`;
+        topi += `<path d="M${f1(x - 6)},${f1(H - 100)}L${f1(x - 5)},${f1(cy)}L${f1(x + 5)},${f1(cy)}L${f1(x + 6)},${f1(H - 100)}Z" fill="#8fb884"/>`;
         topi += `<circle cx="${f1(x)}" cy="${f1(cy)}" r="${f1(br)}" fill="url(#topiaryGrad)"/>`;
         if (r() < 0.5) topi += `<circle cx="${f1(x)}" cy="${f1(cy - br - 26)}" r="${f1(br * 0.5)}" fill="url(#topiaryGrad)"/>`;
       } else {
@@ -110,8 +110,8 @@
     const r = rng(31);
     let out = `<defs>
       ${FL.defs()}
-      <linearGradient id="stalkGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#93b787"/><stop offset="1" stop-color="#63895f"/></linearGradient>
-      <linearGradient id="soilNear" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b3cfa6"/><stop offset="1" stop-color="#8fb383"/></linearGradient>
+      <linearGradient id="stalkGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8ccb84"/><stop offset="1" stop-color="#4f9457"/></linearGradient>
+      <linearGradient id="soilNear" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#aedc9f"/><stop offset="1" stop-color="#7fbd77"/></linearGradient>
     </defs>`;
     out += `<path d="M0 ${H} L0 ${H - 60} Q300 ${H - 100} 600 ${H - 70} T1200 ${H - 80} T1800 ${H - 66} L${W} ${H}Z" fill="url(#soilNear)"/>`;
     // grass blades
@@ -122,7 +122,7 @@
       const lean = (r() - 0.5) * 50;
       grass += `M${f1(x)},${H - 50}Q${f1(x + lean * 0.4)},${f1(H - 50 - h * 0.6)} ${f1(x + lean)},${f1(H - 50 - h)}`;
     }
-    out += `<path d="${grass}" stroke="#86ab7f" stroke-width="3" fill="none" stroke-linecap="round" opacity=".9"/>`;
+    out += `<path d="${grass}" stroke="#6fb26c" stroke-width="3" fill="none" stroke-linecap="round" opacity=".9"/>`;
     // stalks with blooms
     let stalks = '';
     let blooms = '';
@@ -149,7 +149,7 @@
         blooms += FL.hydrangea(topX, topY, 10 + r() * 7, rot);
       }
     }
-    out += `<path d="${stalks}" stroke="url(#stalkGrad)" stroke-width="3.5" fill="#a6c59a" stroke-linecap="round"/>`;
+    out += `<path d="${stalks}" stroke="url(#stalkGrad)" stroke-width="3.5" fill="#9fd58f" stroke-linecap="round"/>`;
     out += blooms;
     svg.innerHTML = out;
   }
@@ -176,8 +176,8 @@
     </defs>`;
     const archPath = `M${left} ${base} V${cy} A${R} ${R} 0 0 1 ${right} ${cy} V${base}`;
     // slim greenery arch
-    out += `<path d="${archPath}" stroke="#8fb383" stroke-width="12" fill="none" stroke-linecap="round" opacity=".9"/>`;
-    out += `<path d="${archPath}" stroke="#c2d9b5" stroke-width="3" fill="none" stroke-dasharray="10 16" opacity=".8"/>`;
+    out += `<path d="${archPath}" stroke="#7bb974" stroke-width="12" fill="none" stroke-linecap="round" opacity=".95"/>`;
+    out += `<path d="${archPath}" stroke="#c9ecbb" stroke-width="3" fill="none" stroke-dasharray="10 16" opacity=".9"/>`;
     // sample points along the arch for foliage & blooms
     const pts = [];
     for (let y = base - 30; y > cy; y -= isSmall ? 44 : 34) { pts.push({ x: left, y, t: 0 }); pts.push({ x: right, y, t: 0 }); }
@@ -214,13 +214,13 @@
         for (let k = 0; k < n2; k++) {
           const wx = p.x + drift * (k / n2) + Math.sin(k * 1.3) * 3;
           const wy = p.y + 20 + k * 12;
-          wisteria += `<circle cx="${f1(wx)}" cy="${f1(wy)}" r="${f1(6.5 - k * 0.4)}" fill="${k % 2 ? '#d9cdef' : '#c3aee6'}" opacity=".95"/>`;
+          wisteria += `<circle cx="${f1(wx)}" cy="${f1(wy)}" r="${f1(6.5 - k * 0.4)}" fill="${k % 2 ? '#cfbcf3' : '#ae92e6'}" opacity=".95"/>`;
         }
       }
       if (p.t === 1 && p.a > 0.35 && p.a < Math.PI - 0.35 && (p.a < 1.05 || p.a > Math.PI - 1.05) && r() < 0.6) {
         const len = 90 + r() * 140;
         const sway = (r() - 0.5) * 60;
-        vines += `<path d="M${f1(p.x)} ${f1(p.y)} q${f1(sway)} ${f1(len * 0.5)} ${f1(sway * 0.4)} ${f1(len)}" stroke="#93b787" stroke-width="2" fill="none" stroke-linecap="round"/>`;
+        vines += `<path d="M${f1(p.x)} ${f1(p.y)} q${f1(sway)} ${f1(len * 0.5)} ${f1(sway * 0.4)} ${f1(len)}" stroke="#7bb974" stroke-width="2" fill="none" stroke-linecap="round"/>`;
         for (let k = 1; k < len / 22; k++) {
           const t = k / (len / 22);
           const vx = p.x + sway * t * (1 - t) * 2 * 0.5 + sway * 0.4 * t * t;
@@ -234,13 +234,13 @@
     const bx = cx + Math.cos((135 * Math.PI) / 180) * R, by = cy - Math.sin((135 * Math.PI) / 180) * R;
     // outer group carries the position; the CSS sway animation on .bow would override an inline transform
     const bow = `<g transform="translate(${f1(bx)} ${f1(by)}) rotate(-20)"><g class="bow">
-      <path d="M-6 6 q-10 40 -22 90 q8 -6 16 0 q4 -46 10 -88z" fill="#fbd9e1" stroke="#e9a0b5" stroke-width="1.2"/>
-      <path d="M6 6 q10 40 24 86 q-8 -6 -16 0 q-4 -46 -12 -84z" fill="#f9c9d5" stroke="#e9a0b5" stroke-width="1.2"/>
-      <ellipse cx="-30" cy="-6" rx="30" ry="17" transform="rotate(-18 -30 -6)" fill="#fbd9e1" stroke="#e9a0b5" stroke-width="1.4"/>
-      <ellipse cx="30" cy="-6" rx="30" ry="17" transform="rotate(18 30 -6)" fill="#f9c9d5" stroke="#e9a0b5" stroke-width="1.4"/>
+      <path d="M-6 6 q-10 40 -22 90 q8 -6 16 0 q4 -46 10 -88z" fill="#fbc6d9" stroke="#e8739c" stroke-width="1.2"/>
+      <path d="M6 6 q10 40 24 86 q-8 -6 -16 0 q-4 -46 -12 -84z" fill="#f9b4ca" stroke="#e8739c" stroke-width="1.2"/>
+      <ellipse cx="-30" cy="-6" rx="30" ry="17" transform="rotate(-18 -30 -6)" fill="#fbc6d9" stroke="#e8739c" stroke-width="1.4"/>
+      <ellipse cx="30" cy="-6" rx="30" ry="17" transform="rotate(18 30 -6)" fill="#f9b4ca" stroke="#e8739c" stroke-width="1.4"/>
       <ellipse cx="-28" cy="-8" rx="14" ry="6" transform="rotate(-18 -28 -8)" fill="#fff" opacity=".45"/>
       <ellipse cx="28" cy="-8" rx="14" ry="6" transform="rotate(18 28 -8)" fill="#fff" opacity=".45"/>
-      <circle cx="0" cy="0" r="9" fill="#f2a5ba" stroke="#e9a0b5" stroke-width="1.2"/>
+      <circle cx="0" cy="0" r="9" fill="#f48fb1" stroke="#e8739c" stroke-width="1.2"/>
     </g></g>`;
     out += `<g>${vines}</g><g>${leaves}</g><g>${wisteria}</g><g>${blooms}</g>${bow}`;
     svg.innerHTML = out;
@@ -322,7 +322,7 @@
   let shooting = null;
 
   const BUTTERFLY_COLORS = [
-    ['#f9c5d1', '#e29ab0'], ['#d9cdef', '#b09bd6'], ['#fde7b0', '#dcb45e'], ['#c9dff0', '#93b7da'], ['#fffdf7', '#dcc9a0'], ['#fbd3c2', '#e89a7d'],
+    ['#f9a9c5', '#e45a8c'], ['#cab4f1', '#8f6cd9'], ['#ffe08a', '#e0a520'], ['#a9d1f3', '#5f9fdf'], ['#ffffff', '#d9c48f'], ['#ffc3a8', '#e87a55'],
   ];
 
   function resize() {
@@ -385,7 +385,7 @@
       rot: Math.random() * Math.PI * 2,
       vr: (Math.random() - 0.5) * 0.04,
       r: 3 + Math.random() * 4,
-      color: c < 0.5 ? '#f9c5d1' : c < 0.75 ? '#fde3e9' : c < 0.9 ? '#fffdf7' : '#d9cdef',
+      color: c < 0.5 ? '#f9a9c5' : c < 0.75 ? '#fbcddd' : c < 0.9 ? '#ffffff' : '#cab4f1',
       a: 0.55 + Math.random() * 0.35,
     };
   }
@@ -506,8 +506,8 @@
         if (f.y < -20) f.y = H + 20; else if (f.y > H + 20) f.y = -20;
         const pulse = Math.pow((Math.sin(f.p) + 1) / 2, 2);
         const a = 0.15 + pulse * 0.75;
-        glow(f.x, f.y, f.r * 8, '231,190,110', a * 0.35);
-        ctx.fillStyle = `rgba(245,207,106,${a * 0.9})`;
+        glow(f.x, f.y, f.r * 8, '255,205,60', a * 0.4);
+        ctx.fillStyle = `rgba(255,213,74,${a * 0.95})`;
         ctx.beginPath();
         ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
         ctx.fill();
@@ -575,12 +575,12 @@
       r: opts.r ?? 1 + Math.random() * 1.6,
       life: 1,
       decay: opts.decay ?? 0.03 + Math.random() * 0.03,
-      rgb: opts.rgb ?? (Math.random() < 0.6 ? '231,190,110' : '242,165,186'),
+      rgb: opts.rgb ?? (Math.random() < 0.6 ? '255,205,60' : '244,143,177'),
     });
   }
 
   function burst(x, y, n = 42) {
-    const colors = ['231,190,110', '242,165,186', '205,189,232', '255,250,240', '188,214,236'];
+    const colors = ['255,205,60', '244,143,177', '202,180,241', '255,255,255', '169,209,243'];
     for (let i = 0; i < n; i++) {
       const ang = (i / n) * Math.PI * 2 + Math.random() * 0.4;
       const sp = 1.5 + Math.random() * 3.5;
