@@ -118,8 +118,11 @@
           </defs>
           <path d="M0 220 L0 140 Q180 108 360 136 T720 128 T1080 140 T1440 128 L1440 220Z" fill="#aedc9f"/>
           <path d="M0 220 L0 172 Q220 150 440 172 T880 166 T1320 176 L1440 170 L1440 220Z" fill="#8bc784"/>
-          <use href="#fence" x="1130" y="60" width="330" height="124"/>
-          <use href="#sign" x="150" y="-70" width="112" height="204"/>
+          <use href="#fence" class="only-desktop" x="1130" y="60" width="330" height="124"/>
+          <use href="#sign" class="only-desktop" x="150" y="-70" width="112" height="204"/>
+          <!-- phones only see the middle ~430 units of this scene, so give them their own sign and fence -->
+          <use href="#sign" class="only-mobile" x="512" y="-46" width="88" height="160"/>
+          <use href="#fence" class="only-mobile" x="786" y="120" width="150" height="56"/>
           <use href="#lavender" x="130" y="72" width="46" height="120"/>
           <use href="#hydrangea" x="160" y="66" width="76" height="120"/>
           <use href="#rose" x="215" y="80" width="70" height="112"/>

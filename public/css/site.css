@@ -82,6 +82,7 @@ strong { color: var(--sage-900); font-weight: 600; }
 .small { font-size: 0.88rem; }
 
 [hidden] { display: none !important; }
+.only-mobile { display: none; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .skip-link { position: absolute; left: 1rem; top: -4rem; z-index: 100; padding: 0.6rem 1rem; background: var(--pink); color: #fff; border-radius: 999px; font-weight: 700; transition: top 0.2s; }
 .skip-link:focus { top: 1rem; }
@@ -757,6 +758,8 @@ strong { color: var(--sage-900); font-weight: 600; }
    ========================================================= */
 @media (max-width: 640px) {
   body { font-size: 16px; }
+  .only-mobile { display: initial; }
+  .only-desktop { display: none; }
   .hero { padding-top: 9.5rem; padding-bottom: 8rem; }
   .hero__greeting { font-size: 1.05rem; margin-top: 1.5rem; }
   .hero__layer--near { height: 24%; }
