@@ -15,7 +15,7 @@ export const DEFAULT_SETTINGS = {
   event_title: "Darsha's First Birthday",
   tagline: 'Once upon a time, in an enchanted garden, a little blossom turned ONE…',
   // ISO 8601 date-time, local to the venue.
-  event_date: '2026-11-22T18:30:00',
+  event_date: '2026-11-22T17:30:00',
   event_end: '', // leave blank for no published end time (calendar entries assume 3 hours)
   timezone: 'America/Chicago',
   venue_name: 'Flora Events Venue',
