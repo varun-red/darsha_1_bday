@@ -437,6 +437,7 @@ strong { color: var(--sage-900); font-weight: 600; }
 .bloom__petals {
   position: absolute; inset: 0; width: 100%; height: 100%;
   fill: var(--petal);
+  overflow: visible; /* petal tips reach past the box */
   filter: drop-shadow(0 14px 24px rgba(150, 110, 100, 0.18));
   animation: spinSlow 40s linear infinite;
 }
