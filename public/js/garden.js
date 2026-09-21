@@ -164,6 +164,8 @@
     // off the bottom behind the flower bed.
     const cx = 450, cy = 380, R = isSmall ? 350 : 340;
     const left = cx - R, right = cx + R, base = isSmall ? 2300 : 760;
+    // The phone arch renders at roughly 40% of the desktop scale, so fatten everything up there.
+    const S = isSmall ? 1.7 : 1;
     svg.setAttribute('viewBox', `0 0 900 ${base}`);
     svg.setAttribute('preserveAspectRatio', isSmall ? 'xMidYMin meet' : 'xMidYMax meet');
     let out = `<defs>
@@ -176,12 +178,12 @@
     </defs>`;
     const archPath = `M${left} ${base} V${cy} A${R} ${R} 0 0 1 ${right} ${cy} V${base}`;
     // slim greenery arch
-    out += `<path d="${archPath}" stroke="#7bb974" stroke-width="12" fill="none" stroke-linecap="round" opacity=".95"/>`;
-    out += `<path d="${archPath}" stroke="#c9ecbb" stroke-width="3" fill="none" stroke-dasharray="10 16" opacity=".9"/>`;
+    out += `<path d="${archPath}" stroke="#7bb974" stroke-width="${f1(12 * S)}" fill="none" stroke-linecap="round" opacity=".95"/>`;
+    out += `<path d="${archPath}" stroke="#c9ecbb" stroke-width="${f1(3 * S)}" fill="none" stroke-dasharray="${f1(10 * S)} ${f1(16 * S)}" opacity=".9"/>`;
     // sample points along the arch for foliage & blooms
     const pts = [];
-    for (let y = base - 30; y > cy; y -= isSmall ? 44 : 34) { pts.push({ x: left, y, t: 0 }); pts.push({ x: right, y, t: 0 }); }
-    for (let a = Math.PI; a >= 0; a -= Math.PI / 26) pts.push({ x: cx + Math.cos(a) * R, y: cy - Math.sin(a) * R, t: 1, a });
+    for (let y = base - 30; y > cy; y -= 34 * S) { pts.push({ x: left, y, t: 0 }); pts.push({ x: right, y, t: 0 }); }
+    for (let a = Math.PI; a >= 0; a -= Math.PI / (isSmall ? 16 : 26)) pts.push({ x: cx + Math.cos(a) * R, y: cy - Math.sin(a) * R, t: 1, a });
     let leaves = '';
     let blooms = '';
     let wisteria = '';
@@ -190,53 +192,53 @@
       const n = 2 + Math.floor(r() * 3);
       for (let k = 0; k < n; k++) {
         const ang = r() * 360;
-        const lx = p.x + (r() - 0.5) * 40;
-        const ly = p.y + (r() - 0.5) * 34;
-        leaves += FL.leaf(lx, ly, 18 + r() * 14, ang, pick(r, LEAF));
+        const lx = p.x + (r() - 0.5) * 40 * S;
+        const ly = p.y + (r() - 0.5) * 34 * S;
+        leaves += FL.leaf(lx, ly, (18 + r() * 14) * S, ang, pick(r, LEAF));
       }
       const kind = r();
-      const bx = p.x + (r() - 0.5) * 30;
-      const by = p.y + (r() - 0.5) * 30;
+      const bx = p.x + (r() - 0.5) * 30 * S;
+      const by = p.y + (r() - 0.5) * 30 * S;
       const rot = (r() - 0.5) * 60;
       // phones get a lighter, whiter mix: fewer pink peonies, more daisies and hydrangea
       const peonyShare = isSmall ? 0.2 : 0.36;
       const hydraShare = isSmall ? 0.46 : 0.58;
       if (kind < peonyShare) {
-        blooms += FL.peony(bx, by, 16 + r() * 14, r() < (isSmall ? 0.4 : 0.65) ? 'pink' : 'blush', rot);
+        blooms += FL.peony(bx, by, (16 + r() * 14) * S, r() < (isSmall ? 0.4 : 0.65) ? 'pink' : 'blush', rot);
       } else if (kind < hydraShare) {
-        blooms += FL.hydrangea(bx, by, 18 + r() * 9, rot);
+        blooms += FL.hydrangea(bx, by, (18 + r() * 9) * S, rot);
       } else if (kind < 0.84) {
-        blooms += FL.daisy(bx, by, 13 + r() * 8, rot);
+        blooms += FL.daisy(bx, by, (13 + r() * 8) * S, rot);
       } else if (kind < 0.94) {
-        blooms += FL.peony(bx, by, 9 + r() * 6, 'lilac', rot);
+        blooms += FL.peony(bx, by, (9 + r() * 6) * S, 'lilac', rot);
       }
       // hanging wisteria and trailing vines from the upper arch
       if (p.t === 1 && p.y < cy - 40 && r() < 0.45) {
         const n2 = 5 + Math.floor(r() * 7);
-        const drift = (r() - 0.5) * 20;
+        const drift = (r() - 0.5) * 20 * S;
         for (let k = 0; k < n2; k++) {
-          const wx = p.x + drift * (k / n2) + Math.sin(k * 1.3) * 3;
-          const wy = p.y + 20 + k * 12;
-          wisteria += `<circle cx="${f1(wx)}" cy="${f1(wy)}" r="${f1(6.5 - k * 0.4)}" fill="${k % 2 ? '#cfbcf3' : '#ae92e6'}" opacity=".95"/>`;
+          const wx = p.x + drift * (k / n2) + Math.sin(k * 1.3) * 3 * S;
+          const wy = p.y + (20 + k * 12) * S;
+          wisteria += `<circle cx="${f1(wx)}" cy="${f1(wy)}" r="${f1((6.5 - k * 0.4) * S)}" fill="${k % 2 ? '#cfbcf3' : '#ae92e6'}" opacity=".95"/>`;
         }
       }
       if (p.t === 1 && p.a > 0.35 && p.a < Math.PI - 0.35 && (p.a < 1.05 || p.a > Math.PI - 1.05) && r() < 0.6) {
-        const len = 90 + r() * 140;
-        const sway = (r() - 0.5) * 60;
-        vines += `<path d="M${f1(p.x)} ${f1(p.y)} q${f1(sway)} ${f1(len * 0.5)} ${f1(sway * 0.4)} ${f1(len)}" stroke="#7bb974" stroke-width="2" fill="none" stroke-linecap="round"/>`;
+        const len = (90 + r() * 140) * S;
+        const sway = (r() - 0.5) * 60 * S;
+        vines += `<path d="M${f1(p.x)} ${f1(p.y)} q${f1(sway)} ${f1(len * 0.5)} ${f1(sway * 0.4)} ${f1(len)}" stroke="#7bb974" stroke-width="${f1(2 * S)}" fill="none" stroke-linecap="round"/>`;
         for (let k = 1; k < len / 22; k++) {
           const t = k / (len / 22);
           const vx = p.x + sway * t * (1 - t) * 2 * 0.5 + sway * 0.4 * t * t;
           const vy = p.y + len * t;
           const side = k % 2 ? 1 : -1;
-          vines += FL.leaf(vx, vy, 12 + r() * 6, side * 50 + 20, pick(r, LEAF));
+          vines += FL.leaf(vx, vy, (12 + r() * 6) * S, side * 50 + 20, pick(r, LEAF));
         }
       }
     }
     // pink satin bow on the left shoulder
     const bx = cx + Math.cos((135 * Math.PI) / 180) * R, by = cy - Math.sin((135 * Math.PI) / 180) * R;
     // outer group carries the position; the CSS sway animation on .bow would override an inline transform
-    const bow = `<g transform="translate(${f1(bx)} ${f1(by)}) rotate(-20)"><g class="bow">
+    const bow = `<g transform="translate(${f1(bx)} ${f1(by)}) rotate(-20) scale(${f1(S)})"><g class="bow">
       <path d="M-6 6 q-10 40 -22 90 q8 -6 16 0 q4 -46 10 -88z" fill="#fbc6d9" stroke="#e8739c" stroke-width="1.2"/>
       <path d="M6 6 q10 40 24 86 q-8 -6 -16 0 q-4 -46 -12 -84z" fill="#f9b4ca" stroke="#e8739c" stroke-width="1.2"/>
       <ellipse cx="-30" cy="-6" rx="30" ry="17" transform="rotate(-18 -30 -6)" fill="#fbc6d9" stroke="#e8739c" stroke-width="1.4"/>

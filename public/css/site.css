@@ -775,6 +775,7 @@ strong { color: var(--sage-900); font-weight: 600; }
   .hero .eyebrow { text-wrap: balance; }
   .hero__venue { letter-spacing: 0.1em; font-size: 1.05rem; }
   .hero__one { width: clamp(150px, 40vw, 190px); }
+  .hero__actions .btn { padding: 0.75rem 1.4rem; font-size: 1.05rem; letter-spacing: 0.06em; white-space: nowrap; }
   .form-grid { grid-template-columns: 1fr; }
   .countdown__grid { gap: 0.5rem; }
   .bloom__label { font-size: 0.5rem; letter-spacing: 0.1em; }
