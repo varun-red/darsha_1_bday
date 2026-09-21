@@ -25,9 +25,6 @@ export const DEFAULT_SETTINGS = {
   host_phone: '',
   host_email: '',
   rsvp_deadline: '2026-11-01',
-  gift_note:
-    'Your presence is the only present we need. If you would like to bring something, a favourite picture book with a note inside would be treasured forever.',
-  registry_url: '',
   hero_photo_url: '',
   parking_note: 'Parking is available right at the venue.',
   whatsapp_template:
@@ -35,11 +32,6 @@ export const DEFAULT_SETTINGS = {
   email_subject_template: "🌸 You're invited to {child}'s Enchanted Garden First Birthday",
   email_template:
     "Dear {name},\n\nOnce upon a time, in an enchanted garden, a little blossom turned ONE… and we'd love for you to celebrate with us!\n\n📅 {date}\n📍 {venue}\n\nPlease RSVP by {deadline} at your personal invitation link:\n{link}\n\nWith love,\n{parents}",
-  faq_json: JSON.stringify([
-    { q: 'Are kids welcome?', a: 'Absolutely! This is a celebration for little ones. Let us know how many small blossoms are coming so we can prepare crafts and favours.' },
-    { q: 'Is the venue indoors or outdoors?', a: 'Indoors! Flora Events Venue is fully indoors, so we party rain or shine.' },
-    { q: 'Do you have dietary options?', a: 'Yes! Tell us about allergies or preferences in your RSVP and we will make sure there is something delicious for everyone.' },
-  ]),
   milestones_json: JSON.stringify([
     { month: 'Month 1', title: 'A tiny seed arrives', detail: 'Eyes barely open, already stealing hearts.', photo_url: '/assets/milestones/month-1.jpg' },
     { month: 'Month 3', title: 'First giggles', detail: 'The garden heard a new song.', photo_url: '/assets/milestones/month-3.jpg' },

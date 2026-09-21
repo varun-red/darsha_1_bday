@@ -414,7 +414,7 @@ strong { color: var(--sage-900); font-weight: 600; }
 .lede { text-align: center; color: var(--muted); max-width: 640px; margin: 0 auto 2.5rem; font-size: 1.08rem; }
 /* soft washes to give the page rhythm */
 .details, .wishes { background: linear-gradient(180deg, transparent, rgba(253, 236, 242, 0.5) 20%, rgba(253, 236, 242, 0.5) 80%, transparent); }
-.year, .faq { background: linear-gradient(180deg, transparent, rgba(232, 246, 228, 0.6) 20%, rgba(232, 246, 228, 0.6) 80%, transparent); }
+.year { background: linear-gradient(180deg, transparent, rgba(232, 246, 228, 0.6) 20%, rgba(232, 246, 228, 0.6) 80%, transparent); }
 
 /* =========================================================
    Countdown · blooms
@@ -709,23 +709,6 @@ strong { color: var(--sage-900); font-weight: 600; }
 }
 .wish__text { font-family: var(--font-display); font-size: 1.15rem; font-style: italic; color: var(--sage-900); margin-bottom: 0.4rem; }
 .wish__author { color: var(--pink-ink); font-size: 0.82rem; font-weight: 700; letter-spacing: 0.06em; margin: 0; }
-
-/* =========================================================
-   Gifts, FAQ
-   ========================================================= */
-.gifts__card { text-align: center; padding: clamp(1.6rem, 4vw, 2.8rem); border-radius: 28px; background: linear-gradient(180deg, #fff, var(--blush-50)); border: 1px solid var(--gold-soft); color: var(--text); box-shadow: var(--shadow); }
-.gifts__card .section__title { color: var(--sage-900); font-size: clamp(1.8rem, 4vw, 2.6rem); margin-bottom: 0.6rem; }
-.gifts__card .card__icon { margin: 0 auto 0.6rem; }
-.gifts__card p { color: var(--text); max-width: 540px; margin: 0 auto 1rem; }
-
-.faq__list { display: flex; flex-direction: column; gap: 0.7rem; margin-top: 1.8rem; }
-.faq__item { border-radius: 16px; border: 1px solid var(--gold-soft); background: #fff; overflow: hidden; transition: border-color 0.3s; }
-.faq__item[open] { border-color: var(--pink); }
-.faq__item summary { list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem 1.2rem; cursor: pointer; font-family: var(--font-display); font-size: 1.3rem; font-style: italic; color: var(--sage-900); }
-.faq__item summary::-webkit-details-marker { display: none; }
-.faq__item summary::after { content: '🌸'; font-size: 1rem; transition: transform 0.4s var(--ease-bounce); }
-.faq__item[open] summary::after { transform: rotate(180deg) scale(1.15); }
-.faq__item p { padding: 0 1.2rem 1.1rem; margin: 0; color: var(--muted); }
 
 /* =========================================================
    Footer

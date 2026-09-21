@@ -168,8 +168,6 @@
     $('#heroVenueLink').href = ev.maps_url;
     $('#gcalLink').href = ev.google_calendar_url;
     $('#successGcal').href = ev.google_calendar_url;
-    const reg = $('#registryLink');
-    if (ev.registry_url) { reg.href = ev.registry_url; reg.hidden = false; }
     const contact = [];
     if (ev.host_phone) contact.push(`<a href="tel:${esc(ev.host_phone.replace(/\s+/g, ''))}">${esc(ev.host_phone)}</a>`);
     if (ev.host_email) contact.push(`<a href="mailto:${esc(ev.host_email)}">${esc(ev.host_email)}</a>`);
@@ -190,11 +188,6 @@
           <p class="mile__detail">${esc(m.detail)}</p>
         </article>`
       )
-      .join('');
-
-    // faq
-    $('#faqList').innerHTML = (ev.faq || [])
-      .map((f) => `<details class="faq__item"><summary>${esc(f.q)}</summary><p>${esc(f.a)}</p></details>`)
       .join('');
 
     observeReveals();

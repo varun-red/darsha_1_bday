@@ -218,7 +218,7 @@ router.get('/settings', async (req, res) => res.json({ settings: await getPublic
 
 router.put('/settings', async (req, res) => {
   const patch = req.body || {};
-  for (const key of ['faq_json', 'milestones_json']) {
+  for (const key of ['milestones_json']) {
     if (key in patch) {
       try {
         const v = typeof patch[key] === 'string' ? JSON.parse(patch[key]) : patch[key];
