@@ -502,6 +502,7 @@ strong { color: var(--sage-900); font-weight: 600; }
   scroll-snap-type: x mandatory;
   scrollbar-width: thin; scrollbar-color: var(--line) transparent;
   -webkit-overflow-scrolling: touch;
+  align-items: flex-start; /* polaroids take the shape of their photo */
 }
 .mile {
   flex: 0 0 min(260px, 78vw);
@@ -514,8 +515,26 @@ strong { color: var(--sage-900); font-weight: 600; }
   box-shadow: var(--shadow-sm);
   transform: rotate(var(--tilt, 0deg));
   transition: transform 0.4s var(--ease-bounce);
+  position: relative;
+  margin-top: 0.8rem;
 }
 .mile:hover { transform: rotate(0deg) translateY(-6px) scale(1.02); }
+/* a strip of washi tape holding each polaroid down */
+.mile::before {
+  content: '';
+  position: absolute; top: -12px; left: 50%;
+  width: 92px; height: 24px;
+  transform: translateX(-50%) rotate(var(--tape-tilt, -4deg));
+  background: repeating-linear-gradient(135deg, var(--tape) 0 6px, rgba(255, 255, 255, 0.55) 6px 12px);
+  opacity: 0.85;
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgba(150, 110, 100, 0.2);
+  --tape: rgba(244, 143, 177, 0.6);
+}
+.mile.tape--sage::before { --tape: rgba(114, 173, 125, 0.55); --tape-tilt: 3deg; }
+.mile.tape--blue::before { --tape: rgba(111, 176, 232, 0.55); --tape-tilt: -2deg; }
+.mile.tape--lilac::before { --tape: rgba(164, 134, 224, 0.55); --tape-tilt: 5deg; }
+.mile.tape--gold::before { --tape: rgba(227, 185, 85, 0.6); --tape-tilt: -5deg; }
 .mile__photo {
   aspect-ratio: 4 / 3;
   border-radius: 12px;
@@ -527,7 +546,18 @@ strong { color: var(--sage-900); font-weight: 600; }
   border: 2px dashed rgba(215, 180, 111, 0.5);
   overflow: hidden;
 }
-.mile__photo img { width: 100%; height: 100%; object-fit: cover; }
+/* real photos keep their own proportions and open full-size on tap */
+.mile__photo.has-img {
+  aspect-ratio: auto;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 1px solid var(--gold-soft);
+  background: #fff;
+  cursor: zoom-in;
+}
+.mile__photo img { width: 100%; height: auto; display: block; }
+.mile__photo.has-img:hover img { filter: brightness(1.03); }
 .mile__month { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--pink-ink); font-weight: 700; margin-top: 0.9rem; }
 .mile__title { font-family: var(--font-display); font-style: italic; font-size: 1.35rem; color: var(--sage-900); margin: 0.1rem 0 0.2rem; }
 .mile__detail { font-size: 0.92rem; color: var(--muted); margin: 0; }
@@ -707,6 +737,29 @@ strong { color: var(--sage-900); font-weight: 600; }
 .footer__contact { color: var(--sage-700); font-size: 0.92rem; }
 .footer__tiny { color: var(--muted); font-size: 0.78rem; margin: 1rem 0 0; }
 .footer__tiny a { color: inherit; }
+
+/* =========================================================
+   Photo lightbox
+   ========================================================= */
+.lightbox { position: fixed; inset: 0; z-index: 130; display: grid; place-items: center; padding: 1rem; }
+.lightbox__backdrop { position: absolute; inset: 0; background: rgba(46, 92, 59, 0.55); backdrop-filter: blur(8px); }
+.lightbox__figure { position: relative; margin: 0; max-width: min(960px, 96vw); max-height: 94vh; display: flex; flex-direction: column; animation: fadeUp 0.4s var(--ease-out) both; }
+.lightbox__figure img { max-width: 100%; max-height: 74vh; width: auto; height: auto; object-fit: contain; border-radius: 16px; border: 8px solid #fff; box-shadow: var(--shadow); background: #fff; }
+.lightbox__caption { text-align: center; color: #fff; padding: 0.9rem 0 0; display: flex; flex-direction: column; gap: 0.1rem; text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35); }
+.lightbox__caption .mile__month { color: var(--blush-200); margin: 0; }
+.lightbox__title { font-family: var(--font-display); font-style: italic; font-size: 1.6rem; }
+.lightbox__detail { font-size: 0.95rem; opacity: 0.9; }
+.lightbox__close, .lightbox__nav { position: absolute; width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.6); background: rgba(255, 255, 255, 0.9); color: var(--sage-900); font-size: 1.6rem; line-height: 1; display: grid; place-items: center; box-shadow: var(--shadow-sm); z-index: 1; }
+.lightbox__close { top: -10px; right: -10px; }
+.lightbox__nav { top: 50%; transform: translateY(-50%); }
+.lightbox__nav--prev { left: -12px; }
+.lightbox__nav--next { right: -12px; }
+@media (max-width: 640px) {
+  .lightbox__figure img { max-height: 64vh; border-width: 5px; }
+  .lightbox__nav--prev { left: 4px; }
+  .lightbox__nav--next { right: 4px; }
+  .lightbox__close { top: 4px; right: 4px; }
+}
 
 /* =========================================================
    Modal & toast

@@ -482,6 +482,22 @@
     </div>
   </div>
 
+  <!-- Full-size photo viewer for the first-year milestones -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle" hidden>
+    <div class="lightbox__backdrop" data-close></div>
+    <figure class="lightbox__figure">
+      <button class="lightbox__close" type="button" id="lightboxClose" data-close aria-label="Close">×</button>
+      <button class="lightbox__nav lightbox__nav--prev" type="button" id="lightboxPrev" aria-label="Previous photo">‹</button>
+      <img id="lightboxImg" src="" alt="" />
+      <button class="lightbox__nav lightbox__nav--next" type="button" id="lightboxNext" aria-label="Next photo">›</button>
+      <figcaption class="lightbox__caption">
+        <span class="mile__month" id="lightboxMonth"></span>
+        <span class="lightbox__title" id="lightboxTitle"></span>
+        <span class="lightbox__detail" id="lightboxDetail"></span>
+      </figcaption>
+    </figure>
+  </div>
+
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script src="/js/flowers.js" defer></script>

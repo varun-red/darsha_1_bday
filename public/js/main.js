@@ -35,6 +35,48 @@
     toast(on ? '🎶 Garden sounds on' : 'Garden sounds off');
   });
 
+  // ---------- photo lightbox (first-year milestones) ----------
+  let milestoneList = [];
+  let lightboxIndex = -1;
+  const lightbox = $('#lightbox');
+  function showPhoto(i) {
+    const withPhotos = milestoneList.map((m, idx) => ({ ...m, idx })).filter((m) => m.photo_url);
+    if (!withPhotos.length) return;
+    let pos = withPhotos.findIndex((m) => m.idx === i);
+    if (pos < 0) pos = 0;
+    const m = withPhotos[pos];
+    lightboxIndex = m.idx;
+    $('#lightboxImg').src = m.photo_url;
+    $('#lightboxImg').alt = m.title;
+    $('#lightboxMonth').textContent = m.month;
+    $('#lightboxTitle').textContent = m.title;
+    $('#lightboxDetail').textContent = m.detail || '';
+    $('#lightboxPrev').hidden = withPhotos.length < 2;
+    $('#lightboxNext').hidden = withPhotos.length < 2;
+    lightbox.hidden = false;
+    document.body.style.overflow = 'hidden';
+    $('#lightboxClose').focus();
+  }
+  function stepPhoto(dir) {
+    const withPhotos = milestoneList.map((m, idx) => idx).filter((idx) => milestoneList[idx].photo_url);
+    const pos = withPhotos.indexOf(lightboxIndex);
+    showPhoto(withPhotos[(pos + dir + withPhotos.length) % withPhotos.length]);
+  }
+  function hidePhoto() { lightbox.hidden = true; document.body.style.overflow = ''; }
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest?.('[data-photo]');
+    if (btn) showPhoto(Number(btn.dataset.photo));
+  });
+  lightbox?.addEventListener('click', (e) => { if (e.target.matches('[data-close]')) hidePhoto(); });
+  $('#lightboxPrev')?.addEventListener('click', () => stepPhoto(-1));
+  $('#lightboxNext')?.addEventListener('click', () => stepPhoto(1));
+  document.addEventListener('keydown', (e) => {
+    if (lightbox?.hidden) return;
+    if (e.key === 'Escape') hidePhoto();
+    if (e.key === 'ArrowLeft') stepPhoto(-1);
+    if (e.key === 'ArrowRight') stepPhoto(1);
+  });
+
   // ---------- reveal on scroll ----------
   const io = new IntersectionObserver(
     (entries) => {
@@ -135,10 +177,14 @@
 
     // milestones
     const icons = ['🌱', '🌿', '🌷', '🦋', '🌸', '✨', '🐞', '🌼'];
-    $('#milestones').innerHTML = (ev.milestones || [])
+    const tapes = ['tape--pink', 'tape--sage', 'tape--blue', 'tape--lilac', 'tape--gold'];
+    milestoneList = ev.milestones || [];
+    $('#milestones').innerHTML = milestoneList
       .map(
-        (m, i) => `<article class="mile" style="--tilt:${(i % 2 ? 1 : -1) * (1 + (i % 3) * 0.6)}deg">
-          <div class="mile__photo">${m.photo_url ? `<img src="${esc(m.photo_url)}" alt="${esc(m.title)}" loading="lazy" />` : icons[i % icons.length]}</div>
+        (m, i) => `<article class="mile ${tapes[i % tapes.length]}" style="--tilt:${(i % 2 ? 1 : -1) * (1 + (i % 3) * 0.6)}deg">
+          ${m.photo_url
+            ? `<button class="mile__photo has-img" type="button" data-photo="${i}" aria-label="View the ${esc(m.month)} photo"><img src="${esc(m.photo_url)}" alt="${esc(m.title)}" loading="lazy" /></button>`
+            : `<div class="mile__photo">${icons[i % icons.length]}</div>`}
           <div class="mile__month">${esc(m.month)}</div>
           <h3 class="mile__title">${esc(m.title)}</h3>
           <p class="mile__detail">${esc(m.detail)}</p>
