@@ -18,7 +18,6 @@ export const DEFAULT_SETTINGS = {
   venue_name: 'Flora Events Venue',
   venue_address: '3333 W Grand Pkwy N, Katy, TX 77449',
   maps_url: '',
-  dress_code: 'Garden whimsy: soft pastels, florals, flower crowns and fairy wings most welcome',
   parents_names: 'Mom & Dad',
   host_phone: '',
   host_email: '',
@@ -41,7 +40,6 @@ export const DEFAULT_SETTINGS = {
   ]),
   faq_json: JSON.stringify([
     { q: 'Are kids welcome?', a: 'Absolutely! This is a celebration for little ones. Let us know how many small blossoms are coming so we can prepare crafts and favours.' },
-    { q: 'What should we wear?', a: 'Comfortable and whimsical. Think soft pastels, florals, flower crowns or fairy wings. We will have some to borrow too!' },
     { q: 'Is the venue indoors or outdoors?', a: 'The pavilion is covered with an open lawn beside it, so we party rain or shine.' },
     { q: 'Do you have dietary options?', a: 'Yes! Tell us about allergies or preferences in your RSVP and we will make sure there is something delicious for everyone.' },
   ]),
@@ -123,6 +121,22 @@ function migrate(db) {
   const insert = db.prepare('INSERT OR IGNORE INTO settings (key, value) VALUES (?, ?)');
   for (const [k, v] of Object.entries(DEFAULT_SETTINGS)) insert.run(k, String(v));
   insert.run('session_secret', randomBytes(32).toString('hex'));
+
+  // Retired settings: the dress code is no longer shown anywhere, so drop it
+  // from databases created before it was removed.
+  db.prepare('DELETE FROM settings WHERE key = ?').run('dress_code');
+  const faqRow = db.prepare('SELECT value FROM settings WHERE key = ?').get('faq_json');
+  if (faqRow) {
+    try {
+      const faq = JSON.parse(faqRow.value);
+      if (Array.isArray(faq)) {
+        const kept = faq.filter((item) => item?.q !== 'What should we wear?');
+        if (kept.length !== faq.length) db.prepare('UPDATE settings SET value = ? WHERE key = ?').run(JSON.stringify(kept), 'faq_json');
+      }
+    } catch {
+      /* leave a hand-edited FAQ alone */
+    }
+  }
 }
 
 // ---------- settings ----------

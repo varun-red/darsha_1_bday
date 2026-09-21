@@ -58,7 +58,7 @@ export function buildIcs(settings, url) {
   const end = zonedToUtc(settings.event_end, settings.timezone) || new Date(start.getTime() + 3 * 3600 * 1000);
   const uid = `darsha-first-birthday-${start.getTime()}@enchanted-garden`;
   const location = [settings.venue_name, settings.venue_address].filter(Boolean).join(', ');
-  const description = `${settings.tagline}\n\n${settings.dress_code ? `Dress code: ${settings.dress_code}\n` : ''}${url ? `RSVP: ${url}` : ''}`;
+  const description = `${settings.tagline}${url ? `\n\nRSVP: ${url}` : ''}`;
   return [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
