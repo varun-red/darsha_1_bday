@@ -70,16 +70,34 @@ export function initDb() {
 }
 
 // ---------- tiny query helpers ----------
+// Serverless instances can wake up holding a dead connection to the hosted
+// database; when a call fails with a connection-shaped error, rebuild the
+// client and try once more instead of failing the request.
+const TRANSIENT = /stream|baton|closed|expired|reset|socket|fetch failed|network|timeout|ETIMEDOUT|ECONN|EPIPE|50[234]/i;
+async function withRetry(fn) {
+  try {
+    return await fn();
+  } catch (e) {
+    if (!isRemote() || !TRANSIENT.test(String(e && (e.message || e)))) throw e;
+    console.warn('Database call failed, reconnecting and retrying once:', e.message || e);
+    try { db && db.close(); } catch { /* ignore */ }
+    db = undefined;
+    return fn();
+  }
+}
+const execute = (stmt) => withRetry(() => getDb().execute(stmt));
+export const batch = (stmts, mode = 'write') => withRetry(() => getDb().batch(stmts, mode));
+
 async function run(sql, args = []) {
-  const r = await getDb().execute({ sql, args });
+  const r = await execute({ sql, args });
   return { changes: r.rowsAffected, lastInsertRowid: r.lastInsertRowid === undefined ? null : Number(r.lastInsertRowid) };
 }
 async function get(sql, args = []) {
-  const r = await getDb().execute({ sql, args });
+  const r = await execute({ sql, args });
   return r.rows[0] ? plain(r.rows[0]) : undefined;
 }
 async function all(sql, args = []) {
-  const r = await getDb().execute({ sql, args });
+  const r = await execute({ sql, args });
   return r.rows.map(plain);
 }
 // libSQL rows carry column names as enumerable keys; copy them into a plain object.
@@ -183,7 +201,7 @@ export async function updateSettings(patch) {
     if (!allowed.has(k)) continue;
     stmts.push({ sql: 'INSERT INTO settings (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value', args: [k, String(v ?? '')] });
   }
-  if (stmts.length) await getDb().batch(stmts, 'write');
+  if (stmts.length) await batch(stmts, 'write');
   return getPublicSettings();
 }
 
@@ -255,7 +273,7 @@ export async function updateGuest(id, patch) {
 
 export async function deleteGuest(id) {
   // Explicit cascade so we do not depend on the foreign_keys pragma being on.
-  const results = await getDb().batch(
+  const results = await batch(
     [
       { sql: 'DELETE FROM rsvps WHERE guest_id = ?', args: [id] },
       { sql: 'UPDATE wishes SET guest_id = NULL WHERE guest_id = ?', args: [id] },
