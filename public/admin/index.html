@@ -18,6 +18,8 @@
       <div class="login__art">🌷🦋</div>
       <h1>The hosts' greenhouse</h1>
       <p class="muted">Enter the secret garden password to manage the guest list.</p>
+      <!-- A fixed username lets browsers save the password without prompting for one -->
+      <input type="text" name="username" value="hosts" autocomplete="username" readonly hidden aria-hidden="true" tabindex="-1" />
       <label class="field"><span>Password</span><input type="password" name="password" autocomplete="current-password" required autofocus /></label>
       <p class="form-error" id="loginError" hidden></p>
       <button class="btn btn--gold" type="submit">Open the garden gate</button>
