@@ -198,13 +198,16 @@
       const bx = p.x + (r() - 0.5) * 30;
       const by = p.y + (r() - 0.5) * 30;
       const rot = (r() - 0.5) * 60;
-      if (kind < 0.36) {
-        blooms += FL.peony(bx, by, 16 + r() * 14, r() < 0.65 ? 'pink' : 'blush', rot);
-      } else if (kind < 0.58) {
+      // phones get a lighter, whiter mix: fewer pink peonies, more daisies and hydrangea
+      const peonyShare = isSmall ? 0.2 : 0.36;
+      const hydraShare = isSmall ? 0.46 : 0.58;
+      if (kind < peonyShare) {
+        blooms += FL.peony(bx, by, 16 + r() * 14, r() < (isSmall ? 0.4 : 0.65) ? 'pink' : 'blush', rot);
+      } else if (kind < hydraShare) {
         blooms += FL.hydrangea(bx, by, 18 + r() * 9, rot);
-      } else if (kind < 0.82) {
+      } else if (kind < 0.84) {
         blooms += FL.daisy(bx, by, 13 + r() * 8, rot);
-      } else if (kind < 0.92) {
+      } else if (kind < 0.94) {
         blooms += FL.peony(bx, by, 9 + r() * 6, 'lilac', rot);
       }
       // hanging wisteria and trailing vines from the upper arch

@@ -760,6 +760,11 @@ strong { color: var(--sage-900); font-weight: 600; }
   .hero { padding-top: 9.5rem; padding-bottom: 8rem; }
   .hero__greeting { font-size: 1.05rem; margin-top: 1.5rem; }
   .hero__layer--near { height: 24%; }
+  .hero__sky {
+    background:
+      radial-gradient(70vw 30vh at 85% 12%, rgba(165, 208, 245, 0.22), transparent 70%),
+      linear-gradient(180deg, #ffffff 0%, #ffffff 55%, #fdf8ea 80%, #f7f4e0 100%);
+  }
   /* garden.js draws a tall portrait arch on phones; anchor its crown just below the top bar */
   .hero__arch { width: 100vw; top: 84px; bottom: auto; height: 140%; }
   .hero__content { max-width: 66vw; padding: 0; }
