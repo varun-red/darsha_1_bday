@@ -77,6 +77,21 @@
     if (e.key === 'ArrowRight') stepPhoto(1);
   });
 
+  // ---------- iOS keyboard cleanup ----------
+  // Mobile Safari grows the scrollable area while the keyboard is open and can
+  // leave the page parked in blank space below the footer after it closes.
+  // Nudge the scroll position back inside the document once fields lose focus.
+  function clampScroll() {
+    const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+    const max = Math.max(0, document.documentElement.scrollHeight - vh);
+    const y = Math.min(window.scrollY, max);
+    window.scrollTo({ top: y, left: 0, behavior: 'instant' });
+  }
+  document.addEventListener('focusout', (e) => {
+    if (e.target.matches?.('input, textarea, select')) setTimeout(clampScroll, 60);
+  });
+  window.visualViewport?.addEventListener('resize', () => setTimeout(clampScroll, 60));
+
   // ---------- reveal on scroll ----------
   const io = new IntersectionObserver(
     (entries) => {
