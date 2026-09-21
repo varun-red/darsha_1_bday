@@ -53,6 +53,9 @@
 *::after { box-sizing: border-box; }
 
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+/* iOS Safari ignores overflow-x on <body> alone for touch panning; clip on both. */
+html, body { overflow-x: hidden; overflow-x: clip; overscroll-behavior-x: none; }
+body { position: relative; }
 
 body {
   margin: 0;
