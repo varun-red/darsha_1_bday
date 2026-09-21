@@ -642,7 +642,7 @@ strong { color: var(--sage-900); font-weight: 600; }
    Wishing garden
    ========================================================= */
 .garden { position: relative; max-width: 800px; margin: 0 auto; }
-.garden__svg { width: 100%; height: auto; filter: drop-shadow(0 24px 30px rgba(150, 110, 100, 0.16)); }
+.garden__svg { width: 100%; height: auto; overflow: visible; filter: drop-shadow(0 24px 30px rgba(150, 110, 100, 0.16)); } /* vines spill past the trellis edges */
 .garden__blades path { transform-box: fill-box; transform-origin: 50% 100%; animation: sway 4s ease-in-out infinite; }
 .garden__blades path:nth-child(2n) { animation-delay: 1.2s; }
 .garden__blooms { position: absolute; inset: 0; }
