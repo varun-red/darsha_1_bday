@@ -268,10 +268,6 @@
       if (radio) { radio.checked = true; setAttending(radio.value); }
       $('#rsvpAdults').value = r.adults || 1;
       $('#rsvpChildren').value = r.children || 0;
-      $('#rsvpPartyNames').value = r.party_names || '';
-      $('#rsvpDietary').value = r.dietary || '';
-      $('#rsvpHighchair').checked = !!r.needs_highchair;
-      $('#rsvpSong').value = r.song_request || '';
       $('#rsvpMessage').value = r.message || '';
       $('#rsvpShareWish').checked = false;
     }
@@ -314,10 +310,6 @@
       attending: attending === 'yes',
       adults: form.adults.value,
       children: form.children.value,
-      party_names: form.party_names.value,
-      dietary: form.dietary.value,
-      needs_highchair: form.needs_highchair.checked,
-      song_request: form.song_request.value,
       message: form.message.value,
       wish: $('#rsvpShareWish').checked && form.message.value.trim() ? form.message.value.trim() : undefined,
     };

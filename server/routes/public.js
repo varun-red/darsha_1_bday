@@ -124,15 +124,17 @@ router.post('/api/rsvp', throttle(10, 60_000), async (req, res) => {
     }
   }
 
+  // The guest form no longer asks for these; keep whatever the hosts recorded.
+  const prev = guest.rsvp || {};
   const updated = await upsertRsvp(guest.id, {
     attending,
     adults: b.adults,
     children: b.children,
-    party_names: b.party_names,
-    dietary: b.dietary,
-    song_request: b.song_request,
+    party_names: b.party_names ?? prev.party_names,
+    dietary: b.dietary ?? prev.dietary,
+    song_request: b.song_request ?? prev.song_request,
     message: b.message,
-    needs_highchair: !!b.needs_highchair,
+    needs_highchair: b.needs_highchair === undefined ? !!prev.needs_highchair : !!b.needs_highchair,
   });
 
   if (b.wish && String(b.wish).trim()) {
