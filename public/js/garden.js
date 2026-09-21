@@ -332,7 +332,7 @@
 
   function resize() {
     if (!canvas) return;
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    dpr = Math.min(window.devicePixelRatio || 1, isSmall ? 1.5 : 2); // lighter canvas on phones
     W = window.innerWidth;
     H = window.innerHeight;
     canvas.width = Math.floor(W * dpr);
@@ -412,8 +412,8 @@
     ctx.save();
     ctx.translate(b.x, b.y + Math.sin(b.bob) * 3);
     ctx.rotate(b.a + Math.PI / 2);
-    // shadow glow
-    glow(0, 0, b.size * 2.2, '255,235,210', 0.18);
+    // shadow glow (skipped on phones: radial gradients are the costliest part of the frame)
+    if (!isSmall) glow(0, 0, b.size * 2.2, '255,235,210', 0.18);
     for (const side of [-1, 1]) {
       ctx.save();
       ctx.scale(side * wingScale, 1);
@@ -460,7 +460,8 @@
 
   let last = performance.now();
   function frame(now) {
-    const dt = Math.min(50, now - last) / 16.67;
+    // allow up to 120ms per frame so motion stays real-time even when phones drop frames
+    const dt = Math.min(120, now - last) / 16.67;
     last = now;
     if (!document.hidden && ctx) {
       ctx.clearRect(0, 0, W, H);
@@ -511,7 +512,7 @@
         if (f.y < -20) f.y = H + 20; else if (f.y > H + 20) f.y = -20;
         const pulse = Math.pow((Math.sin(f.p) + 1) / 2, 2);
         const a = 0.15 + pulse * 0.75;
-        glow(f.x, f.y, f.r * 8, '255,205,60', a * 0.4);
+        if (!isSmall) glow(f.x, f.y, f.r * 8, '255,205,60', a * 0.4);
         ctx.fillStyle = `rgba(255,213,74,${a * 0.95})`;
         ctx.beginPath();
         ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
@@ -520,7 +521,7 @@
 
       // butterflies
       for (const b of butterflies) {
-        b.phase += b.flap * dt * (1 + b.speed);
+        b.phase += b.flap * dt * (1 + b.speed) * (isSmall ? 1.3 : 1);
         b.bob += 0.05 * dt;
         b.turn += (Math.random() - 0.5) * 0.08 * dt;
         b.turn *= 0.92;
@@ -559,7 +560,7 @@
         s.vy += s.g * dt;
         s.vx *= 0.98;
         const a = Math.max(0, s.life);
-        glow(s.x, s.y, s.r * 4, s.rgb, a * 0.4);
+        if (!isSmall) glow(s.x, s.y, s.r * 4, s.rgb, a * 0.4);
         ctx.fillStyle = `rgba(${s.rgb},${a})`;
         ctx.beginPath();
         ctx.arc(s.x, s.y, s.r * a, 0, Math.PI * 2);
