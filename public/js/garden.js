@@ -357,7 +357,7 @@
       dust.push({ x: Math.random() * W, y: H * 0.2 + Math.random() * H * 0.8, vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3, p: Math.random() * Math.PI * 2, sp: 0.6 + Math.random() * 1.4, r: 1 + Math.random() * 1.4 });
     }
     butterflies.length = 0;
-    const b = reduceMotion ? 0 : isSmall ? 6 : 12;
+    const b = reduceMotion ? 0 : isSmall ? 14 : 12;
     for (let i = 0; i < b; i++) butterflies.push(newButterfly());
     petals.length = 0;
     const m = reduceMotion ? 0 : isSmall ? 12 : 26;
@@ -374,7 +374,7 @@
       speed: 0.5 + Math.random() * 0.6,
       phase: Math.random() * Math.PI * 2,
       flap: 0.14 + Math.random() * 0.08,
-      size: isSmall ? 8 + Math.random() * 5 : 11 + Math.random() * 8,
+      size: isSmall ? 9 + Math.random() * 6 : 11 + Math.random() * 8,
       bob: Math.random() * Math.PI * 2,
       fill, edge,
     };
