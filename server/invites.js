@@ -27,6 +27,8 @@ export function templateVars(settings, guest, link) {
       : 'soon',
     link,
     parents: settings.parents_names,
+    ladies: settings.dress_code_ladies || '',
+    gents: settings.dress_code_gents || '',
   };
 }
 
@@ -48,10 +50,10 @@ export function buildInvite(req, settings, guest) {
   return { link, whatsappText, whatsappUrl, emailSubject, emailBody, mailtoUrl };
 }
 
+const DEFAULT_REMINDER = `Hi {name}! 🌸 A gentle reminder from the enchanted garden: we'd love to know if you can join {child}'s first birthday on {date}. RSVP here: {link}`;
+
 export function reminderMessage(settings, guest, link) {
   const vars = templateVars(settings, guest, link);
-  return fillTemplate(
-    `Hi {name}! 🌸 A gentle reminder from the enchanted garden: we'd love to know if you can join {child}'s first birthday on {date}. RSVP here: {link}`,
-    vars
-  );
+  const template = settings.reminder_template && settings.reminder_template.trim() ? settings.reminder_template : DEFAULT_REMINDER;
+  return fillTemplate(template, vars);
 }

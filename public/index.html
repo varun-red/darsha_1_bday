@@ -33,6 +33,7 @@
     </a>
     <nav class="topbar__nav" aria-label="Sections">
       <a href="#details">Details</a>
+      <a href="#dresscode">Dress code</a>
       <a href="#journey">The Day</a>
       <a href="#wishes">Wishing Garden</a>
       <a class="topbar__cta" href="#rsvp">RSVP</a>
@@ -207,15 +208,38 @@
           <article class="card reveal">
             <div class="card__icon" aria-hidden="true">🦋</div>
             <h3>Wear</h3>
-            <p data-bind="dress_code">Garden whimsy</p>
+            <p data-bind="dress_code">Cocktail chic &amp; elegant evening wear</p>
+            <a class="card__link" href="#dresscode">Outfit inspiration →</a>
           </article>
           <article class="card reveal">
             <div class="card__icon" aria-hidden="true">🌼</div>
             <h3>Good to know</h3>
             <p data-bind="parking_note">Free parking beside the pavilion.</p>
-            <p class="muted">Kindly RSVP by <strong id="rsvpDeadline">Nov 1</strong>.</p>
+            <p class="muted">Kindly RSVP by <strong id="rsvpDeadline">Nov 21</strong>.</p>
           </article>
         </div>
+      </div>
+    </section>
+
+    <!-- ============ DRESS CODE ============ -->
+    <section class="dress section" id="dresscode" aria-labelledby="dressTitle">
+      <div class="section__inner section__inner--narrow">
+        <p class="eyebrow reveal">A little outfit inspiration</p>
+        <h2 class="section__title reveal" id="dressTitle">What to wear</h2>
+        <p class="lede reveal dress__intro" data-bind="dress_code_intro">For those wondering what to wear, here's a little outfit inspiration! ✨</p>
+        <div class="dress__grid">
+          <article class="dress__card dress__card--ladies reveal">
+            <div class="dress__icon" aria-hidden="true">💕</div>
+            <h3>Ladies</h3>
+            <p data-bind="dress_code_ladies">Indo-Western Cocktail Chic or Elegant Evening Wear</p>
+          </article>
+          <article class="dress__card dress__card--gents reveal">
+            <div class="dress__icon" aria-hidden="true">✨</div>
+            <h3>Gentlemen</h3>
+            <p data-bind="dress_code_gents">Smart &amp; Comfortable Evening Wear</p>
+          </article>
+        </div>
+        <p class="dress__outro reveal" data-bind="dress_code_outro">Looking forward to a wonderful evening of celebrations, music, and dancing! 🥂💕</p>
       </div>
     </section>
 

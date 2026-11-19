@@ -82,11 +82,25 @@ test('admin can add a guest and receive an invitation payload', async () => {
   assert.match(invite.mailtoUrl, /^mailto:meera%40example\.com\?subject=/);
 });
 
-test('invite detail includes QR and reminder', async () => {
+test('invite detail includes QR and the dress-code reminder', async () => {
   const res = await json('GET', `/api/admin/guests/${guestId}/invite`);
   const { invite } = await res.json();
   assert.match(invite.qrSvg, /<svg/);
   assert.match(invite.reminderText, /reminder/i);
+  assert.match(invite.reminderText, /Ladies: Indo-Western Cocktail Chic/);
+  assert.match(invite.reminderText, /Gentlemen: Smart & Comfortable Evening Wear/);
+  assert.match(invite.reminderText, new RegExp(`/i/${token}`));
+});
+
+test('reminder follows the editable template', async () => {
+  await json('PUT', '/api/admin/settings', { reminder_template: 'Hey {name}, {child} turns one on {date}. Dress: {ladies} / {gents}. {link}' });
+  const res = await json('GET', `/api/admin/guests/${guestId}/invite`);
+  const { invite } = await res.json();
+  assert.match(invite.reminderText, /^Hey Aunt Meera, Darsha turns one on Sunday, November 22, 2026 at 6:00 PM\. Dress: Indo-Western/);
+  assert.match(invite.reminderWhatsappUrl, /^https:\/\/wa\.me\/15551234567\?text=Hey%20Aunt%20Meera/);
+  await json('PUT', '/api/admin/settings', { reminder_template: '' });
+  const fallback = await (await json('GET', `/api/admin/guests/${guestId}/invite`)).json();
+  assert.match(fallback.invite.reminderText, /gentle reminder/);
 });
 
 test('personal invite page and API resolve the token', async () => {

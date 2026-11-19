@@ -128,18 +128,28 @@
               <label class="field"><span>Venue name</span><input name="venue_name" /></label>
               <label class="field"><span>Venue address</span><input name="venue_address" /></label>
               <label class="field field--full"><span>Custom map link (optional — otherwise Google Maps search is used)</span><input name="maps_url" type="url" /></label>
-              <label class="field field--full"><span>Dress code</span><input name="dress_code" /></label>
               <label class="field field--full"><span>Parking / good to know</span><input name="parking_note" /></label>
               <label class="field field--full"><span>Gift note</span><textarea name="gift_note" rows="3"></textarea></label>
               <label class="field field--full"><span>Registry / wish list link (optional)</span><input name="registry_url" type="url" /></label>
             </div>
           </div>
           <div class="panel">
+            <h2>Dress code</h2>
+            <div class="grid2">
+              <label class="field field--full"><span>Short summary (shown on the "Wear" card)</span><input name="dress_code" /></label>
+              <label class="field field--full"><span>Intro line</span><textarea name="dress_code_intro" rows="2"></textarea></label>
+              <label class="field"><span>Ladies</span><input name="dress_code_ladies" /></label>
+              <label class="field"><span>Gentlemen</span><input name="dress_code_gents" /></label>
+              <label class="field field--full"><span>Closing line</span><textarea name="dress_code_outro" rows="2"></textarea></label>
+            </div>
+          </div>
+          <div class="panel">
             <h2>Invitation messages</h2>
-            <p class="muted small">Placeholders: <code>{name}</code> <code>{child}</code> <code>{date}</code> <code>{venue}</code> <code>{deadline}</code> <code>{link}</code> <code>{parents}</code></p>
+            <p class="muted small">Placeholders: <code>{name}</code> <code>{child}</code> <code>{date}</code> <code>{venue}</code> <code>{deadline}</code> <code>{link}</code> <code>{parents}</code> <code>{ladies}</code> <code>{gents}</code></p>
             <label class="field"><span>WhatsApp message</span><textarea name="whatsapp_template" rows="3"></textarea></label>
             <label class="field"><span>Email subject</span><input name="email_subject_template" /></label>
             <label class="field"><span>Email body</span><textarea name="email_template" rows="8"></textarea></label>
+            <label class="field"><span>Reminder message (WhatsApp &amp; email reminders)</span><textarea name="reminder_template" rows="10"></textarea></label>
           </div>
           <div class="panel">
             <h2>Schedule</h2>
