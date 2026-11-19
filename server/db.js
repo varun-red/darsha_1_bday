@@ -12,8 +12,8 @@ export const DEFAULT_SETTINGS = {
   event_title: "Darsha's First Birthday",
   tagline: 'Once upon a time, in an enchanted garden, a little blossom turned ONE…',
   // ISO 8601 date-time, local to the venue.
-  event_date: '2026-11-22T18:00:00',
-  event_end: '2026-11-22T21:00:00',
+  event_date: '2026-11-22T18:30:00',
+  event_end: '2026-11-22T21:30:00',
   timezone: 'America/Chicago',
   venue_name: 'Flora Events Venue',
   venue_address: '3333 W Grand Pkwy N, Katy, TX 77449',
@@ -41,10 +41,10 @@ export const DEFAULT_SETTINGS = {
   reminder_template:
     "✨ Just a little reminder that {child}'s 1st birthday celebration is on {date}! 💕\n\nWe're so excited to celebrate with you all!\n\nFor those wondering what to wear, here's a little outfit inspiration! ✨\n\n💕 Ladies: {ladies}\n\n✨ Gentlemen: {gents}\n\nLooking forward to a wonderful evening of celebrations, music, and dancing! 🥂💕\n\nRSVP or update your reply here: {link}",
   schedule_json: JSON.stringify([
-    { time: '6:00 PM', title: 'Through the Garden Gate', detail: 'Arrivals, flower-crown making and welcome drinks' },
-    { time: '6:30 PM', title: 'Tea Among the Roses', detail: 'A feast of garden treats for little blossoms and grown-ups' },
-    { time: '7:30 PM', title: 'The Cake Smash', detail: 'Our birthday girl meets her very first flower-topped cake' },
-    { time: '8:00 PM', title: 'Music & Dancing', detail: 'Fairy lights, music and dancing until the butterflies say goodnight' },
+    { time: '6:30 PM', title: 'Through the Garden Gate', detail: 'Arrivals, flower-crown making and welcome drinks' },
+    { time: '7:00 PM', title: 'Tea Among the Roses', detail: 'A feast of garden treats for little blossoms and grown-ups' },
+    { time: '8:00 PM', title: 'The Cake Smash', detail: 'Our birthday girl meets her very first flower-topped cake' },
+    { time: '8:30 PM', title: 'Music & Dancing', detail: 'Fairy lights, music and dancing until the butterflies say goodnight' },
   ]),
   faq_json: JSON.stringify([
     { q: 'Are kids welcome?', a: 'Absolutely! This is a celebration for little ones. Let us know how many small blossoms are coming so we can prepare crafts and favours.' },
