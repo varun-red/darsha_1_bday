@@ -215,3 +215,35 @@ test('unknown API routes 404 as JSON and pages 404 as HTML', async () => {
   assert.equal(page.status, 404);
   assert.match(await page.text(), /Lost in the garden/);
 });
+
+test('attendee broadcast lists only guests who said yes, with WhatsApp-ready numbers', async () => {
+  const add = async (name, phone, attending) => {
+    const { guest } = await (await json('POST', '/api/admin/guests', { name, phone })).json();
+    await json('PUT', `/api/admin/guests/${guest.id}/rsvp`, { attending, adults: 2, children: 1 });
+    return guest;
+  };
+  const yes = await add('Broadcast Yes', '(832) 555-0100', 'yes');
+  const intl = await add('Broadcast Intl', '+91 98765 43210', 'yes');
+  const no = await add('Broadcast No', '8325550101', 'no');
+
+  await json('PUT', '/api/admin/settings', { attendee_template: 'See you soon {name}!' });
+  const first = await (await json('GET', '/api/admin/broadcast')).json();
+  assert.equal(first.template, 'See you soon {name}!');
+  assert.ok(first.vars.child && first.vars.date);
+  const byId = (data, id) => data.recipients.find((r) => r.id === id);
+  assert.equal(byId(first, no.id), undefined);
+  assert.equal(byId(first, yes.id).waNumber, '18325550100');
+  assert.equal(byId(first, yes.id).headcount, 3);
+  assert.equal(byId(first, intl.id).waNumber, '919876543210');
+  assert.match(byId(first, yes.id).link, new RegExp(`/i/${yes.token}$`));
+  assert.equal(byId(first, yes.id).messaged_at, null);
+
+  await json('POST', `/api/admin/guests/${yes.id}/invited`, { kind: 'message' });
+  const second = await (await json('GET', '/api/admin/broadcast')).json();
+  assert.ok(byId(second, yes.id).messaged_at);
+  assert.equal(byId(second, intl.id).messaged_at, null);
+
+  assert.equal((await (await json('POST', '/api/admin/broadcast/reset')).json()).cleared, 1);
+  const third = await (await json('GET', '/api/admin/broadcast')).json();
+  assert.equal(byId(third, yes.id).messaged_at, null);
+});

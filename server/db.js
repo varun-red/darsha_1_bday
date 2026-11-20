@@ -38,6 +38,8 @@ export const DEFAULT_SETTINGS = {
     "Dear {name},\n\nOnce upon a time, in an enchanted garden, a little blossom turned ONE… and we'd love for you to celebrate with us!\n\n📅 {date}\n📍 {venue}\n\nPlease RSVP by {deadline} at your personal invitation link:\n{link}\n\nWith love,\n{parents}",
   reminder_template:
     "✨ Just a little reminder that {child}'s 1st birthday celebration is on {date}! 💕\n\nWe're so excited to celebrate with you all!\n\nFor those wondering what to wear, here's a little outfit inspiration! ✨\n\n💕 Ladies: {ladies}\n\n✨ Gentlemen: {gents}\n\nLooking forward to a wonderful evening of celebrations, music, and dancing! 🥂💕\n\nRSVP or update your reply here: {link}",
+  attendee_template:
+    "Hi {name}! 🌷 We're so excited to celebrate {child}'s first birthday with you on {date} at {venue}. See you in the enchanted garden! 🦋",
   milestones_json: JSON.stringify([
     { month: 'Month 1', title: 'A tiny seed arrives', detail: 'Eyes barely open, already stealing hearts.', photo_url: '/assets/milestones/month-1.jpg' },
     { month: 'Month 3', title: 'First giggles', detail: 'The garden heard a new song.', photo_url: '/assets/milestones/month-3.jpg' },
@@ -170,6 +172,11 @@ async function migrate(client) {
     CREATE INDEX IF NOT EXISTS idx_guests_phone ON guests(phone);
   `);
 
+  // Columns added after the first release; databases created earlier lack them.
+  await client.execute('ALTER TABLE guests ADD COLUMN messaged_at TEXT').catch((e) => {
+    if (!/duplicate column/i.test(String(e && (e.message || e)))) throw e;
+  });
+
   // Seed defaults for any missing settings.
   const seeds = Object.entries(DEFAULT_SETTINGS).map(([k, v]) => ({ sql: 'INSERT OR IGNORE INTO settings (key, value) VALUES (?, ?)', args: [k, String(v)] }));
   seeds.push({ sql: 'INSERT OR IGNORE INTO settings (key, value) VALUES (?, ?)', args: ['session_secret', randomBytes(32).toString('hex')] });
@@ -263,6 +270,7 @@ export async function updateGuest(id, patch) {
     invited_via: (v) => (v ? String(v) : null),
     invited_at: (v) => (v ? String(v) : null),
     reminded_at: (v) => (v ? String(v) : null),
+    messaged_at: (v) => (v ? String(v) : null),
   };
   for (const [k, fn] of Object.entries(map)) {
     if (k in patch) {
@@ -288,6 +296,11 @@ export async function deleteGuest(id) {
     'write'
   );
   return results[2].rowsAffected > 0;
+}
+
+// Forget who has been sent the attendee message, ready for a new round.
+export async function clearMessaged() {
+  return (await run('UPDATE guests SET messaged_at = NULL WHERE messaged_at IS NOT NULL')).changes;
 }
 
 const GUEST_SELECT = `

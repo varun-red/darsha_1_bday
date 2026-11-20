@@ -32,6 +32,18 @@ export function templateVars(settings, guest, link) {
   };
 }
 
+// Digits-only number for wa.me links, which need the country code. Ten-digit
+// numbers typed without one are assumed local (DEFAULT_COUNTRY_CODE, US "1").
+export function whatsappNumber(phone) {
+  const raw = String(phone || '').trim();
+  let digits = raw.replace(/\D/g, '');
+  if (!digits) return '';
+  if (raw.startsWith('+')) return digits;
+  if (digits.startsWith('00')) return digits.slice(2);
+  if (digits.length === 10) digits = (process.env.DEFAULT_COUNTRY_CODE || '1').replace(/\D/g, '') + digits;
+  return digits;
+}
+
 export function buildInvite(req, settings, guest) {
   const link = inviteLink(req, guest);
   const vars = templateVars(settings, guest, link);
@@ -39,7 +51,7 @@ export function buildInvite(req, settings, guest) {
   const emailSubject = fillTemplate(settings.email_subject_template, vars);
   const emailBody = fillTemplate(settings.email_template, vars);
 
-  const phoneDigits = guest.phone ? guest.phone.replace(/\D/g, '') : '';
+  const phoneDigits = whatsappNumber(guest.phone);
   const whatsappUrl = phoneDigits
     ? `https://wa.me/${phoneDigits}?text=${encodeURIComponent(whatsappText)}`
     : `https://wa.me/?text=${encodeURIComponent(whatsappText)}`;

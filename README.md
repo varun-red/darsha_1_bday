@@ -17,6 +17,7 @@ A single-page, interactive party website with a full RSVP system and a private h
 - **Overview** — headcount, grown-ups vs kids, responses bar, dietary notes, latest replies.
 - **Guest list** — add guests one at a time or paste a list from a spreadsheet; search and filter by status; edit, delete, or record an RSVP on someone's behalf.
 - **Invite** drawer per guest — personal link, **WhatsApp** deep link with a pre-filled message, **email** (sent from the site when SMTP is configured, otherwise opens your mail app pre-filled), copy message, **printable QR code**, and a gentle **reminder** flow. Invitations are marked sent automatically.
+- **Message attendees** — write one WhatsApp message and send it to every household that RSVP'd yes, one pre-filled chat at a time, with a tick as each goes out.
 - **Wishing Garden moderation** — hide or delete wishes.
 - **Event settings** — every word on the site (names, dates, venue, milestones, message templates) is editable live.
 - **CSV export** of the full guest list.

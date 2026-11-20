@@ -201,6 +201,7 @@
 
   $('#addGuestBtn').addEventListener('click', () => openEdit(null));
   $('#importBtn').addEventListener('click', openImport);
+  $('#messageAttendeesBtn').addEventListener('click', openBroadcast);
   $('#copyPendingBtn').addEventListener('click', async () => {
     const pending = state.guests.filter((g) => g.status === 'pending');
     if (!pending.length) return toast('Everyone has replied! 🎉');
@@ -302,6 +303,91 @@
     } catch {
       toast('Clipboard blocked — select and copy manually');
     }
+  }
+
+  // ---- message everyone who RSVP'd yes ----
+  const fill = (template, vars) => String(template || '').replace(/\{(\w+)\}/g, (m, k) => (k in vars ? String(vars[k]) : m));
+
+  async function openBroadcast() {
+    openDrawer('Message attendees', '<p class="muted">Gathering everyone who said yes…</p>');
+    let data;
+    try {
+      data = await api('/broadcast');
+    } catch (ex) {
+      return openDrawer('Oops', `<p class="form-error">${esc(ex.message)}</p>`);
+    }
+    const people = data.recipients;
+    if (!people.length) return openDrawer('Message attendees', '<p class="muted">Nobody has RSVP’d yes yet.</p>');
+    openDrawer(
+      'Message attendees',
+      `<div class="share">
+        <p class="muted small">Each household that RSVP’d yes gets its own WhatsApp chat with the message filled in. Tap <b>Send</b>, press send in WhatsApp, then come back for the next one.</p>
+        <label class="field"><span>Message</span><textarea id="bcText" rows="6">${esc(data.template)}</textarea></label>
+        <p class="muted small">Placeholders: <code>{name}</code> <code>{child}</code> <code>{date}</code> <code>{venue}</code> <code>{link}</code> <code>{parents}</code> <code>{ladies}</code> <code>{gents}</code></p>
+        <div class="sub-h">Preview</div>
+        <div class="preview" id="bcPreview"></div>
+        <div class="sub-h" id="bcProgress"></div>
+        <ul class="plain bc-list" id="bcList"></ul>
+        <div class="drawer-actions">
+          <button class="btn btn--ghost btn--sm" id="bcReset" title="Clear the sent ticks to send everyone another message">Start a new round</button>
+          <button class="btn btn--ghost btn--sm" id="bcCopy">Copy message</button>
+        </div>
+      </div>`
+    );
+    const text = $('#bcText');
+    const list = $('#bcList');
+    const messageFor = (p) => fill(text.value, { ...data.vars, name: p.name, link: p.link });
+
+    function render() {
+      const sent = people.filter((p) => p.messaged_at).length;
+      $('#bcProgress').textContent = `Attending · ${sent} of ${people.length} sent`;
+      $('#bcPreview').textContent = messageFor(people.find((p) => !p.messaged_at) || people[0]);
+      list.innerHTML = people
+        .map((p) => {
+          const sub = [p.waNumber ? `+${p.waNumber}` : 'no phone on file', `${p.headcount} guest${p.headcount === 1 ? '' : 's'}`, p.messaged_at ? `sent ${fmtDate(p.messaged_at)}` : ''].filter(Boolean).join(' · ');
+          const label = p.messaged_at ? '✓ Send again' : p.waNumber ? '💬 Send' : '💬 Pick contact';
+          return `<li class="bc-row ${p.messaged_at ? 'is-sent' : ''}"><span><b>${esc(p.name)}</b><div class="g-sub">${esc(sub)}</div></span>
+            <a class="btn ${p.messaged_at ? 'btn--ghost' : 'btn--wa'} btn--sm" data-id="${p.id}" target="_blank" rel="noopener" href="https://wa.me/${p.waNumber}?text=${encodeURIComponent(messageFor(p))}">${label}</a></li>`;
+        })
+        .join('');
+    }
+    render();
+
+    // Keep the wording for next time (and other devices) without a save button.
+    let saveTimer;
+    let saved = data.template;
+    const save = () => {
+      clearTimeout(saveTimer);
+      if (text.value === saved || !text.value.trim()) return;
+      saved = text.value;
+      api('/settings', { method: 'PUT', body: { attendee_template: saved } }).catch((ex) => toast(`⚠️ Message not saved: ${ex.message}`));
+    };
+    text.addEventListener('input', () => {
+      render();
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(save, 800);
+    });
+
+    list.addEventListener('click', (e) => {
+      const a = e.target.closest('a[data-id]');
+      if (!a) return;
+      if (!text.value.trim()) {
+        e.preventDefault();
+        return toast('Write a message first');
+      }
+      save();
+      const p = people.find((x) => x.id === Number(a.dataset.id));
+      p.messaged_at = new Date().toISOString();
+      api(`/guests/${p.id}/invited`, { method: 'POST', body: { kind: 'message' } }).catch((ex) => toast(`⚠️ Could not tick off ${p.name}: ${ex.message}`));
+      setTimeout(render, 0); // let the link open before its row is redrawn
+    });
+    $('#bcCopy').addEventListener('click', () => copy(text.value, 'Message copied'));
+    $('#bcReset').addEventListener('click', async () => {
+      if (!confirm('Clear the sent ticks so you can message everyone again?')) return;
+      await api('/broadcast/reset', { method: 'POST' });
+      people.forEach((p) => (p.messaged_at = null));
+      render();
+    });
   }
 
   // ---- add / edit guest ----

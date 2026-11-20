@@ -171,3 +171,9 @@ input, textarea, select { font: inherit; }
 .toast { position: fixed; left: 50%; bottom: 1.5rem; z-index: 200; transform: translate(-50%, 20px); padding: 0.7rem 1.2rem; border-radius: 999px; background: #41573f; color: #fff; font-weight: 600; box-shadow: var(--shadow); opacity: 0; visibility: hidden; transition: opacity 0.3s, transform 0.4s, visibility 0.3s; max-width: 90vw; text-align: center; }
 .toast.is-visible { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
 @keyframes slideIn { from { transform: translateX(40px); opacity: 0; } to { transform: none; opacity: 1; } }
+
+/* ---- message attendees ---- */
+.bc-list { display: grid; gap: 0.4rem; }
+.bc-row { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; padding: 0.55rem 0.7rem; border-radius: 12px; background: #fff; border: 1px solid var(--border); }
+.bc-row.is-sent { opacity: 0.7; }
+.bc-row .btn { flex-shrink: 0; }

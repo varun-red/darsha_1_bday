@@ -14,6 +14,7 @@ import {
   listWishes,
   setWishApproved,
   deleteWish,
+  clearMessaged,
   DEFAULT_SETTINGS,
 } from '../db.js';
 import {
@@ -26,7 +27,7 @@ import {
   isDefaultPassword,
 } from '../auth.js';
 import { emailConfigured, sendMail } from '../mailer.js';
-import { buildInvite, inviteLink, reminderMessage } from '../invites.js';
+import { buildInvite, inviteLink, reminderMessage, templateVars, whatsappNumber } from '../invites.js';
 
 const router = Router();
 
@@ -110,7 +111,7 @@ router.get('/guests/:id/invite', async (req, res) => {
   const invite = buildInvite(req, s, guest);
   const qr = await QRCode.toString(invite.link, { type: 'svg', margin: 1, color: { dark: '#2b1d4a', light: '#fff6ec' } });
   const reminder = reminderMessage(s, guest, invite.link);
-  const phoneDigits = guest.phone ? guest.phone.replace(/\D/g, '') : '';
+  const phoneDigits = whatsappNumber(guest.phone);
   res.json({
     guest,
     invite: {
@@ -139,10 +140,35 @@ router.post('/guests/:id/invited', async (req, res) => {
   const id = Number(req.params.id);
   if (!(await getGuestById(id))) return res.status(404).json({ error: 'Guest not found.' });
   const via = String(req.body?.via || 'link').slice(0, 20);
-  const kind = req.body?.kind === 'reminder' ? 'reminder' : 'invite';
+  const kind = ['reminder', 'message'].includes(req.body?.kind) ? req.body.kind : 'invite';
   const now = new Date().toISOString();
-  const guest = kind === 'reminder' ? await updateGuest(id, { reminded_at: now }) : await updateGuest(id, { invited_via: via, invited_at: now });
-  res.json({ guest });
+  const patch = kind === 'reminder' ? { reminded_at: now } : kind === 'message' ? { messaged_at: now } : { invited_via: via, invited_at: now };
+  res.json({ guest: await updateGuest(id, patch) });
+});
+
+// ---------- message everyone who is coming ----------
+// WhatsApp has no free way to send on the host's behalf, so the dashboard walks
+// through one pre-filled chat per attending guest. The browser fills the
+// template (so edits preview live) from the shared vars plus each guest's own.
+router.get('/broadcast', async (req, res) => {
+  const s = await getPublicSettings();
+  const recipients = (await listGuests())
+    .filter((g) => g.status === 'attending')
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .map((g) => ({
+      id: g.id,
+      name: g.name,
+      phone: g.phone,
+      waNumber: whatsappNumber(g.phone),
+      link: inviteLink(req, g),
+      headcount: g.rsvp.adults + g.rsvp.children,
+      messaged_at: g.messaged_at,
+    }));
+  res.json({ template: s.attendee_template || DEFAULT_SETTINGS.attendee_template, vars: templateVars(s, null, ''), recipients });
+});
+
+router.post('/broadcast/reset', async (req, res) => {
+  res.json({ ok: true, cleared: await clearMessaged() });
 });
 
 // Send the invitation or reminder by email through SMTP (when configured)
