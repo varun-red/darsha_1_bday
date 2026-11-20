@@ -1,9 +1,9 @@
 /* =========================================================
    garden.js — the living backdrop
-   Procedural hedges, distant trees and flower beds; a rose
-   arch and string lights; a canvas of stars, fairy dust,
-   butterflies and drifting petals; cursor sparkles, parallax
-   and an optional ambient garden soundscape (Web Audio).
+   Procedural hedges, distant trees and flower beds; a floral
+   garland arch; a canvas of pollen, butterflies and drifting
+   petals; cursor sparkles, parallax and an optional ambient
+   garden soundscape (Web Audio). Watercolour daylight palette.
    ========================================================= */
 (() => {
   'use strict';
@@ -23,8 +23,10 @@
   const f1 = (n) => n.toFixed(1);
   const pick = (r, arr) => arr[Math.floor(r() * arr.length)];
 
-  const PASTELS = ['#f7a8bd', '#cdb8f6', '#fff0d2', '#f8c1a4', '#fff8f0', '#b9d8f6'];
-  const PASTEL_DEEP = ['#d9678d', '#9a7fd6', '#e8c07a', '#e4895f', '#e2c9c9', '#7fa9dc'];
+  const PASTELS = ['#f9c5d1', '#d9cdef', '#fff6d8', '#c9dff0', '#fffdf7', '#fbd3c2'];
+  const PASTEL_DEEP = ['#e9a0b5', '#b9a6dc', '#ead7a8', '#a5c4e2', '#e6d2c8', '#efa98f'];
+  const LEAF = ['#9fd58f', '#66ad69', '#bfe6b0'];
+  const FL = window.Flowers;
 
   // ---------- far layer: hazy hills and distant trees ----------
   function buildFar(svg) {
@@ -33,9 +35,9 @@
     svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
     const r = rng(7);
     let out = `<defs>
-      <linearGradient id="hillA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9c7ab0"/><stop offset="1" stop-color="#6b4f8a"/></linearGradient>
-      <linearGradient id="hillB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7e5f98"/><stop offset="1" stop-color="#5a4586"/></linearGradient>
-      <linearGradient id="farTree" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7a5c95"/><stop offset="1" stop-color="#4f3a72"/></linearGradient>
+      <linearGradient id="hillA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e3f5d9"/><stop offset="1" stop-color="#c6e7b8"/></linearGradient>
+      <linearGradient id="hillB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfe9c2"/><stop offset="1" stop-color="#b0d9a2"/></linearGradient>
+      <linearGradient id="farTree" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cbe8bc"/><stop offset="1" stop-color="#a3cf97"/></linearGradient>
     </defs>`;
     out += `<path d="M0 ${H} L0 420 Q300 330 600 400 T1200 380 T1800 410 L${W} ${H}Z" fill="url(#hillA)" opacity=".85"/>`;
     // distant round trees along the hill crest
@@ -67,8 +69,8 @@
     svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
     const r = rng(19);
     let out = `<defs>
-      <linearGradient id="hedgeGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4f8f62"/><stop offset="1" stop-color="#2a5a3f"/></linearGradient>
-      <linearGradient id="topiaryGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5c9d6e"/><stop offset="1" stop-color="#2f6344"/></linearGradient>
+      <linearGradient id="hedgeGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b6e2a5"/><stop offset="1" stop-color="#7fbd77"/></linearGradient>
+      <linearGradient id="topiaryGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c2e7b2"/><stop offset="1" stop-color="#78b872"/></linearGradient>
     </defs>`;
     // hedge: overlapping round blobs along the base
     let d = `M0,${H}L0,${H - 120}`;
@@ -87,7 +89,7 @@
       if (r() < 0.5) {
         const br = 46 + r() * 30;
         const cy = H - 190 - r() * 60;
-        topi += `<path d="M${f1(x - 6)},${f1(H - 100)}L${f1(x - 5)},${f1(cy)}L${f1(x + 5)},${f1(cy)}L${f1(x + 6)},${f1(H - 100)}Z" fill="#2a4a36"/>`;
+        topi += `<path d="M${f1(x - 6)},${f1(H - 100)}L${f1(x - 5)},${f1(cy)}L${f1(x + 5)},${f1(cy)}L${f1(x + 6)},${f1(H - 100)}Z" fill="#8fb884"/>`;
         topi += `<circle cx="${f1(x)}" cy="${f1(cy)}" r="${f1(br)}" fill="url(#topiaryGrad)"/>`;
         if (r() < 0.5) topi += `<circle cx="${f1(x)}" cy="${f1(cy - br - 26)}" r="${f1(br * 0.5)}" fill="url(#topiaryGrad)"/>`;
       } else {
@@ -107,8 +109,9 @@
     svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
     const r = rng(31);
     let out = `<defs>
-      <linearGradient id="stalkGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3f7a55"/><stop offset="1" stop-color="#1f4f36"/></linearGradient>
-      <linearGradient id="soilNear" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2f6b49"/><stop offset="1" stop-color="#1c4a33"/></linearGradient>
+      ${FL.defs()}
+      <linearGradient id="stalkGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8ccb84"/><stop offset="1" stop-color="#4f9457"/></linearGradient>
+      <linearGradient id="soilNear" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#aedc9f"/><stop offset="1" stop-color="#7fbd77"/></linearGradient>
     </defs>`;
     out += `<path d="M0 ${H} L0 ${H - 60} Q300 ${H - 100} 600 ${H - 70} T1200 ${H - 80} T1800 ${H - 66} L${W} ${H}Z" fill="url(#soilNear)"/>`;
     // grass blades
@@ -119,7 +122,7 @@
       const lean = (r() - 0.5) * 50;
       grass += `M${f1(x)},${H - 50}Q${f1(x + lean * 0.4)},${f1(H - 50 - h * 0.6)} ${f1(x + lean)},${f1(H - 50 - h)}`;
     }
-    out += `<path d="${grass}" stroke="#1f4f36" stroke-width="3" fill="none" stroke-linecap="round" opacity=".9"/>`;
+    out += `<path d="${grass}" stroke="#6fb26c" stroke-width="3" fill="none" stroke-linecap="round" opacity=".9"/>`;
     // stalks with blooms
     let stalks = '';
     let blooms = '';
@@ -135,120 +138,116 @@
       const lx = x + lean * 0.3;
       stalks += `M${f1(lx)},${f1(ly)}q-22,-6 -30,-26q20,4 30,26z M${f1(lx)},${f1(ly + 24)}q22,-6 30,-26q-20,4 -30,26z`;
       const kind = r();
-      const c = Math.floor(r() * PASTELS.length);
-      if (kind < 0.4) {
-        // daisy-like: 6 petals + heart
-        const pr = 6 + r() * 5;
-        let petals = '';
-        for (let k = 0; k < 6; k++) {
-          const a = (k / 6) * Math.PI * 2;
-          petals += `<ellipse cx="${f1(topX + Math.cos(a) * pr)}" cy="${f1(topY + Math.sin(a) * pr)}" rx="${f1(pr * 0.55)}" ry="${f1(pr * 0.9)}" transform="rotate(${f1((a * 180) / Math.PI + 90)} ${f1(topX + Math.cos(a) * pr)} ${f1(topY + Math.sin(a) * pr)})"/>`;
-        }
-        blooms += `<g fill="${PASTELS[c]}">${petals}</g><circle cx="${f1(topX)}" cy="${f1(topY)}" r="${f1(pr * 0.5)}" fill="#f0c37a"/>`;
-      } else if (kind < 0.7) {
-        // lavender spike
-        let spike = '';
-        for (let k = 0; k < 6; k++) spike += `<ellipse cx="${f1(topX + (k % 2 ? 5 : -5))}" cy="${f1(topY + k * 9)}" rx="5" ry="6.5"/>`;
-        blooms += `<g fill="${k2(c)}">${spike}</g>`;
+      const rot = (r() - 0.5) * 40;
+      if (kind < 0.38) {
+        blooms += FL.daisy(topX, topY, 9 + r() * 8, rot);
+      } else if (kind < 0.62) {
+        blooms += FL.lavender(topX, topY - 8, 34 + r() * 26, (r() - 0.5) * 16);
+      } else if (kind < 0.8) {
+        blooms += FL.peony(topX, topY, 10 + r() * 9, pick(r, ['pink', 'blush', 'lilac']), rot);
       } else {
-        // round bloom (rose/peony)
-        const br = 8 + r() * 8;
-        blooms += `<circle cx="${f1(topX)}" cy="${f1(topY)}" r="${f1(br)}" fill="${PASTELS[c]}"/><circle cx="${f1(topX - br * 0.15)}" cy="${f1(topY - br * 0.15)}" r="${f1(br * 0.5)}" fill="${PASTEL_DEEP[c]}" opacity=".5"/>`;
+        blooms += FL.hydrangea(topX, topY, 10 + r() * 7, rot);
       }
     }
-    out += `<path d="${stalks}" stroke="url(#stalkGrad)" stroke-width="3.5" fill="#2f6b49" stroke-linecap="round"/>`;
+    out += `<path d="${stalks}" stroke="url(#stalkGrad)" stroke-width="3.5" fill="#9fd58f" stroke-linecap="round"/>`;
     out += blooms;
     svg.innerHTML = out;
   }
-  function k2(c) { return c === 1 ? '#b39ae6' : c === 5 ? '#9fc3ea' : '#c8b3f5'; }
+  function k2(c) { return c === 1 ? '#b9a6dc' : c === 3 ? '#a5c4e2' : '#c3aee6'; }
 
-  // ---------- string lights ----------
-  function buildLights(svg) {
-    if (!svg) return;
-    const W = 1000, H = 200;
-    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
-    const r = rng(5);
-    const q = (p0, p1, p2, t) => ({
-      x: (1 - t) * (1 - t) * p0.x + 2 * (1 - t) * t * p1.x + t * t * p2.x,
-      y: (1 - t) * (1 - t) * p0.y + 2 * (1 - t) * t * p1.y + t * t * p2.y,
-    });
-    let out = `<defs><filter id="bulbGlow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="4"/></filter></defs>`;
-    const strands = [
-      { p0: { x: -20, y: 10 }, p1: { x: 420, y: 150 }, p2: { x: 1020, y: 30 }, n: 16 },
-      { p0: { x: -20, y: 40 }, p1: { x: 620, y: 190 }, p2: { x: 1020, y: 70 }, n: 14 },
-    ];
-    for (const s of strands) {
-      out += `<path d="M${s.p0.x} ${s.p0.y} Q${s.p1.x} ${s.p1.y} ${s.p2.x} ${s.p2.y}" stroke="#2a1d45" stroke-width="2" fill="none" opacity=".8"/>`;
-      for (let i = 1; i < s.n; i++) {
-        const t = i / s.n + (r() - 0.5) * 0.01;
-        const p = q(s.p0, s.p1, s.p2, t);
-        const col = pick(r, ['#ffe1a8', '#ffd3dc', '#fff0d2', '#e9dcff']);
-        out += `<line x1="${f1(p.x)}" y1="${f1(p.y)}" x2="${f1(p.x)}" y2="${f1(p.y + 8)}" stroke="#2a1d45" stroke-width="2"/>`;
-        out += `<g class="bulb" style="animation-delay:-${f1(r() * 3.2)}s">
-          <circle cx="${f1(p.x)}" cy="${f1(p.y + 15)}" r="11" fill="${col}" opacity=".45" filter="url(#bulbGlow)"/>
-          <circle cx="${f1(p.x)}" cy="${f1(p.y + 15)}" r="5" fill="${col}"/>
-          <circle cx="${f1(p.x - 1.5)}" cy="${f1(p.y + 13)}" r="1.6" fill="#fff"/>
-        </g>`;
-      }
-    }
-    svg.innerHTML = out;
-  }
-
-  // ---------- rose arch ----------
+  // ---------- floral garland arch ----------
   function buildArch(svg) {
     if (!svg) return;
     const r = rng(43);
-    const cx = 450, cy = 380, R = 340;
-    const left = cx - R, right = cx + R, base = 760;
+    // On phones the arch becomes a tall portrait frame anchored to the top of the hero:
+    // pillars are inset so the whole garland stays inside the viewport, and they run
+    // off the bottom behind the flower bed.
+    const cx = 450, cy = 380, R = isSmall ? 350 : 340;
+    const left = cx - R, right = cx + R, base = isSmall ? 2300 : 760;
+    // The phone arch renders at roughly 40% of the desktop scale, so fatten everything up there.
+    const S = isSmall ? 1.7 : 1;
+    svg.setAttribute('viewBox', `0 0 900 ${base}`);
+    svg.setAttribute('preserveAspectRatio', isSmall ? 'xMidYMin meet' : 'xMidYMax meet');
     let out = `<defs>
-      <linearGradient id="archWood" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3f6b4f"/><stop offset=".5" stop-color="#5a8c68"/><stop offset="1" stop-color="#2f5e42"/></linearGradient>
-      <radialGradient id="archRose" cx="45%" cy="40%" r="65%"><stop offset="0" stop-color="#ffd9e2"/><stop offset=".65" stop-color="#f2a0b6"/><stop offset="1" stop-color="#d9678d"/></radialGradient>
-      <radialGradient id="archPeony" cx="45%" cy="40%" r="65%"><stop offset="0" stop-color="#fff8f0"/><stop offset=".7" stop-color="#ffd3dc"/><stop offset="1" stop-color="#e9a3b5"/></radialGradient>
-      <radialGradient id="archLilac" cx="45%" cy="40%" r="65%"><stop offset="0" stop-color="#efe6ff"/><stop offset=".7" stop-color="#c8b3f5"/><stop offset="1" stop-color="#9a7fd6"/></radialGradient>
-      <radialGradient id="archGold" cx="45%" cy="40%" r="65%"><stop offset="0" stop-color="#fff6d6"/><stop offset=".7" stop-color="#ffe1a8"/><stop offset="1" stop-color="#e0a94c"/></radialGradient>
+      ${FL.defs()}
+      <radialGradient id="archPeony" cx="45%" cy="40%" r="65%"><stop offset="0" stop-color="#fde6ec"/><stop offset=".6" stop-color="#f7b7c6"/><stop offset="1" stop-color="#e58fa9"/></radialGradient>
+      <radialGradient id="archBlush" cx="45%" cy="40%" r="65%"><stop offset="0" stop-color="#fff8f8"/><stop offset=".7" stop-color="#fbd9e1"/><stop offset="1" stop-color="#f0b3c3"/></radialGradient>
+      <radialGradient id="archHydra" cx="45%" cy="40%" r="65%"><stop offset="0" stop-color="#e8f1fa"/><stop offset="1" stop-color="#a9c9e6"/></radialGradient>
+      <radialGradient id="archLilac" cx="45%" cy="40%" r="65%"><stop offset="0" stop-color="#f3eefb"/><stop offset=".7" stop-color="#d9cdef"/><stop offset="1" stop-color="#b9a6dc"/></radialGradient>
+      <radialGradient id="archYolk" cx="45%" cy="40%" r="60%"><stop offset="0" stop-color="#fbe28f"/><stop offset="1" stop-color="#e9b93f"/></radialGradient>
     </defs>`;
     const archPath = `M${left} ${base} V${cy} A${R} ${R} 0 0 1 ${right} ${cy} V${base}`;
-    out += `<path d="${archPath}" stroke="#22432f" stroke-width="22" fill="none" stroke-linecap="round" opacity=".9"/>`;
-    out += `<path d="${archPath}" stroke="url(#archWood)" stroke-width="14" fill="none" stroke-linecap="round"/>`;
-    out += `<path d="${archPath}" stroke="#a7cfae" stroke-width="3" fill="none" stroke-dasharray="14 18" opacity=".45"/>`;
-    // lattice inside the pillars
-    for (const px of [left, right]) {
-      for (let y = cy + 20; y < base - 30; y += 46) {
-        out += `<path d="M${px - 18} ${y} L${px + 18} ${y + 34} M${px + 18} ${y} L${px - 18} ${y + 34}" stroke="#3f6b4f" stroke-width="4" opacity=".7" stroke-linecap="round"/>`;
-      }
-    }
+    // slim greenery arch
+    out += `<path d="${archPath}" stroke="#7bb974" stroke-width="${f1(12 * S)}" fill="none" stroke-linecap="round" opacity=".95"/>`;
+    out += `<path d="${archPath}" stroke="#c9ecbb" stroke-width="${f1(3 * S)}" fill="none" stroke-dasharray="${f1(10 * S)} ${f1(16 * S)}" opacity=".9"/>`;
     // sample points along the arch for foliage & blooms
     const pts = [];
-    for (let y = base - 30; y > cy; y -= 34) { pts.push({ x: left, y, t: 0 }); pts.push({ x: right, y, t: 0 }); }
-    for (let a = Math.PI; a >= 0; a -= Math.PI / 26) pts.push({ x: cx + Math.cos(a) * R, y: cy - Math.sin(a) * R, t: 1 });
-    const fills = ['url(#archRose)', 'url(#archPeony)', 'url(#archLilac)', 'url(#archGold)', 'url(#archRose)'];
+    for (let y = base - 30; y > cy; y -= 34 * S) { pts.push({ x: left, y, t: 0 }); pts.push({ x: right, y, t: 0 }); }
+    for (let a = Math.PI; a >= 0; a -= Math.PI / (isSmall ? 16 : 26)) pts.push({ x: cx + Math.cos(a) * R, y: cy - Math.sin(a) * R, t: 1, a });
     let leaves = '';
-    let roses = '';
+    let blooms = '';
     let wisteria = '';
+    let vines = '';
     for (const p of pts) {
       const n = 2 + Math.floor(r() * 3);
       for (let k = 0; k < n; k++) {
         const ang = r() * 360;
-        const lx = p.x + (r() - 0.5) * 34;
-        const ly = p.y + (r() - 0.5) * 30;
-        leaves += `<ellipse cx="${f1(lx)}" cy="${f1(ly)}" rx="7" ry="14" transform="rotate(${f1(ang)} ${f1(lx)} ${f1(ly)})" fill="${r() < 0.5 ? '#4d8f62' : '#6fae7f'}"/>`;
+        const lx = p.x + (r() - 0.5) * 40 * S;
+        const ly = p.y + (r() - 0.5) * 34 * S;
+        leaves += FL.leaf(lx, ly, (18 + r() * 14) * S, ang, pick(r, LEAF));
       }
-      if (r() < 0.75) {
-        const rr = 9 + r() * 9;
-        const rx = p.x + (r() - 0.5) * 26;
-        const ry = p.y + (r() - 0.5) * 26;
-        roses += `<circle cx="${f1(rx)}" cy="${f1(ry)}" r="${f1(rr)}" fill="${pick(r, fills)}"/><circle cx="${f1(rx - rr * 0.15)}" cy="${f1(ry - rr * 0.1)}" r="${f1(rr * 0.42)}" fill="rgba(217,103,141,.28)"/>`;
+      const kind = r();
+      const bx = p.x + (r() - 0.5) * 30 * S;
+      const by = p.y + (r() - 0.5) * 30 * S;
+      const rot = (r() - 0.5) * 60;
+      // phones get a lighter, whiter mix: fewer pink peonies, more daisies and hydrangea
+      const peonyShare = isSmall ? 0.2 : 0.36;
+      const hydraShare = isSmall ? 0.46 : 0.58;
+      if (kind < peonyShare) {
+        blooms += FL.peony(bx, by, (16 + r() * 14) * S, r() < (isSmall ? 0.4 : 0.65) ? 'pink' : 'blush', rot);
+      } else if (kind < hydraShare) {
+        blooms += FL.hydrangea(bx, by, (18 + r() * 9) * S, rot);
+      } else if (kind < 0.84) {
+        blooms += FL.daisy(bx, by, (13 + r() * 8) * S, rot);
+      } else if (kind < 0.94) {
+        blooms += FL.peony(bx, by, (9 + r() * 6) * S, 'lilac', rot);
       }
-      if (p.t === 1 && r() < 0.35 && p.y < cy - 60) {
-        const n2 = 4 + Math.floor(r() * 5);
+      // hanging wisteria and trailing vines from the upper arch
+      if (p.t === 1 && p.y < cy - 40 && r() < 0.45) {
+        const n2 = 5 + Math.floor(r() * 7);
+        const drift = (r() - 0.5) * 20 * S;
         for (let k = 0; k < n2; k++) {
-          const wx = p.x + (r() - 0.5) * 8 + Math.sin(k) * 3;
-          const wy = p.y + 18 + k * 11;
-          wisteria += `<circle cx="${f1(wx)}" cy="${f1(wy)}" r="${f1(6 - k * 0.4)}" fill="${k % 2 ? '#c8b3f5' : '#b39ae6'}" opacity=".95"/>`;
+          const wx = p.x + drift * (k / n2) + Math.sin(k * 1.3) * 3 * S;
+          const wy = p.y + (20 + k * 12) * S;
+          wisteria += `<circle cx="${f1(wx)}" cy="${f1(wy)}" r="${f1((6.5 - k * 0.4) * S)}" fill="${k % 2 ? '#cfbcf3' : '#ae92e6'}" opacity=".95"/>`;
+        }
+      }
+      if (p.t === 1 && p.a > 0.35 && p.a < Math.PI - 0.35 && (p.a < 1.05 || p.a > Math.PI - 1.05) && r() < 0.6) {
+        const len = (90 + r() * 140) * S;
+        const sway = (r() - 0.5) * 60 * S;
+        vines += `<path d="M${f1(p.x)} ${f1(p.y)} q${f1(sway)} ${f1(len * 0.5)} ${f1(sway * 0.4)} ${f1(len)}" stroke="#7bb974" stroke-width="${f1(2 * S)}" fill="none" stroke-linecap="round"/>`;
+        for (let k = 1; k < len / 22; k++) {
+          const t = k / (len / 22);
+          const vx = p.x + sway * t * (1 - t) * 2 * 0.5 + sway * 0.4 * t * t;
+          const vy = p.y + len * t;
+          const side = k % 2 ? 1 : -1;
+          vines += FL.leaf(vx, vy, (12 + r() * 6) * S, side * 50 + 20, pick(r, LEAF));
         }
       }
     }
-    out += `<g>${leaves}</g><g>${wisteria}</g><g>${roses}</g>`;
+    // pink satin bow on the left shoulder
+    const bx = cx + Math.cos((135 * Math.PI) / 180) * R, by = cy - Math.sin((135 * Math.PI) / 180) * R;
+    // outer group carries the position; the CSS sway animation on .bow would override an inline transform
+    const bow = `<g transform="translate(${f1(bx)} ${f1(by)}) rotate(-20) scale(${f1(S)})"><g class="bow">
+      <path d="M-6 6 q-10 40 -22 90 q8 -6 16 0 q4 -46 10 -88z" fill="#fbc6d9" stroke="#e8739c" stroke-width="1.2"/>
+      <path d="M6 6 q10 40 24 86 q-8 -6 -16 0 q-4 -46 -12 -84z" fill="#f9b4ca" stroke="#e8739c" stroke-width="1.2"/>
+      <ellipse cx="-30" cy="-6" rx="30" ry="17" transform="rotate(-18 -30 -6)" fill="#fbc6d9" stroke="#e8739c" stroke-width="1.4"/>
+      <ellipse cx="30" cy="-6" rx="30" ry="17" transform="rotate(18 30 -6)" fill="#f9b4ca" stroke="#e8739c" stroke-width="1.4"/>
+      <ellipse cx="-28" cy="-8" rx="14" ry="6" transform="rotate(-18 -28 -8)" fill="#fff" opacity=".45"/>
+      <ellipse cx="28" cy="-8" rx="14" ry="6" transform="rotate(18 28 -8)" fill="#fff" opacity=".45"/>
+      <circle cx="0" cy="0" r="9" fill="#f48fb1" stroke="#e8739c" stroke-width="1.2"/>
+    </g></g>`;
+    out += `<g>${vines}</g><g>${leaves}</g><g>${wisteria}</g><g>${blooms}</g>${bow}`;
     svg.innerHTML = out;
   }
 
@@ -261,35 +260,33 @@
     for (let x = 80; x <= 720; x += 40) { pts.push({ x, y: 4 + (r() - 0.5) * 10 }); if (r() < 0.6) pts.push({ x: x + 20, y: 250 + (r() - 0.5) * 10 }); }
     for (let y = 20; y <= 240; y += 34) { pts.push({ x: 62 + (r() - 0.5) * 10, y }); pts.push({ x: 738 + (r() - 0.5) * 10, y }); }
     let leaves = '', roses = '';
-    const fills = ['#f7a8bd', '#ffd3dc', '#cdb8f6', '#fff0d2'];
     for (const p of pts) {
       const n = 1 + Math.floor(r() * 3);
       for (let k = 0; k < n; k++) {
         const ang = r() * 360;
         const lx = p.x + (r() - 0.5) * 30;
         const ly = p.y + (r() - 0.5) * 26;
-        leaves += `<ellipse cx="${f1(lx)}" cy="${f1(ly)}" rx="6" ry="12" transform="rotate(${f1(ang)} ${f1(lx)} ${f1(ly)})" fill="${r() < 0.5 ? '#4d8f62' : '#6fae7f'}"/>`;
+        leaves += `<ellipse cx="${f1(lx)}" cy="${f1(ly)}" rx="6" ry="12" transform="rotate(${f1(ang)} ${f1(lx)} ${f1(ly)})" fill="${pick(r, LEAF)}"/>`;
       }
       if (r() < 0.55) {
-        const rr = 6 + r() * 7;
+        const rr = 7 + r() * 6;
         const rx = p.x + (r() - 0.5) * 22;
         const ry = p.y + (r() - 0.5) * 22;
-        roses += `<circle cx="${f1(rx)}" cy="${f1(ry)}" r="${f1(rr)}" fill="${pick(r, fills)}"/><circle cx="${f1(rx - rr * 0.15)}" cy="${f1(ry - rr * 0.1)}" r="${f1(rr * 0.4)}" fill="rgba(217,103,141,.3)"/>`;
+        const k = r();
+        roses += k < 0.45 ? FL.peony(rx, ry, rr, pick(r, ['pink', 'blush', 'lilac']), r() * 60) : k < 0.75 ? FL.daisy(rx, ry, rr * 0.9, r() * 60) : FL.hydrangea(rx, ry, rr * 0.9, r() * 60);
       }
     }
-    group.innerHTML = leaves + roses;
+    group.innerHTML = `<defs>${FL.defs()}</defs>` + leaves + roses;
   }
   buildTrellisVines(document.getElementById('trellisVines'));
 
   buildFar(document.getElementById('gardenFar'));
   buildMid(document.getElementById('gardenMid'));
   buildNear(document.getElementById('gardenNear'));
-  buildLights(document.getElementById('stringLights'));
   buildArch(document.getElementById('roseArch'));
 
   // ---------- parallax ----------
   const layers = Array.from(document.querySelectorAll('.hero__layer, .hero__arch'));
-  const moon = document.querySelector('.hero__moon');
   const hero = document.getElementById('hero');
   let targetX = 0, targetY = 0, curX = 0, curY = 0, scrollY = 0;
 
@@ -315,7 +312,6 @@
       const base = layer.classList.contains('hero__arch') ? 'translateX(-50%) ' : '';
       layer.style.transform = `${base}translate3d(${tx.toFixed(1)}px, ${ty.toFixed(1)}px, 0)`;
     }
-    if (moon) moon.style.translate = `${(-curX * 14).toFixed(1)}px ${(s * 0.35 - curY * 8).toFixed(1)}px`;
   }
 
   // ---------- canvas ----------
@@ -331,12 +327,12 @@
   let shooting = null;
 
   const BUTTERFLY_COLORS = [
-    ['#f7a8bd', '#d9678d'], ['#cdb8f6', '#9a7fd6'], ['#ffe1a8', '#e0a94c'], ['#b9d8f6', '#7fa9dc'], ['#fff8f0', '#e2c9c9'], ['#f8c1a4', '#e4895f'],
+    ['#f9a9c5', '#e45a8c'], ['#cab4f1', '#8f6cd9'], ['#ffe08a', '#e0a520'], ['#a9d1f3', '#5f9fdf'], ['#ffffff', '#d9c48f'], ['#ffc3a8', '#e87a55'],
   ];
 
   function resize() {
     if (!canvas) return;
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    dpr = Math.min(window.devicePixelRatio || 1, isSmall ? 1.5 : 2); // lighter canvas on phones
     W = window.innerWidth;
     H = window.innerHeight;
     canvas.width = Math.floor(W * dpr);
@@ -348,7 +344,7 @@
   function seedStars() {
     stars.length = 0;
     const r = rng(99);
-    const n = Math.floor((W * H) / (isSmall ? 12000 : 8500));
+    const n = 0; // daylight sky — no stars
     for (let i = 0; i < n; i++) {
       stars.push({ x: r() * W, y: r() * H * 0.5, s: 0.4 + r() * 1.3, p: r() * Math.PI * 2, sp: 0.4 + r() * 1.4, tint: r() });
     }
@@ -361,7 +357,7 @@
       dust.push({ x: Math.random() * W, y: H * 0.2 + Math.random() * H * 0.8, vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3, p: Math.random() * Math.PI * 2, sp: 0.6 + Math.random() * 1.4, r: 1 + Math.random() * 1.4 });
     }
     butterflies.length = 0;
-    const b = reduceMotion ? 0 : isSmall ? 6 : 12;
+    const b = reduceMotion ? 0 : isSmall ? 14 : 12;
     for (let i = 0; i < b; i++) butterflies.push(newButterfly());
     petals.length = 0;
     const m = reduceMotion ? 0 : isSmall ? 12 : 26;
@@ -378,7 +374,7 @@
       speed: 0.5 + Math.random() * 0.6,
       phase: Math.random() * Math.PI * 2,
       flap: 0.14 + Math.random() * 0.08,
-      size: isSmall ? 8 + Math.random() * 5 : 11 + Math.random() * 8,
+      size: isSmall ? 9 + Math.random() * 6 : 11 + Math.random() * 8,
       bob: Math.random() * Math.PI * 2,
       fill, edge,
     };
@@ -394,7 +390,7 @@
       rot: Math.random() * Math.PI * 2,
       vr: (Math.random() - 0.5) * 0.04,
       r: 3 + Math.random() * 4,
-      color: c < 0.5 ? '#f7a8bd' : c < 0.75 ? '#ffd3dc' : c < 0.9 ? '#fff8f0' : '#cdb8f6',
+      color: c < 0.5 ? '#f9a9c5' : c < 0.75 ? '#fbcddd' : c < 0.9 ? '#ffffff' : '#cab4f1',
       a: 0.55 + Math.random() * 0.35,
     };
   }
@@ -416,8 +412,8 @@
     ctx.save();
     ctx.translate(b.x, b.y + Math.sin(b.bob) * 3);
     ctx.rotate(b.a + Math.PI / 2);
-    // shadow glow
-    glow(0, 0, b.size * 2.2, '255,225,200', 0.12);
+    // shadow glow (skipped on phones: radial gradients are the costliest part of the frame)
+    if (!isSmall) glow(0, 0, b.size * 2.2, '255,235,210', 0.18);
     for (const side of [-1, 1]) {
       ctx.save();
       ctx.scale(side * wingScale, 1);
@@ -446,11 +442,11 @@
       ctx.restore();
     }
     // body
-    ctx.fillStyle = '#3a2545';
+    ctx.fillStyle = '#7a5a4a';
     ctx.beginPath();
     ctx.ellipse(0, 0.1 * b.size, b.size * 0.12, b.size * 0.6, 0, 0, Math.PI * 2);
     ctx.fill();
-    ctx.strokeStyle = '#3a2545';
+    ctx.strokeStyle = '#7a5a4a';
     ctx.lineWidth = 0.8;
     ctx.beginPath();
     ctx.moveTo(0, -b.size * 0.5);
@@ -464,7 +460,8 @@
 
   let last = performance.now();
   function frame(now) {
-    const dt = Math.min(50, now - last) / 16.67;
+    // allow up to 120ms per frame so motion stays real-time even when phones drop frames
+    const dt = Math.min(120, now - last) / 16.67;
     last = now;
     if (!document.hidden && ctx) {
       ctx.clearRect(0, 0, W, H);
@@ -481,28 +478,6 @@
         ctx.arc(s.x, s.y - scrollY * 0.15, s.s, 0, Math.PI * 2);
         ctx.fill();
         if (s.s > 1.4 && tw > 0.9) glow(s.x, s.y - scrollY * 0.15, s.s * 5, '255,240,220', 0.18 * scrollFade);
-      }
-
-      // shooting star
-      if (!reduceMotion) {
-        if (!shooting && Math.random() < 0.002 && scrollFade > 0.5) {
-          shooting = { x: Math.random() * W * 0.8, y: Math.random() * H * 0.25, vx: 8 + Math.random() * 5, vy: 2.5 + Math.random() * 2, life: 1 };
-        }
-        if (shooting) {
-          shooting.x += shooting.vx * dt;
-          shooting.y += shooting.vy * dt;
-          shooting.life -= 0.02 * dt;
-          const grad = ctx.createLinearGradient(shooting.x, shooting.y, shooting.x - shooting.vx * 10, shooting.y - shooting.vy * 10);
-          grad.addColorStop(0, `rgba(255,246,236,${shooting.life})`);
-          grad.addColorStop(1, 'rgba(255,246,236,0)');
-          ctx.strokeStyle = grad;
-          ctx.lineWidth = 1.6;
-          ctx.beginPath();
-          ctx.moveTo(shooting.x, shooting.y);
-          ctx.lineTo(shooting.x - shooting.vx * 10, shooting.y - shooting.vy * 10);
-          ctx.stroke();
-          if (shooting.life <= 0 || shooting.x > W + 50) shooting = null;
-        }
       }
 
       // petals
@@ -537,8 +512,8 @@
         if (f.y < -20) f.y = H + 20; else if (f.y > H + 20) f.y = -20;
         const pulse = Math.pow((Math.sin(f.p) + 1) / 2, 2);
         const a = 0.15 + pulse * 0.75;
-        glow(f.x, f.y, f.r * 8, '255,225,168', a * 0.5);
-        ctx.fillStyle = `rgba(255,246,236,${a})`;
+        if (!isSmall) glow(f.x, f.y, f.r * 8, '255,205,60', a * 0.4);
+        ctx.fillStyle = `rgba(255,213,74,${a * 0.95})`;
         ctx.beginPath();
         ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
         ctx.fill();
@@ -546,7 +521,7 @@
 
       // butterflies
       for (const b of butterflies) {
-        b.phase += b.flap * dt * (1 + b.speed);
+        b.phase += b.flap * dt * (1 + b.speed) * (isSmall ? 1.3 : 1);
         b.bob += 0.05 * dt;
         b.turn += (Math.random() - 0.5) * 0.08 * dt;
         b.turn *= 0.92;
@@ -585,8 +560,8 @@
         s.vy += s.g * dt;
         s.vx *= 0.98;
         const a = Math.max(0, s.life);
-        glow(s.x, s.y, s.r * 4, s.rgb, a * 0.4);
-        ctx.fillStyle = `rgba(255,250,240,${a})`;
+        if (!isSmall) glow(s.x, s.y, s.r * 4, s.rgb, a * 0.4);
+        ctx.fillStyle = `rgba(${s.rgb},${a})`;
         ctx.beginPath();
         ctx.arc(s.x, s.y, s.r * a, 0, Math.PI * 2);
         ctx.fill();
@@ -606,12 +581,12 @@
       r: opts.r ?? 1 + Math.random() * 1.6,
       life: 1,
       decay: opts.decay ?? 0.03 + Math.random() * 0.03,
-      rgb: opts.rgb ?? (Math.random() < 0.7 ? '255,225,168' : '247,168,189'),
+      rgb: opts.rgb ?? (Math.random() < 0.6 ? '255,205,60' : '244,143,177'),
     });
   }
 
   function burst(x, y, n = 42) {
-    const colors = ['255,225,168', '247,168,189', '205,184,246', '255,248,240', '185,216,246'];
+    const colors = ['255,205,60', '244,143,177', '202,180,241', '255,255,255', '169,209,243'];
     for (let i = 0; i < n; i++) {
       const ang = (i / n) * Math.PI * 2 + Math.random() * 0.4;
       const sp = 1.5 + Math.random() * 3.5;
@@ -752,7 +727,7 @@
     }
     return {
       start() {
-        ctxA.resume();
+        if (ctxA.state !== 'running') ctxA.resume().catch(() => {});
         master.gain.cancelScheduledValues(ctxA.currentTime);
         master.gain.linearRampToValueAtTime(0.9, ctxA.currentTime + 1.5);
         if (!chimeTimer) scheduleChime();
@@ -776,14 +751,34 @@
     };
   }
 
+  // iOS mutes Web Audio while the ringer switch is on silent unless a media
+  // element is also playing, so loop a silent clip alongside the soundscape.
+  const SILENT_CLIP = 'data:audio/wav;base64,UklGRvQHAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YdAHAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgA==';
+  let unlockEl = null;
+  function unlockMedia(on) {
+    if (!unlockEl) {
+      unlockEl = document.createElement('audio');
+      unlockEl.setAttribute('playsinline', '');
+      unlockEl.loop = true;
+      unlockEl.preload = 'auto';
+      unlockEl.src = SILENT_CLIP;
+    }
+    if (on) unlockEl.play().catch(() => {});
+    else unlockEl.pause();
+  }
+
   let audioOn = false;
   function toggleAudio(force) {
     audioOn = typeof force === 'boolean' ? force : !audioOn;
     if (!audio) audio = createAudio();
     if (!audio) return false;
-    if (audioOn) audio.start(); else audio.stop();
+    if (audioOn) { unlockMedia(true); audio.start(); } else { audio.stop(); unlockMedia(false); }
     return audioOn;
   }
+  // Mobile browsers suspend audio in the background; pick it back up on return.
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && audioOn && audio) { unlockMedia(true); audio.start(); }
+  });
 
   window.Garden = {
     burst,

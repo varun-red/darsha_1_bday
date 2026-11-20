@@ -18,6 +18,8 @@
       <div class="login__art">🌷🦋</div>
       <h1>The hosts' greenhouse</h1>
       <p class="muted">Enter the secret garden password to manage the guest list.</p>
+      <!-- A fixed username lets browsers save the password without prompting for one -->
+      <input type="text" name="username" value="hosts" autocomplete="username" readonly hidden aria-hidden="true" tabindex="-1" />
       <label class="field"><span>Password</span><input type="password" name="password" autocomplete="current-password" required autofocus /></label>
       <p class="form-error" id="loginError" hidden></p>
       <button class="btn btn--gold" type="submit">Open the garden gate</button>
@@ -122,21 +124,18 @@
             <h2>When &amp; where</h2>
             <div class="grid2">
               <label class="field"><span>Starts (local time)</span><input name="event_date" type="datetime-local" /></label>
-              <label class="field"><span>Ends (local time)</span><input name="event_end" type="datetime-local" /></label>
+              <label class="field"><span>Ends (local time) <em>— leave blank to show no end time</em></span><input name="event_end" type="datetime-local" /></label>
               <label class="field"><span>Timezone (IANA)</span><input name="timezone" placeholder="America/Chicago" /></label>
               <label class="field"><span>RSVP deadline</span><input name="rsvp_deadline" type="date" /></label>
               <label class="field"><span>Venue name</span><input name="venue_name" /></label>
               <label class="field"><span>Venue address</span><input name="venue_address" /></label>
               <label class="field field--full"><span>Custom map link (optional — otherwise Google Maps search is used)</span><input name="maps_url" type="url" /></label>
               <label class="field field--full"><span>Parking / good to know</span><input name="parking_note" /></label>
-              <label class="field field--full"><span>Gift note</span><textarea name="gift_note" rows="3"></textarea></label>
-              <label class="field field--full"><span>Registry / wish list link (optional)</span><input name="registry_url" type="url" /></label>
             </div>
           </div>
           <div class="panel">
             <h2>Dress code</h2>
             <div class="grid2">
-              <label class="field field--full"><span>Short summary (shown on the "Wear" card)</span><input name="dress_code" /></label>
               <label class="field field--full"><span>Intro line</span><textarea name="dress_code_intro" rows="2"></textarea></label>
               <label class="field"><span>Ladies</span><input name="dress_code_ladies" /></label>
               <label class="field"><span>Gentlemen</span><input name="dress_code_gents" /></label>
@@ -152,19 +151,9 @@
             <label class="field"><span>Reminder message (WhatsApp &amp; email reminders)</span><textarea name="reminder_template" rows="10"></textarea></label>
           </div>
           <div class="panel">
-            <h2>Schedule</h2>
-            <p class="muted small">One stop per line: <code>time | title | detail</code></p>
-            <label class="field"><textarea name="schedule_lines" rows="6" spellcheck="false"></textarea></label>
-          </div>
-          <div class="panel">
             <h2>First-year milestones</h2>
             <p class="muted small">One per line: <code>month | title | detail | photo URL (optional)</code></p>
             <label class="field"><textarea name="milestones_lines" rows="6" spellcheck="false"></textarea></label>
-          </div>
-          <div class="panel">
-            <h2>Questions &amp; answers</h2>
-            <p class="muted small">One per line: <code>question | answer</code></p>
-            <label class="field"><textarea name="faq_lines" rows="6" spellcheck="false"></textarea></label>
           </div>
           <div class="save-bar">
             <p class="form-error" id="settingsError" hidden></p>

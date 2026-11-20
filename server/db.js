@@ -1,5 +1,8 @@
-// SQLite persistence layer using Node's built-in sqlite module (Node >= 22.13).
-import { DatabaseSync } from 'node:sqlite';
+// SQLite persistence layer on libSQL. Locally it uses a plain SQLite file
+// (DB_PATH); in production it talks to a hosted Turso database
+// (TURSO_DATABASE_URL + TURSO_AUTH_TOKEN), which is what makes the app work on
+// serverless hosts like Vercel where the filesystem is not persistent.
+import { createClient } from '@libsql/client';
 import { mkdirSync, existsSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { randomBytes } from 'node:crypto';
@@ -13,13 +16,11 @@ export const DEFAULT_SETTINGS = {
   tagline: 'Once upon a time, in an enchanted garden, a little blossom turned ONE…',
   // ISO 8601 date-time, local to the venue.
   event_date: '2026-11-22T18:30:00',
-  event_end: '2026-11-22T21:30:00',
+  event_end: '', // leave blank for no published end time (calendar entries assume 3 hours)
   timezone: 'America/Chicago',
   venue_name: 'Flora Events Venue',
   venue_address: '3333 W Grand Pkwy N, Katy, TX 77449',
   maps_url: '',
-  // Short summary shown on the "Wear" detail card; the full guidance lives in the dress code section.
-  dress_code: 'Cocktail chic & elegant evening wear',
   dress_code_intro: "For those wondering what to wear, here's a little outfit inspiration! ✨",
   dress_code_ladies: 'Indo-Western Cocktail Chic or Elegant Evening Wear',
   dress_code_gents: 'Smart & Comfortable Evening Wear',
@@ -28,11 +29,8 @@ export const DEFAULT_SETTINGS = {
   host_phone: '',
   host_email: '',
   rsvp_deadline: '2026-11-21',
-  gift_note:
-    'Your presence is the only present we need. If you would like to bring something, a favourite picture book with a note inside would be treasured forever.',
-  registry_url: '',
   hero_photo_url: '',
-  parking_note: 'Free parking is available in the garden lot next to the pavilion.',
+  parking_note: 'Parking is available right at the venue.',
   whatsapp_template:
     "Hi {name}! 🌷🦋 You're invited to {child}'s enchanted garden first birthday on {date}. Step through the garden gate and RSVP here: {link}",
   email_subject_template: "🌸 You're invited to {child}'s Enchanted Garden First Birthday",
@@ -40,41 +38,87 @@ export const DEFAULT_SETTINGS = {
     "Dear {name},\n\nOnce upon a time, in an enchanted garden, a little blossom turned ONE… and we'd love for you to celebrate with us!\n\n📅 {date}\n📍 {venue}\n\nPlease RSVP by {deadline} at your personal invitation link:\n{link}\n\nWith love,\n{parents}",
   reminder_template:
     "✨ Just a little reminder that {child}'s 1st birthday celebration is on {date}! 💕\n\nWe're so excited to celebrate with you all!\n\nFor those wondering what to wear, here's a little outfit inspiration! ✨\n\n💕 Ladies: {ladies}\n\n✨ Gentlemen: {gents}\n\nLooking forward to a wonderful evening of celebrations, music, and dancing! 🥂💕\n\nRSVP or update your reply here: {link}",
-  schedule_json: JSON.stringify([
-    { time: '6:30 PM', title: 'Through the Garden Gate', detail: 'Arrivals, flower-crown making and welcome drinks' },
-    { time: '7:00 PM', title: 'Tea Among the Roses', detail: 'A feast of garden treats for little blossoms and grown-ups' },
-    { time: '8:00 PM', title: 'The Cake Smash', detail: 'Our birthday girl meets her very first flower-topped cake' },
-    { time: '8:30 PM', title: 'Music & Dancing', detail: 'Fairy lights, music and dancing until the butterflies say goodnight' },
-  ]),
-  faq_json: JSON.stringify([
-    { q: 'Are kids welcome?', a: 'Absolutely! This is a celebration for little ones. Let us know how many small blossoms are coming so we can prepare crafts and favours.' },
-    { q: 'What should we wear?', a: 'Ladies: Indo-Western cocktail chic or elegant evening wear. Gentlemen: smart and comfortable evening wear. See the outfit inspiration above!' },
-    { q: 'Is the venue indoors or outdoors?', a: 'The pavilion is covered with an open lawn beside it, so we party rain or shine.' },
-    { q: 'Do you have dietary options?', a: 'Yes! Tell us about allergies or preferences in your RSVP and we will make sure there is something delicious for everyone.' },
-  ]),
   milestones_json: JSON.stringify([
-    { month: 'Month 1', title: 'A tiny seed arrives', detail: 'Eyes barely open, already stealing hearts.' },
-    { month: 'Month 3', title: 'First giggles', detail: 'The garden heard a new song.' },
-    { month: 'Month 6', title: 'Sitting up tall', detail: 'Like a little tulip in the sun.' },
-    { month: 'Month 9', title: 'Crawling adventures', detail: 'No corner of the house is safe.' },
+    { month: 'Month 1', title: 'A tiny seed arrives', detail: 'Eyes barely open, already stealing hearts.', photo_url: '/assets/milestones/month-1.jpg' },
+    { month: 'Month 3', title: 'First giggles', detail: 'The garden heard a new song.', photo_url: '/assets/milestones/month-3.jpg' },
+    { month: 'Month 6', title: 'Sitting up tall', detail: 'Like a little tulip in the sun.', photo_url: '/assets/milestones/month-6.jpg' },
+    { month: 'Month 9', title: 'Crawling adventures', detail: 'No corner of the house is safe.', photo_url: '/assets/milestones/month-9.jpg' },
     { month: 'Month 12', title: 'Turning ONE', detail: 'And so the enchanted garden party begins…' },
   ]),
 };
 
 let db;
+let ready;
+let cachedSessionSecret = process.env.SESSION_SECRET || null;
+
+function isRemote() {
+  return !!process.env.TURSO_DATABASE_URL;
+}
 
 export function getDb() {
   if (db) return db;
-  const dir = dirname(DB_PATH);
-  if (DB_PATH !== ':memory:' && !existsSync(dir)) mkdirSync(dir, { recursive: true });
-  db = new DatabaseSync(DB_PATH);
-  db.exec('PRAGMA journal_mode = WAL; PRAGMA foreign_keys = ON;');
-  migrate(db);
+  if (isRemote()) {
+    db = createClient({ url: process.env.TURSO_DATABASE_URL, authToken: process.env.TURSO_AUTH_TOKEN });
+  } else if (DB_PATH === ':memory:') {
+    db = createClient({ url: ':memory:' });
+  } else {
+    const dir = dirname(DB_PATH);
+    if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
+    db = createClient({ url: `file:${DB_PATH}` });
+  }
   return db;
 }
 
-function migrate(db) {
-  db.exec(`
+// Creates tables and seeds defaults once; safe to await on every request.
+export function initDb() {
+  if (!ready) ready = migrate(getDb());
+  return ready;
+}
+
+// ---------- tiny query helpers ----------
+// Serverless instances can wake up holding a dead connection to the hosted
+// database; when a call fails with a connection-shaped error, rebuild the
+// client and try once more instead of failing the request.
+const TRANSIENT = /stream|baton|closed|expired|reset|socket|fetch failed|network|timeout|ETIMEDOUT|ECONN|EPIPE|50[234]/i;
+async function withRetry(fn) {
+  try {
+    return await fn();
+  } catch (e) {
+    if (!isRemote() || !TRANSIENT.test(String(e && (e.message || e)))) throw e;
+    console.warn('Database call failed, reconnecting and retrying once:', e.message || e);
+    try { db && db.close(); } catch { /* ignore */ }
+    db = undefined;
+    return fn();
+  }
+}
+const execute = (stmt) => withRetry(() => getDb().execute(stmt));
+export const batch = (stmts, mode = 'write') => withRetry(() => getDb().batch(stmts, mode));
+
+async function run(sql, args = []) {
+  const r = await execute({ sql, args });
+  return { changes: r.rowsAffected, lastInsertRowid: r.lastInsertRowid === undefined ? null : Number(r.lastInsertRowid) };
+}
+async function get(sql, args = []) {
+  const r = await execute({ sql, args });
+  return r.rows[0] ? plain(r.rows[0]) : undefined;
+}
+async function all(sql, args = []) {
+  const r = await execute({ sql, args });
+  return r.rows.map(plain);
+}
+// libSQL rows carry column names as enumerable keys; copy them into a plain object.
+function plain(row) {
+  const o = {};
+  for (const k of Object.keys(row)) o[k] = row[k];
+  return o;
+}
+
+async function migrate(client) {
+  if (!isRemote()) {
+    await client.execute('PRAGMA journal_mode = WAL').catch(() => {});
+    await client.execute('PRAGMA foreign_keys = ON').catch(() => {});
+  }
+  await client.executeMultiple(`
     CREATE TABLE IF NOT EXISTS settings (
       key TEXT PRIMARY KEY,
       value TEXT NOT NULL
@@ -127,40 +171,43 @@ function migrate(db) {
   `);
 
   // Seed defaults for any missing settings.
-  const insert = db.prepare('INSERT OR IGNORE INTO settings (key, value) VALUES (?, ?)');
-  for (const [k, v] of Object.entries(DEFAULT_SETTINGS)) insert.run(k, String(v));
-  insert.run('session_secret', randomBytes(32).toString('hex'));
+  const seeds = Object.entries(DEFAULT_SETTINGS).map(([k, v]) => ({ sql: 'INSERT OR IGNORE INTO settings (key, value) VALUES (?, ?)', args: [k, String(v)] }));
+  seeds.push({ sql: 'INSERT OR IGNORE INTO settings (key, value) VALUES (?, ?)', args: ['session_secret', randomBytes(32).toString('hex')] });
+  await client.batch(seeds, 'write');
+  if (!cachedSessionSecret) {
+    const row = await get("SELECT value FROM settings WHERE key = 'session_secret'");
+    cachedSessionSecret = row?.value || null;
+  }
+}
+
+// Synchronous accessor for the cookie-signing secret (populated by initDb).
+export function sessionSecret() {
+  if (!cachedSessionSecret) throw new Error('Database not initialised yet');
+  return cachedSessionSecret;
 }
 
 // ---------- settings ----------
-export function getSettings() {
-  const rows = getDb().prepare('SELECT key, value FROM settings').all();
+export async function getSettings() {
+  const rows = await all('SELECT key, value FROM settings');
   const out = {};
   for (const r of rows) out[r.key] = r.value;
   return out;
 }
 
-export function getPublicSettings() {
-  const s = getSettings();
+export async function getPublicSettings() {
+  const s = await getSettings();
   delete s.session_secret;
   return s;
 }
 
-export function updateSettings(patch) {
-  const db = getDb();
-  const stmt = db.prepare('INSERT INTO settings (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value');
+export async function updateSettings(patch) {
   const allowed = new Set(Object.keys(DEFAULT_SETTINGS));
-  db.exec('BEGIN');
-  try {
-    for (const [k, v] of Object.entries(patch)) {
-      if (!allowed.has(k)) continue;
-      stmt.run(k, String(v ?? ''));
-    }
-    db.exec('COMMIT');
-  } catch (e) {
-    db.exec('ROLLBACK');
-    throw e;
+  const stmts = [];
+  for (const [k, v] of Object.entries(patch)) {
+    if (!allowed.has(k)) continue;
+    stmts.push({ sql: 'INSERT INTO settings (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value', args: [k, String(v ?? '')] });
   }
+  if (stmts.length) await batch(stmts, 'write');
   return getPublicSettings();
 }
 
@@ -182,15 +229,12 @@ export function normalizeEmail(email) {
   return e ? e : null;
 }
 
-export function createGuest({ name, email, phone, household, max_party, tags, notes, source = 'admin' }) {
-  const db = getDb();
+export async function createGuest({ name, email, phone, household, max_party, tags, notes, source = 'admin' }) {
   const token = newToken();
-  const info = db
-    .prepare(
-      `INSERT INTO guests (token, name, email, phone, household, max_party, tags, notes, source)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
-    )
-    .run(
+  const info = await run(
+    `INSERT INTO guests (token, name, email, phone, household, max_party, tags, notes, source)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    [
       token,
       String(name).trim(),
       normalizeEmail(email),
@@ -199,13 +243,13 @@ export function createGuest({ name, email, phone, household, max_party, tags, no
       max_party ? Number(max_party) : null,
       tags ? String(tags).trim() : null,
       notes ? String(notes).trim() : null,
-      source
-    );
-  return getGuestById(Number(info.lastInsertRowid));
+      source,
+    ]
+  );
+  return getGuestById(info.lastInsertRowid);
 }
 
-export function updateGuest(id, patch) {
-  const db = getDb();
+export async function updateGuest(id, patch) {
   const fields = [];
   const values = [];
   const map = {
@@ -229,12 +273,21 @@ export function updateGuest(id, patch) {
   if (!fields.length) return getGuestById(id);
   fields.push("updated_at = datetime('now')");
   values.push(id);
-  db.prepare(`UPDATE guests SET ${fields.join(', ')} WHERE id = ?`).run(...values);
+  await run(`UPDATE guests SET ${fields.join(', ')} WHERE id = ?`, values);
   return getGuestById(id);
 }
 
-export function deleteGuest(id) {
-  return getDb().prepare('DELETE FROM guests WHERE id = ?').run(id).changes > 0;
+export async function deleteGuest(id) {
+  // Explicit cascade so we do not depend on the foreign_keys pragma being on.
+  const results = await batch(
+    [
+      { sql: 'DELETE FROM rsvps WHERE guest_id = ?', args: [id] },
+      { sql: 'UPDATE wishes SET guest_id = NULL WHERE guest_id = ?', args: [id] },
+      { sql: 'DELETE FROM guests WHERE id = ?', args: [id] },
+    ],
+    'write'
+  );
+  return results[2].rowsAffected > 0;
 }
 
 const GUEST_SELECT = `
@@ -243,35 +296,32 @@ const GUEST_SELECT = `
          r.updated_at AS rsvp_updated_at
   FROM guests g LEFT JOIN rsvps r ON r.guest_id = g.id`;
 
-export function getGuestById(id) {
-  return shape(getDb().prepare(`${GUEST_SELECT} WHERE g.id = ?`).get(id));
+export async function getGuestById(id) {
+  return shape(await get(`${GUEST_SELECT} WHERE g.id = ?`, [id]));
 }
 
-export function getGuestByToken(token) {
+export async function getGuestByToken(token) {
   if (!token) return null;
-  return shape(getDb().prepare(`${GUEST_SELECT} WHERE g.token = ?`).get(String(token)));
+  return shape(await get(`${GUEST_SELECT} WHERE g.token = ?`, [String(token)]));
 }
 
-export function findGuestByContact({ email, phone }) {
-  const db = getDb();
+export async function findGuestByContact({ email, phone }) {
   const e = normalizeEmail(email);
   const p = normalizePhone(phone);
   if (e) {
-    const row = db.prepare(`${GUEST_SELECT} WHERE g.email = ?`).get(e);
+    const row = await get(`${GUEST_SELECT} WHERE g.email = ?`, [e]);
     if (row) return shape(row);
   }
   if (p) {
-    const row = db.prepare(`${GUEST_SELECT} WHERE g.phone = ?`).get(p);
+    const row = await get(`${GUEST_SELECT} WHERE g.phone = ?`, [p]);
     if (row) return shape(row);
   }
   return null;
 }
 
-export function listGuests() {
-  return getDb()
-    .prepare(`${GUEST_SELECT} ORDER BY g.created_at DESC, g.id DESC`)
-    .all()
-    .map(shape);
+export async function listGuests() {
+  const rows = await all(`${GUEST_SELECT} ORDER BY g.created_at DESC, g.id DESC`);
+  return rows.map(shape);
 }
 
 function shape(row) {
@@ -296,12 +346,11 @@ function shape(row) {
 }
 
 // ---------- rsvps ----------
-export function upsertRsvp(guestId, data) {
-  const db = getDb();
+export async function upsertRsvp(guestId, data) {
   const attending = data.attending ? 1 : 0;
   const adults = attending ? clampInt(data.adults, 1, 20, 1) : 0;
   const children = attending ? clampInt(data.children, 0, 20, 0) : 0;
-  db.prepare(
+  await run(
     `INSERT INTO rsvps (guest_id, attending, adults, children, party_names, dietary, song_request, message, needs_highchair)
      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
      ON CONFLICT(guest_id) DO UPDATE SET
@@ -313,46 +362,42 @@ export function upsertRsvp(guestId, data) {
        song_request = excluded.song_request,
        message = excluded.message,
        needs_highchair = excluded.needs_highchair,
-       updated_at = datetime('now')`
-  ).run(
-    guestId,
-    attending,
-    adults,
-    children,
-    clean(data.party_names, 500),
-    clean(data.dietary, 500),
-    clean(data.song_request, 200),
-    clean(data.message, 1000),
-    data.needs_highchair ? 1 : 0
+       updated_at = datetime('now')`,
+    [
+      guestId,
+      attending,
+      adults,
+      children,
+      clean(data.party_names, 500),
+      clean(data.dietary, 500),
+      clean(data.song_request, 200),
+      clean(data.message, 1000),
+      data.needs_highchair ? 1 : 0,
+    ]
   );
   return getGuestById(guestId);
 }
 
-export function deleteRsvp(guestId) {
-  return getDb().prepare('DELETE FROM rsvps WHERE guest_id = ?').run(guestId).changes > 0;
+export async function deleteRsvp(guestId) {
+  return (await run('DELETE FROM rsvps WHERE guest_id = ?', [guestId])).changes > 0;
 }
 
-export function stats() {
-  const db = getDb();
-  const totals = db
-    .prepare(
-      `SELECT
-        COUNT(g.id) AS invited,
-        SUM(CASE WHEN r.id IS NOT NULL THEN 1 ELSE 0 END) AS responded,
-        SUM(CASE WHEN r.attending = 1 THEN 1 ELSE 0 END) AS attending_households,
-        SUM(CASE WHEN r.attending = 0 THEN 1 ELSE 0 END) AS declined,
-        COALESCE(SUM(CASE WHEN r.attending = 1 THEN r.adults ELSE 0 END), 0) AS adults,
-        COALESCE(SUM(CASE WHEN r.attending = 1 THEN r.children ELSE 0 END), 0) AS children,
-        COALESCE(SUM(CASE WHEN r.attending = 1 THEN r.needs_highchair ELSE 0 END), 0) AS highchairs,
-        SUM(CASE WHEN g.invited_at IS NOT NULL THEN 1 ELSE 0 END) AS invites_sent
-      FROM guests g LEFT JOIN rsvps r ON r.guest_id = g.id`
-    )
-    .get();
-  const wishes = db.prepare('SELECT COUNT(*) AS n FROM wishes').get().n;
-  const dietary = db
-    .prepare("SELECT dietary FROM rsvps WHERE attending = 1 AND dietary IS NOT NULL AND TRIM(dietary) <> ''")
-    .all()
-    .map((r) => r.dietary);
+export async function stats() {
+  const totals = await get(
+    `SELECT
+      COUNT(g.id) AS invited,
+      SUM(CASE WHEN r.id IS NOT NULL THEN 1 ELSE 0 END) AS responded,
+      SUM(CASE WHEN r.attending = 1 THEN 1 ELSE 0 END) AS attending_households,
+      SUM(CASE WHEN r.attending = 0 THEN 1 ELSE 0 END) AS declined,
+      COALESCE(SUM(CASE WHEN r.attending = 1 THEN r.adults ELSE 0 END), 0) AS adults,
+      COALESCE(SUM(CASE WHEN r.attending = 1 THEN r.children ELSE 0 END), 0) AS children,
+      COALESCE(SUM(CASE WHEN r.attending = 1 THEN r.needs_highchair ELSE 0 END), 0) AS highchairs,
+      SUM(CASE WHEN g.invited_at IS NOT NULL THEN 1 ELSE 0 END) AS invites_sent
+    FROM guests g LEFT JOIN rsvps r ON r.guest_id = g.id`
+  );
+  for (const k of Object.keys(totals)) totals[k] = Number(totals[k] || 0);
+  const wishes = Number((await get('SELECT COUNT(*) AS n FROM wishes')).n);
+  const dietary = (await all("SELECT dietary FROM rsvps WHERE attending = 1 AND dietary IS NOT NULL AND TRIM(dietary) <> ''")).map((r) => r.dietary);
   return {
     ...totals,
     pending: totals.invited - totals.responded,
@@ -363,27 +408,24 @@ export function stats() {
 }
 
 // ---------- wishes ----------
-export function addWish({ guest_id, author, text }) {
-  const db = getDb();
-  const info = db
-    .prepare('INSERT INTO wishes (guest_id, author, text) VALUES (?, ?, ?)')
-    .run(guest_id ?? null, clean(author, 80) || 'A garden friend', clean(text, 400));
-  return db.prepare('SELECT * FROM wishes WHERE id = ?').get(Number(info.lastInsertRowid));
+export async function addWish({ guest_id, author, text }) {
+  const info = await run('INSERT INTO wishes (guest_id, author, text) VALUES (?, ?, ?)', [guest_id ?? null, clean(author, 80) || 'A garden friend', clean(text, 400)]);
+  return get('SELECT * FROM wishes WHERE id = ?', [info.lastInsertRowid]);
 }
 
-export function listWishes({ approvedOnly = true } = {}) {
+export async function listWishes({ approvedOnly = true } = {}) {
   const sql = approvedOnly
     ? 'SELECT id, author, text, created_at FROM wishes WHERE approved = 1 ORDER BY created_at DESC LIMIT 200'
     : 'SELECT * FROM wishes ORDER BY created_at DESC';
-  return getDb().prepare(sql).all();
+  return all(sql);
 }
 
-export function setWishApproved(id, approved) {
-  return getDb().prepare('UPDATE wishes SET approved = ? WHERE id = ?').run(approved ? 1 : 0, id).changes > 0;
+export async function setWishApproved(id, approved) {
+  return (await run('UPDATE wishes SET approved = ? WHERE id = ?', [approved ? 1 : 0, id])).changes > 0;
 }
 
-export function deleteWish(id) {
-  return getDb().prepare('DELETE FROM wishes WHERE id = ?').run(id).changes > 0;
+export async function deleteWish(id) {
+  return (await run('DELETE FROM wishes WHERE id = ?', [id])).changes > 0;
 }
 
 // ---------- helpers ----------
@@ -403,5 +445,6 @@ export function closeDb() {
   if (db) {
     db.close();
     db = undefined;
+    ready = undefined;
   }
 }

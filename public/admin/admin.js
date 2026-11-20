@@ -23,6 +23,12 @@
     return data;
   }
 
+  // Any action that fails for an unexpected reason still tells the host what happened.
+  window.addEventListener('unhandledrejection', (e) => {
+    const msg = e.reason?.message || String(e.reason || 'Something went wrong');
+    if (!/log in again/i.test(msg)) toast(`⚠️ ${msg}`);
+  });
+
   let toastTimer;
   function toast(msg) {
     const el = $('#toast');
@@ -180,9 +186,16 @@
     if (act === 'rsvp') openRsvp(guest);
     if (act === 'delete') {
       if (!confirm(`Remove ${guest.name} from the guest list? Their RSVP will be deleted too.`)) return;
-      await api(`/guests/${id}`, { method: 'DELETE' });
-      toast(`${guest.name} removed`);
-      loadOverview();
+      btn.disabled = true;
+      try {
+        await api(`/guests/${id}`, { method: 'DELETE' });
+        toast(`${guest.name} removed`);
+      } catch (err) {
+        toast(`⚠️ Could not remove ${guest.name}: ${err.message}`);
+      } finally {
+        btn.disabled = false;
+        loadOverview().catch(() => {});
+      }
     }
   });
 
@@ -434,9 +447,7 @@
 
   // ---------- settings ----------
   const LIST_FIELDS = {
-    schedule_json: { lines: 'schedule_lines', keys: ['time', 'title', 'detail'] },
     milestones_json: { lines: 'milestones_lines', keys: ['month', 'title', 'detail', 'photo_url'] },
-    faq_json: { lines: 'faq_lines', keys: ['q', 'a'] },
   };
   const toLines = (json, keys) => {
     try {

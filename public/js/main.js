@@ -17,6 +17,7 @@
   // ---------- curtain ----------
   const curtain = $('#curtain');
   const openCurtain = () => curtain && curtain.classList.add('is-open');
+  if (curtain && new URLSearchParams(location.search).has('nocurtain')) curtain.remove(); // handy for screenshots
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => setTimeout(openCurtain, 500));
   setTimeout(openCurtain, 1800);
 
@@ -33,6 +34,63 @@
     soundBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
     toast(on ? '🎶 Garden sounds on' : 'Garden sounds off');
   });
+
+  // ---------- photo lightbox (first-year milestones) ----------
+  let milestoneList = [];
+  let lightboxIndex = -1;
+  const lightbox = $('#lightbox');
+  function showPhoto(i) {
+    const withPhotos = milestoneList.map((m, idx) => ({ ...m, idx })).filter((m) => m.photo_url);
+    if (!withPhotos.length) return;
+    let pos = withPhotos.findIndex((m) => m.idx === i);
+    if (pos < 0) pos = 0;
+    const m = withPhotos[pos];
+    lightboxIndex = m.idx;
+    $('#lightboxImg').src = m.photo_url;
+    $('#lightboxImg').alt = m.title;
+    $('#lightboxMonth').textContent = m.month;
+    $('#lightboxTitle').textContent = m.title;
+    $('#lightboxDetail').textContent = m.detail || '';
+    $('#lightboxPrev').hidden = withPhotos.length < 2;
+    $('#lightboxNext').hidden = withPhotos.length < 2;
+    lightbox.hidden = false;
+    document.body.style.overflow = 'hidden';
+    $('#lightboxClose').focus();
+  }
+  function stepPhoto(dir) {
+    const withPhotos = milestoneList.map((m, idx) => idx).filter((idx) => milestoneList[idx].photo_url);
+    const pos = withPhotos.indexOf(lightboxIndex);
+    showPhoto(withPhotos[(pos + dir + withPhotos.length) % withPhotos.length]);
+  }
+  function hidePhoto() { lightbox.hidden = true; document.body.style.overflow = ''; }
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest?.('[data-photo]');
+    if (btn) showPhoto(Number(btn.dataset.photo));
+  });
+  lightbox?.addEventListener('click', (e) => { if (e.target.matches('[data-close]')) hidePhoto(); });
+  $('#lightboxPrev')?.addEventListener('click', () => stepPhoto(-1));
+  $('#lightboxNext')?.addEventListener('click', () => stepPhoto(1));
+  document.addEventListener('keydown', (e) => {
+    if (lightbox?.hidden) return;
+    if (e.key === 'Escape') hidePhoto();
+    if (e.key === 'ArrowLeft') stepPhoto(-1);
+    if (e.key === 'ArrowRight') stepPhoto(1);
+  });
+
+  // ---------- iOS keyboard cleanup ----------
+  // Mobile Safari grows the scrollable area while the keyboard is open and can
+  // leave the page parked in blank space below the footer after it closes.
+  // Nudge the scroll position back inside the document once fields lose focus.
+  function clampScroll() {
+    const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+    const max = Math.max(0, document.documentElement.scrollHeight - vh);
+    const y = Math.min(window.scrollY, max);
+    window.scrollTo({ top: y, left: 0, behavior: 'instant' });
+  }
+  document.addEventListener('focusout', (e) => {
+    if (e.target.matches?.('input, textarea, select')) setTimeout(clampScroll, 60);
+  });
+  window.visualViewport?.addEventListener('resize', () => setTimeout(clampScroll, 60));
 
   // ---------- reveal on scroll ----------
   const io = new IntersectionObserver(
@@ -116,50 +174,35 @@
   window.addEventListener('load', fitHeroName);
 
   function renderEvent(ev) {
-    document.title = `${ev.child_name} Turns One · An Enchanted Garden Birthday`;
+    document.title = `${ev.child_name} Turns One`;
     bind(ev);
     fitHeroName();
     $('#detailsEnd').textContent = fmtEnd(ev);
     $('#rsvpDeadline').textContent = fmtDeadline(ev.rsvp_deadline);
     $('#mapsLink').href = ev.maps_url;
+    $('#heroVenueLink').href = ev.maps_url;
     $('#gcalLink').href = ev.google_calendar_url;
     $('#successGcal').href = ev.google_calendar_url;
-    const reg = $('#registryLink');
-    if (ev.registry_url) { reg.href = ev.registry_url; reg.hidden = false; }
     const contact = [];
     if (ev.host_phone) contact.push(`<a href="tel:${esc(ev.host_phone.replace(/\s+/g, ''))}">${esc(ev.host_phone)}</a>`);
     if (ev.host_email) contact.push(`<a href="mailto:${esc(ev.host_email)}">${esc(ev.host_email)}</a>`);
     $('#footerContact').innerHTML = contact.length ? `Questions? Reach us at ${contact.join(' · ')}` : '';
 
-    // schedule
-    $('#schedule').innerHTML = (ev.schedule || [])
-      .map(
-        (s, i) => `<li class="stop reveal">
-          <div class="stop__dot" aria-hidden="true">${i + 1}</div>
-          <div class="stop__body">
-            <div class="stop__time">${esc(s.time)}</div>
-            <h3 class="stop__title">${esc(s.title)}</h3>
-            <p class="stop__detail">${esc(s.detail)}</p>
-          </div></li>`
-      )
-      .join('');
-
     // milestones
     const icons = ['🌱', '🌿', '🌷', '🦋', '🌸', '✨', '🐞', '🌼'];
-    $('#milestones').innerHTML = (ev.milestones || [])
+    const tapes = ['tape--pink', 'tape--sage', 'tape--blue', 'tape--lilac', 'tape--gold'];
+    milestoneList = ev.milestones || [];
+    $('#milestones').innerHTML = milestoneList
       .map(
-        (m, i) => `<article class="mile" style="--tilt:${(i % 2 ? 1 : -1) * (1 + (i % 3) * 0.6)}deg">
-          <div class="mile__photo">${m.photo_url ? `<img src="${esc(m.photo_url)}" alt="${esc(m.title)}" loading="lazy" />` : icons[i % icons.length]}</div>
+        (m, i) => `<article class="mile ${tapes[i % tapes.length]}" style="--tilt:${(i % 2 ? 1 : -1) * (1 + (i % 3) * 0.6)}deg">
+          ${m.photo_url
+            ? `<button class="mile__photo has-img" type="button" data-photo="${i}" aria-label="View the ${esc(m.month)} photo"><img src="${esc(m.photo_url)}" alt="${esc(m.title)}" loading="lazy" /></button>`
+            : `<div class="mile__photo">${icons[i % icons.length]}</div>`}
           <div class="mile__month">${esc(m.month)}</div>
           <h3 class="mile__title">${esc(m.title)}</h3>
           <p class="mile__detail">${esc(m.detail)}</p>
         </article>`
       )
-      .join('');
-
-    // faq
-    $('#faqList').innerHTML = (ev.faq || [])
-      .map((f) => `<details class="faq__item"><summary>${esc(f.q)}</summary><p>${esc(f.a)}</p></details>`)
       .join('');
 
     observeReveals();
@@ -240,10 +283,6 @@
       if (radio) { radio.checked = true; setAttending(radio.value); }
       $('#rsvpAdults').value = r.adults || 1;
       $('#rsvpChildren').value = r.children || 0;
-      $('#rsvpPartyNames').value = r.party_names || '';
-      $('#rsvpDietary').value = r.dietary || '';
-      $('#rsvpHighchair').checked = !!r.needs_highchair;
-      $('#rsvpSong').value = r.song_request || '';
       $('#rsvpMessage').value = r.message || '';
       $('#rsvpShareWish').checked = false;
     }
@@ -286,10 +325,6 @@
       attending: attending === 'yes',
       adults: form.adults.value,
       children: form.children.value,
-      party_names: form.party_names.value,
-      dietary: form.dietary.value,
-      needs_highchair: form.needs_highchair.checked,
-      song_request: form.song_request.value,
       message: form.message.value,
       wish: $('#rsvpShareWish').checked && form.message.value.trim() ? form.message.value.trim() : undefined,
     };
@@ -358,7 +393,7 @@
 
   function petalShower() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const colors = ['#f7a8bd', '#ffd3dc', '#cdb8f6', '#ffe1a8', '#fff8f0', '#f8c1a4'];
+    const colors = ['#f9a9c5', '#fbcddd', '#cab4f1', '#fff4c6', '#ffffff', '#b4d8f5'];
     for (let i = 0; i < 46; i++) {
       const el = document.createElement('i');
       el.className = 'burst' + (i % 3 === 0 ? '' : ' petal');
@@ -417,8 +452,8 @@
     return { x, y, scale: 0.75 + ((y - 71) / 19) * 0.55 };
   }
   const FLOWER_SVG = `<svg viewBox="0 0 34 60" aria-hidden="true">
-      <path d="M17 60 C17 48 16 38 17 26" stroke="#3f7a55" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-      <path d="M17 46 q-10 -1 -12 -10 q9 1 12 10z" fill="#4d8f62"/><path d="M17 40 q10 -1 12 -10 q-9 1 -12 10z" fill="#6fae7f"/>
+      <path d="M17 60 C17 48 16 38 17 26" stroke="#5e9f63" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <path d="M17 46 q-10 -1 -12 -10 q9 1 12 10z" fill="#9fd58f"/><path d="M17 40 q10 -1 12 -10 q-9 1 -12 10z" fill="#bfe6b0"/>
       <g class="f-petals">
         <ellipse class="f-petal" cx="17" cy="8" rx="5.5" ry="8"/>
         <ellipse class="f-petal" cx="25.6" cy="14.3" rx="5.5" ry="8" transform="rotate(72 25.6 14.3)"/>

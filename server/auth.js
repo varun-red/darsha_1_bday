@@ -1,6 +1,6 @@
 // Minimal, dependency-free admin auth: password check + HMAC-signed session cookie.
 import { createHmac, timingSafeEqual } from 'node:crypto';
-import { getSettings } from './db.js';
+import { sessionSecret } from './db.js';
 
 const COOKIE = 'garden_admin';
 const SESSION_HOURS = 24 * 7;
@@ -14,7 +14,7 @@ export function isDefaultPassword() {
 }
 
 function secret() {
-  return process.env.SESSION_SECRET || getSettings().session_secret;
+  return process.env.SESSION_SECRET || sessionSecret();
 }
 
 function sign(payload) {
